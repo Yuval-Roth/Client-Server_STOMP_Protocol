@@ -26,37 +26,9 @@ public abstract class BaseServer<T> implements Server {
 
     public abstract void serve();
 
-    // @Override
-    // public void serve() {
-
-    //     try (ServerSocket serverSock = new ServerSocket(port)) {
-	// 		System.out.println("Server started");
-
-    //         this.sock = serverSock; //just to be able to close
-
-    //         while (!Thread.currentThread().isInterrupted()) {
-
-    //             Socket clientSock = serverSock.accept();
-
-    //             BlockingConnectionHandler<T> handler = new BlockingConnectionHandler<>(
-    //                     clientSock,
-    //                     encdecFactory.get(),
-    //                     protocolFactory.get());
-
-    //             execute(handler);
-    //         }
-    //     } catch (IOException ex) {
-    //     }
-
-    //     System.out.println("server closed!!!");
-    // }
-
     @Override
     public void close() throws IOException {
 		if (sock != null)
 			sock.close();
     }
-
-    // protected abstract void execute(BlockingConnectionHandler<T>  handler);
-
 }

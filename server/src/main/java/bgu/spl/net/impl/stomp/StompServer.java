@@ -21,7 +21,6 @@ public class StompServer{
                 break;
             case "threadperclient":
                 server = new ThreadPerClient<String>(
-                    5,
                     port,
                     () -> new StompMessagingProtocolImpl(),
                     () -> new StompMessageEncoderDecoder()
