@@ -4,7 +4,6 @@ import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.function.Supplier;
 
 public abstract class BaseServer<T> implements Server {
@@ -58,6 +57,6 @@ public abstract class BaseServer<T> implements Server {
 			sock.close();
     }
 
-    protected abstract void execute(BlockingConnectionHandler<T>  handler);
+    // protected abstract void execute(BlockingConnectionHandler<T>  handler);
 
 }
