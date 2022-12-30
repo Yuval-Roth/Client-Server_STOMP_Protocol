@@ -7,12 +7,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.function.Supplier;
 
-public abstract class BaseServer<T> implements Server<T> {
+public abstract class BaseServer<T> implements Server {
 
-    private final int port;
-    private final Supplier<MessagingProtocol<T>> protocolFactory;
-    private final Supplier<MessageEncoderDecoder<T>> encdecFactory;
-    private ServerSocket sock;
+    protected final int port;
+    protected final Supplier<MessagingProtocol<T>> protocolFactory;
+    protected final Supplier<MessageEncoderDecoder<T>> encdecFactory;
+    protected ServerSocket sock;
 
     public BaseServer(
             int port,
@@ -25,30 +25,32 @@ public abstract class BaseServer<T> implements Server<T> {
 		this.sock = null;
     }
 
-    @Override
-    public void serve() {
+    public abstract void serve();
 
-        try (ServerSocket serverSock = new ServerSocket(port)) {
-			System.out.println("Server started");
+    // @Override
+    // public void serve() {
 
-            this.sock = serverSock; //just to be able to close
+    //     try (ServerSocket serverSock = new ServerSocket(port)) {
+	// 		System.out.println("Server started");
 
-            while (!Thread.currentThread().isInterrupted()) {
+    //         this.sock = serverSock; //just to be able to close
 
-                Socket clientSock = serverSock.accept();
+    //         while (!Thread.currentThread().isInterrupted()) {
 
-                BlockingConnectionHandler<T> handler = new BlockingConnectionHandler<>(
-                        clientSock,
-                        encdecFactory.get(),
-                        protocolFactory.get());
+    //             Socket clientSock = serverSock.accept();
 
-                execute(handler);
-            }
-        } catch (IOException ex) {
-        }
+    //             BlockingConnectionHandler<T> handler = new BlockingConnectionHandler<>(
+    //                     clientSock,
+    //                     encdecFactory.get(),
+    //                     protocolFactory.get());
 
-        System.out.println("server closed!!!");
-    }
+    //             execute(handler);
+    //         }
+    //     } catch (IOException ex) {
+    //     }
+
+    //     System.out.println("server closed!!!");
+    // }
 
     @Override
     public void close() throws IOException {
