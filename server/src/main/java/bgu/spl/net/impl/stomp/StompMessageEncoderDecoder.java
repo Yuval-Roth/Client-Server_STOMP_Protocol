@@ -6,13 +6,13 @@ public class StompMessageEncoderDecoder implements MessageEncoderDecoder<String>
 
     @Override
     public String decodeNextByte(byte nextByte) {
-        // TODO Auto-generated method stub
+        // TODO decodeNextByte
         return null;
     }
 
     @Override
     public byte[] encode(String message) {
-        // TODO Auto-generated method stub
+        // TODO encode
         return null;
     }
 

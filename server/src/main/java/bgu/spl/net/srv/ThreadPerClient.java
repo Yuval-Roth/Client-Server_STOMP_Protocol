@@ -11,18 +11,17 @@ public class ThreadPerClient<T> extends BaseServer<T>{
     public ThreadPerClient(int numThreads, int port, Supplier<MessagingProtocol<T>> protocolFactory,
             Supplier<MessageEncoderDecoder<T>> encdecFactory) {
         super(port, protocolFactory, encdecFactory);
-        //TODO Auto-generated constructor stub
+        //TODO constructor of ThreadPerClient
     }
 
     @Override
     public void serve() {
-        // TODO Auto-generated method stub
+        // TODO serve
         
     }
 
     // @Override
     // protected void execute(BlockingConnectionHandler<T> handler) {
-    //     // TODO Auto-generated method stub
         
     // }
 

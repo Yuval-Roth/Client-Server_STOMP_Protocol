@@ -7,19 +7,19 @@ public class StompMessagingProtocolImpl implements StompMessagingProtocol {
 
     @Override
     public void start(int connectionId, Connections<String> connections) {
-        // TODO Auto-generated method stub
+        // TODO start
         
     }
 
     @Override
     public String process(String message) {
-        // TODO Auto-generated method stub
+        // TODO process
         return null;
     }
 
     @Override
     public boolean shouldTerminate() {
-        // TODO Auto-generated method stub
+        // TODO shouldTerminate
         return false;
     }
 

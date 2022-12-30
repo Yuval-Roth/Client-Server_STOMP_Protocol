@@ -24,7 +24,7 @@ public class Reactor<T> extends BaseServer<T> {
             Supplier<MessageEncoderDecoder<T>> encdecFactory) {
         super(port, protocolFactory, encdecFactory);
         this.pool = new ActorThreadPool(numThreads);
-        //TODO init selector
+        //TODO init selector?
     }
 
     @Override
@@ -123,7 +123,6 @@ public class Reactor<T> extends BaseServer<T> {
 
     // @Override
     // protected void execute(BlockingConnectionHandler<T> handler) {
-    //     // TODO Auto-generated method stub
         
     // }
 
