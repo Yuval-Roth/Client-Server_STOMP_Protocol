@@ -1,8 +1,6 @@
 package bgu.spl.net.srv;
 
-import java.io.IOException;
 import java.util.function.Supplier;
-
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
 
