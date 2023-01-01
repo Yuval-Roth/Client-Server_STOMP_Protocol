@@ -15,7 +15,7 @@ public class Game {
 
     private final Channel channel;
     private final LinkedList<GameEvent> gameEvents;
-    public final int id;
+    public final Integer id;
     public final String home;
     public final String away;
     private int homeScore;
@@ -23,7 +23,7 @@ public class Game {
     //TODO add more fields
 
 
-    public Game(Channel channel, int id, String home, String away) {
+    private Game(Channel channel, Integer id, String home, String away) {
         this.channel = channel;
         this.id = id;
         this.home = home;
@@ -38,6 +38,10 @@ public class Game {
         gameEvents.add(gameEvent);
     }
 
+    public static Game generateGame(Channel channel, Integer id, String home, String away) {
+        return new Game(channel, id, home, away);
+    }
+
     //========================================================================|
     //======================= Getters and Setters ============================|
     //========================================================================|
@@ -48,7 +52,7 @@ public class Game {
     public int getAwayScore() {return awayScore;}
     public void setAwayScore(int awayScore) {this.awayScore = awayScore;}
 
-
+    
     
     
 }
