@@ -1,11 +1,11 @@
-package bgu.spl.net.impl.stomp.protocol.impl.Frames;
+package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import bgu.spl.net.impl.stomp.GameController;
-import bgu.spl.net.impl.stomp.UserController;
+import bgu.spl.net.impl.stomp.Backend.GameController;
+import bgu.spl.net.impl.stomp.Backend.UserController;
 
 public abstract class Frame {
 

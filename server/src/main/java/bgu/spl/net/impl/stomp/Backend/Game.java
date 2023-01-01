@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp;
+package bgu.spl.net.impl.stomp.Backend;
 
 import java.util.LinkedList;
 
@@ -11,7 +11,6 @@ public class Game {
 
     private final Channel channel;
     private final LinkedList<GameEvent> gameEvents;
-    public final Integer id;
     public final String home;
     public final String away;
     private int homeScore;
@@ -19,9 +18,8 @@ public class Game {
     //TODO add more fields
 
 
-    private Game(Channel channel, Integer id, String home, String away) {
+    private Game(Channel channel, String home, String away) {
         this.channel = channel;
-        this.id = id;
         this.home = home;
         this.away = away;
         gameEvents = new LinkedList<GameEvent>();
@@ -34,13 +32,14 @@ public class Game {
         gameEvents.add(gameEvent);
     }
 
-    public static Game generateGame(Channel channel, Integer id, String home, String away) {
-        return new Game(channel, id, home, away);
+    public static Game generateGame(Channel channel, String home, String away) {
+        return new Game(channel, home, away);
     }
 
     //========================================================================|
     //======================= Getters and Setters ============================|
     //========================================================================|
+    public String getName() {return home+"_"+away;}
     public Channel getChannel() {return channel;}
     public LinkedList<GameEvent> getGameEvents() {return gameEvents;}
     public int getHomeScore() {return homeScore;}

@@ -5,8 +5,8 @@ import java.io.IOException;
 import bgu.spl.net.genericServers.BaseServer;
 import bgu.spl.net.genericServers.Reactor.Reactor;
 import bgu.spl.net.genericServers.ThreadPerClient.ThreadPerClient;
-import bgu.spl.net.impl.stomp.protocol.impl.StompMessageEncoderDecoder;
-import bgu.spl.net.impl.stomp.protocol.impl.StompMessagingProtocolImpl;
+import bgu.spl.net.impl.stomp.Service.StompMessageEncoderDecoder;
+import bgu.spl.net.impl.stomp.Service.StompMessagingProtocolImpl;
 
 public class StompServer{
     public static void main(String[] args) {

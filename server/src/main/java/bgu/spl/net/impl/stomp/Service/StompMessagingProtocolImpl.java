@@ -1,11 +1,8 @@
-package bgu.spl.net.impl.stomp.protocol.impl;
+package bgu.spl.net.impl.stomp.Service;
 
 import bgu.spl.net.genericServers.interfaces.Connections;
-import bgu.spl.net.impl.stomp.Game;
-import bgu.spl.net.impl.stomp.GameController;
-import bgu.spl.net.impl.stomp.UserController;
-import bgu.spl.net.impl.stomp.protocol.impl.Frames.Frame;
-import bgu.spl.net.impl.stomp.protocol.interfaces.StompMessagingProtocol;
+import bgu.spl.net.impl.stomp.Backend.Frames.Frame;
+import bgu.spl.net.impl.stomp.Service.interfaces.StompMessagingProtocol;
 
 public class StompMessagingProtocolImpl implements StompMessagingProtocol {
 

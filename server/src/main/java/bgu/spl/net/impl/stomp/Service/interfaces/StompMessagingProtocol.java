@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp.protocol.interfaces;
+package bgu.spl.net.impl.stomp.Service.interfaces;
 
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.genericServers.interfaces.Connections;

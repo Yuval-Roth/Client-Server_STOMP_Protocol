@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp.protocol.impl;
+package bgu.spl.net.impl.stomp.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
