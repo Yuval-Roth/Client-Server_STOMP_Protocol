@@ -1,7 +1,7 @@
 package bgu.spl.net.impl.stomp.protocol.impl.Frames;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Frame {
@@ -49,8 +49,8 @@ public abstract class Frame {
 
         // parse headers
         int startOfFrameBody = -1;
-        List<HeaderLine> headers = new ArrayList<HeaderLine>();
-        for (int i = 1; i < frameParameters.length - 1; i++){
+        List<HeaderLine> headers = new LinkedList<HeaderLine>();
+        for (int i = 1; i < frameParameters.length; i++){
             if(frameParameters[i].contains(":")){
                 String[] header = frameParameters[i].split(":");
                 headers.add(new HeaderLine(header[0], header[1]));
