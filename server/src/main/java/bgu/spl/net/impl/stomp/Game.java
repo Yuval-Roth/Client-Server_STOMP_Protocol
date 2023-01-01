@@ -8,10 +8,6 @@ import java.util.LinkedList;
  * It also holds the id, home and away teams.
  */
 public class Game {
-    /*
-     * this will hold the corresponding channel
-     * and a data structure of the game events
-     */
 
     private final Channel channel;
     private final LinkedList<GameEvent> gameEvents;
