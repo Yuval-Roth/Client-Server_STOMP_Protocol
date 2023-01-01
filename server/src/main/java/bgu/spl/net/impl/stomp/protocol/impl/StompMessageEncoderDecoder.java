@@ -15,7 +15,4 @@ public class StompMessageEncoderDecoder implements MessageEncoderDecoder<String>
         // TODO encode
         return null;
     }
-
-    
-
 }

@@ -1,6 +1,7 @@
 package bgu.spl.net.impl.stomp.protocol.impl;
 
 import bgu.spl.net.genericServers.interfaces.Connections;
+import bgu.spl.net.impl.stomp.protocol.impl.Frames.Frame;
 import bgu.spl.net.impl.stomp.protocol.interfaces.StompMessagingProtocol;
 
 public class StompMessagingProtocolImpl implements StompMessagingProtocol {
@@ -14,7 +15,7 @@ public class StompMessagingProtocolImpl implements StompMessagingProtocol {
     @Override
     public String process(String message) {
         // TODO process
-        // Frame frame = Frame.parse(message);
+        Frame frame = Frame.parse(message);
 
 
 

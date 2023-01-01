@@ -39,7 +39,7 @@ public abstract class Frame {
         }
     }
 
-    public static Frame Parse(String frame){
+    public static Frame parse(String frame){
         
         
         return null;
