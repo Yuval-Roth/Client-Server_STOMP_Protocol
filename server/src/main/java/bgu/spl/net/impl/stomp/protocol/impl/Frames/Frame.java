@@ -27,7 +27,7 @@ public abstract class Frame {
     protected HeaderLine[] headers;
     protected String frameBody;
 
-    public abstract void execute();
+    public abstract String execute();
 
     private void instantiateHeaders(List<HeaderLine> headers){
         this.headers = new HeaderLine[headers.size()];
@@ -39,7 +39,13 @@ public abstract class Frame {
         }
     }
 
-    public static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
+    public static Frame parse(String frame){
+        
+        
+        return null;
+    }
+
+    private static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
         switch (command){
             case CONNECT:
                 return new Connect(headers, frameBody);
