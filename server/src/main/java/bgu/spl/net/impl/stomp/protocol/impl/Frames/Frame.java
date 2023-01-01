@@ -39,7 +39,13 @@ public abstract class Frame {
         }
     }
 
-    public static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
+    public static Frame Parse(String frame){
+        
+        
+        return null;
+    }
+
+    private static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
         switch (command){
             case CONNECT:
                 return new Connect(headers, frameBody);
