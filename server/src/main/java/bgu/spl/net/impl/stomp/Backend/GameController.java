@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp;
+package bgu.spl.net.impl.stomp.Backend;
 
 import java.util.HashMap;
 
@@ -36,7 +36,7 @@ public class GameController {
     public Game getGame(String home, String away) {
         return games.get(home+"_"+away);
     }
-    
+
     public static GameController getInstance() {
         if(instance == null) {
             instance = new GameController();

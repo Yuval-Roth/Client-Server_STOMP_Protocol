@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp.protocol.impl.Frames;
+package bgu.spl.net.impl.stomp.Backend.Frames;
 
 public class HeaderLine{
     public final String headerName;

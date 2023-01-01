@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp.protocol.impl;
+package bgu.spl.net.impl.stomp.Service;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 

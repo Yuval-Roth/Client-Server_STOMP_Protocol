@@ -1,10 +1,10 @@
-package bgu.spl.net.impl.stomp.protocol.impl.Frames;
+package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
-public class Subscribe extends Frame{
+public class Send extends Frame {
 
-    protected Subscribe(List<HeaderLine> headers, String frameBody) {
+    protected Send(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody);
         //TODO Auto-generated constructor stub
     }

@@ -1,10 +1,10 @@
-package bgu.spl.net.impl.stomp.protocol.impl.Frames;
+package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
-public class Connected extends Frame {
+public class Connect extends Frame {
 
-    protected Connected(List<HeaderLine> headers, String frameBody) {
+    protected Connect(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody);
         //TODO Auto-generated constructor stub
     }
@@ -15,5 +15,5 @@ public class Connected extends Frame {
         return null;
     }
 
-    
+
 }
