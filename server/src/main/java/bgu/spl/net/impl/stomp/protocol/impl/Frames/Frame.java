@@ -52,7 +52,7 @@ public abstract class Frame {
         // parse headers
         List<HeaderLine> headers = new LinkedList<HeaderLine>();
         int frameParametersLine = 1;
-        while (!frameParameters[frameParametersLine].trim().equals("") && frameParametersLine < frameParameters.length - 1)
+        while (!frameParameters[frameParametersLine].trim().equals(""))
         {
             String[] header = frameParameters[frameParametersLine].split(HEADER_DELIMITER);
             headers.add(new HeaderLine(header[0], header[1]));
@@ -61,7 +61,7 @@ public abstract class Frame {
         
         // parse body
         String frameBody = "";
-        while (!frameParameters[frameParametersLine].trim().equals(END_OF_FRAME) && frameParametersLine < frameParameters.length - 1)
+        while (!frameParameters[frameParametersLine].trim().equals(END_OF_FRAME))
         {
             frameBody += frameParameters[frameParametersLine];
             frameParametersLine++;
