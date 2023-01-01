@@ -1,4 +1,4 @@
-package bgu.spl.net.interfaces;
+package bgu.spl.net.genericServers.interfaces;
 
 public interface Connections<T> {
 

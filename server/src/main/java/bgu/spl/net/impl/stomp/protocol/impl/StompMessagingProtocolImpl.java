@@ -1,7 +1,7 @@
-package bgu.spl.net.impl.stomp;
+package bgu.spl.net.impl.stomp.protocol.impl;
 
-import bgu.spl.net.api.StompMessagingProtocol;
-import bgu.spl.net.interfaces.Connections;
+import bgu.spl.net.genericServers.interfaces.Connections;
+import bgu.spl.net.impl.stomp.protocol.interfaces.StompMessagingProtocol;
 
 public class StompMessagingProtocolImpl implements StompMessagingProtocol {
 

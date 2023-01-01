@@ -1,17 +1,16 @@
-package bgu.spl.net.api;
+package bgu.spl.net.impl.stomp.protocol.interfaces;
 
-import bgu.spl.net.interfaces.Connections;
+import bgu.spl.net.api.MessagingProtocol;
+import bgu.spl.net.genericServers.interfaces.Connections;
 
 public interface StompMessagingProtocol extends MessagingProtocol<String>  {
+    
 	/**
 	 * Used to initiate the current client protocol with it's personal connection ID and the connections implementation
 	**/
     void start(int connectionId, Connections<String> connections);
     
-    String process(String message);
-	
-	/**
-     * @return true if the connection should be terminated
-     */
     boolean shouldTerminate();
+    
+    String process(String message);
 }

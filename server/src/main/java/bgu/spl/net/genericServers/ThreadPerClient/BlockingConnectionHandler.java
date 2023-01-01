@@ -2,7 +2,7 @@ package bgu.spl.net.genericServers.ThreadPerClient;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
-import bgu.spl.net.interfaces.ConnectionHandler;
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

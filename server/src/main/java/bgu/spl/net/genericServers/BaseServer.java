@@ -2,7 +2,7 @@ package bgu.spl.net.genericServers;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
-import bgu.spl.net.interfaces.Server;
+import bgu.spl.net.genericServers.interfaces.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

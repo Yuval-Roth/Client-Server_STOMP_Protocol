@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bgu.spl.net.interfaces;
+package bgu.spl.net.genericServers.interfaces;
 
 import java.io.Closeable;
 
