@@ -40,26 +40,22 @@ public abstract class Frame {
         }
     }
 
-    public static Frame parse(String message){
-        
-        
-        // TODO createFrame
-        String[] frameParameters = message.split("\n");
-        StompCommand command = StompCommand.valueOf(frameParameters[0]);
+    public static Frame parse(String messageToParse){
+        String[] frameParameters = messageToParse.split("\n"); // split by new line
+        StompCommand command = StompCommand.valueOf(frameParameters[0]); // parse command
 
         // parse headers
         int startOfFrameBody = -1;
         List<HeaderLine> headers = new LinkedList<HeaderLine>();
-        for (int i = 1; i < frameParameters.length; i++){
-            if(frameParameters[i].contains(":")){
-                String[] header = frameParameters[i].split(":");
-                headers.add(new HeaderLine(header[0], header[1]));
-            }
-            else {
-                startOfFrameBody = i;
-            }
+        int frameParametersLine = 1;
+        while (!frameParameters[frameParametersLine].trim().equals("") && frameParametersLine < frameParameters.length)
+        {
+            String[] header = frameParameters[frameParametersLine].split(":");
+            headers.add(new HeaderLine(header[0], header[1]));
+            frameParametersLine++;
         }
-
+        
+        startOfFrameBody = frameParametersLine + 1;
         // parse frame body
         String frameBody = "";
         if (startOfFrameBody != -1){
