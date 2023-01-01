@@ -4,9 +4,11 @@ import java.util.HashMap;
 
 public class GameController {
 
-    HashMap<Integer,Game> games;
+    private static GameController instance = null;
 
-    public GameController() {
+    private HashMap<Integer,Game> games;
+
+    private GameController() {
         games = new HashMap<Integer,Game>();
     }
     public boolean addGame(int id, Game game) {
@@ -30,4 +32,10 @@ public class GameController {
         return games.get(id);
     }
     
+    public static GameController getInstance() {
+        if(instance == null) {
+            instance = new GameController();
+        }
+        return instance;
+    }   
 }

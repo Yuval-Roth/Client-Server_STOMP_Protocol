@@ -4,12 +4,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import bgu.spl.net.impl.stomp.GameController;
+import bgu.spl.net.impl.stomp.UserController;
+
 public abstract class Frame {
+
+    protected static final GameController gameController = GameController.getInstance();
+    protected static final UserController userController = UserController.getInstance();
+
     protected final static String END_OF_FRAME = "^@";
     protected final static String NEW_LINE = "\n";
     protected final static String HEADER_DELIMITER = ":";
-
-    
 
     protected enum StompCommand {
         CONNECT, CONNECTED, SEND, SUBSCRIBE, UNSUBSCRIBE, DISCONNECT, MESSAGE, RECEIPT, ERROR

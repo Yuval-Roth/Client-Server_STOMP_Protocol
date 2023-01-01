@@ -4,7 +4,9 @@ import java.util.HashMap;
 
 public class UserController {
     
-    HashMap<String,String> users;
+    private static UserController instance = null;
+
+    private HashMap<String,String> users;
 
     public UserController() {
         users = new HashMap<String,String>();
@@ -31,4 +33,12 @@ public class UserController {
         }
         return users.get(username).equals(password);
     }
+    
+    public static UserController getInstance() {
+        if(instance == null) {
+            instance = new UserController();
+        }
+        return instance;
+    }
+
 }
