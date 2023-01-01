@@ -33,7 +33,7 @@ public abstract class Frame {
     protected HeaderLine[] headers;
     protected String frameBody;
 
-    public abstract void execute();
+    public abstract String execute();
 
     private void instantiateHeaders(List<HeaderLine> headers){
         this.headers = new HeaderLine[headers.size()];

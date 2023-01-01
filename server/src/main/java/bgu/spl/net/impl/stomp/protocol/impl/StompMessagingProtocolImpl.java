@@ -6,20 +6,23 @@ import bgu.spl.net.impl.stomp.protocol.interfaces.StompMessagingProtocol;
 
 public class StompMessagingProtocolImpl implements StompMessagingProtocol {
 
+    
+    
+
+    public StompMessagingProtocolImpl() {
+        // TODO constructor
+    }
+
     @Override
     public void start(int connectionId, Connections<String> connections) {
         // TODO start
-        
     }
 
     @Override
     public String process(String message) {
-        // TODO process
+        // TODO process - need to see if this is enough
         Frame frame = Frame.parse(message);
-
-
-
-        return null;
+        return frame.execute();
     }
 
     @Override

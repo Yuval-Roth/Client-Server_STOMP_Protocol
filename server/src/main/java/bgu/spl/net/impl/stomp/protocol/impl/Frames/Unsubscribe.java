@@ -10,9 +10,8 @@ public class Unsubscribe extends Frame {
     }
 
     @Override
-    public void execute() {
+    public String execute() {
         // TODO Auto-generated method stub
-        
-    }
-    
+        return null;
+    } 
 }
