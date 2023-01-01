@@ -1,18 +1,44 @@
 package bgu.spl.net.impl.stomp.protocol.impl;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+
 import bgu.spl.net.api.MessageEncoderDecoder;
 
 public class StompMessageEncoderDecoder implements MessageEncoderDecoder<String> {
 
+    private byte[] bytes = new byte[1 << 10]; //start with 1k
+    int len = 0;
+
     @Override
     public String decodeNextByte(byte nextByte) {
-        // TODO decodeNextByte
+        if (nextByte == '\u0000') {
+            byte[] nullChar = "^@".getBytes();
+            pushByte(nullChar[0]);
+            pushByte(nullChar[1]);
+            return popString();
+        }
+        pushByte(nextByte);
         return null;
     }
 
     @Override
     public byte[] encode(String message) {
-        // TODO encode
-        return null;
+        return message.getBytes();
+    }
+
+    private String popString() {
+        //notice that we explicitly requesting that the string will be decoded from UTF-8
+        //this is not actually required as it is the default encoding in java.
+        String result = new String(bytes, 0, len, StandardCharsets.UTF_8);
+        len = 0;
+        return result;
+    }
+
+    private void pushByte(byte nextByte) {
+        if (len >= bytes.length) {
+            bytes = Arrays.copyOf(bytes, len * 2);
+        }
+        bytes[len++] = nextByte;
     }
 }
