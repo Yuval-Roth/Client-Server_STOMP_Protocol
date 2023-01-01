@@ -33,6 +33,11 @@ public class Game {
         awayScore = 0;
     }
 
+    public void addGameEvent(GameEvent gameEvent) {
+        //TODO check if this fits
+        gameEvents.add(gameEvent);
+    }
+
     //========================================================================|
     //======================= Getters and Setters ============================|
     //========================================================================|
