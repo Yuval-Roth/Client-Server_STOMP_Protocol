@@ -1,7 +1,9 @@
-package bgu.spl.net.srv;
+package bgu.spl.net.genericServers;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
+import bgu.spl.net.interfaces.Server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.function.Supplier;
@@ -21,7 +23,6 @@ public abstract class BaseServer<T> implements Server {
         this.port = port;
         this.protocolFactory = protocolFactory;
         this.encdecFactory = encdecFactory;
-		this.sock = null;
     }
 
     public abstract void serve();

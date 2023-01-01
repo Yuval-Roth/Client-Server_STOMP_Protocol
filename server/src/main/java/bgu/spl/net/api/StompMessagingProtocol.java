@@ -1,6 +1,6 @@
 package bgu.spl.net.api;
 
-import bgu.spl.net.srv.Connections;
+import bgu.spl.net.interfaces.Connections;
 
 public interface StompMessagingProtocol extends MessagingProtocol<String>  {
 	/**

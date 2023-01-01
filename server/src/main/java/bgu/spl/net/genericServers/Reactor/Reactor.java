@@ -1,7 +1,9 @@
-package bgu.spl.net.srv;
+package bgu.spl.net.genericServers.Reactor;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
+import bgu.spl.net.genericServers.BaseServer;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.ClosedSelectorException;
@@ -18,18 +20,18 @@ public class Reactor<T> extends BaseServer<T> {
     private Selector selector;
 
     private Thread selectorThread;
-    private final ConcurrentLinkedQueue<Runnable> selectorTasks = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedQueue<Runnable> selectorTasks;
         
     public Reactor(int numThreads,int port, Supplier<MessagingProtocol<T>> protocolFactory,
             Supplier<MessageEncoderDecoder<T>> encdecFactory) {
         super(port, protocolFactory, encdecFactory);
         this.pool = new ActorThreadPool(numThreads);
-        //TODO init selector?
+        selectorTasks = new ConcurrentLinkedQueue<>();
     }
-
+    
     @Override
     public void serve() {
-	selectorThread = Thread.currentThread();
+	    selectorThread = Thread.currentThread();
         try (Selector selector = Selector.open();
                 ServerSocketChannel serverSock = ServerSocketChannel.open()) {
 
@@ -120,10 +122,5 @@ public class Reactor<T> extends BaseServer<T> {
     public void close() throws IOException {
         selector.close();
     }
-
-    // @Override
-    // protected void execute(BlockingConnectionHandler<T> handler) {
-        
-    // }
 
 }
