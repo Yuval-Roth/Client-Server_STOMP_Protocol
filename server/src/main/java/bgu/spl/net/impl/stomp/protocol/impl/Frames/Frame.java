@@ -10,8 +10,8 @@ public abstract class Frame {
     }
 
     protected class HeaderLine{
-        String headerName;
-        String headerValue;
+        public final String headerName;
+        public final String headerValue;
 
         public HeaderLine(String key, String value) {
             this.headerName = key;
@@ -19,11 +19,11 @@ public abstract class Frame {
         }
     }
 
-    protected Frame(List<HeaderLine> headers){
+    protected Frame(List<HeaderLine> headers, String frameBody){
         instantiateHeaders(headers);
+        this.frameBody = frameBody;
     }
 
-    protected StompCommand command;
     protected HeaderLine[] headers;
     protected String frameBody;
 
@@ -38,4 +38,30 @@ public abstract class Frame {
             i++;
         }
     }
+
+    public static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
+        switch (command){
+            case CONNECT:
+                return new Connect(headers, frameBody);
+            case CONNECTED:
+                return new Connected(headers, frameBody);
+            case SEND:
+                return new Send(headers, frameBody);
+            case SUBSCRIBE:
+                return new Subscribe(headers, frameBody);
+            case UNSUBSCRIBE:
+                return new Unsubscribe(headers, frameBody);
+            case DISCONNECT:
+                return new Disconnect(headers, frameBody);
+            case MESSAGE:
+                return new Message(headers, frameBody);
+            case RECEIPT:
+                return new Receipt(headers, frameBody);
+            case ERROR:
+                return new Error(headers, frameBody);
+            default:
+                return null;
+        }
+    }
+        
 }

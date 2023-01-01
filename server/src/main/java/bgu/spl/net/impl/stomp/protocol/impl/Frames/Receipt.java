@@ -2,10 +2,10 @@ package bgu.spl.net.impl.stomp.protocol.impl.Frames;
 
 import java.util.List;
 
-public class Reciept extends Frame {
+public class Receipt extends Frame {
 
-    protected Reciept(List<HeaderLine> headers) {
-        super(headers);
+    protected Receipt(List<HeaderLine> headers, String frameBody) {
+        super(headers, frameBody);
         //TODO Auto-generated constructor stub
     }
 

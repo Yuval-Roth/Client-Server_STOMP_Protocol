@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Connect extends Frame {
 
-    protected Connect(List<HeaderLine> headers) {
-        super(headers);
+    protected Connect(List<HeaderLine> headers, String frameBody) {
+        super(headers, frameBody);
         //TODO Auto-generated constructor stub
     }
 

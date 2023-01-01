@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Send extends Frame {
 
-    protected Send(List<HeaderLine> headers) {
-        super(headers);
+    protected Send(List<HeaderLine> headers, String frameBody) {
+        super(headers, frameBody);
         //TODO Auto-generated constructor stub
     }
 

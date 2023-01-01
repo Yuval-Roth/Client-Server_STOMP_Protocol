@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Unsubscribe extends Frame {
 
-    protected Unsubscribe(List<HeaderLine> headers) {
-        super(headers);
+    protected Unsubscribe(List<HeaderLine> headers, String frameBody) {
+        super(headers, frameBody);
         //TODO Auto-generated constructor stub
     }
 
