@@ -6,30 +6,35 @@ public class GameController {
 
     private static GameController instance = null;
 
-    private HashMap<Integer,Game> games;
+    private HashMap<String,Game> games;
 
     private GameController() {
-        games = new HashMap<Integer,Game>();
+        games = new HashMap<String,Game>();
     }
-    public boolean addGame(int id, Game game) {
-        if (games.containsKey(id)) {
+
+    public boolean addGame(Game game) {
+
+        if (games.containsKey(game.getName())) {
             return false;
         }
-        games.put(id, game);
+        games.put(game.getName(), game);
         return true;
     }
-    public boolean removeGame(int id) {
-        if (!games.containsKey(id)) {
+
+    public boolean removeGame(Game game) {
+        if (!games.containsKey(game.getName())) {
             return false;
         }
-        games.remove(id);
+        games.remove(game.getName());
         return true;
     }
-    public boolean containsGame(int id) {
-        return games.containsKey(id);
+
+    public boolean containsGame(String home, String away) {
+        return games.containsKey(home+"_"+away);
     }
-    public Game getGame(int id) {
-        return games.get(id);
+
+    public Game getGame(String home, String away) {
+        return games.get(home+"_"+away);
     }
     
     public static GameController getInstance() {
