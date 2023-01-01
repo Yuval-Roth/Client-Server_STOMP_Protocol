@@ -1,6 +1,7 @@
 package bgu.spl.net.impl.stomp.protocol.impl;
 
 import bgu.spl.net.genericServers.interfaces.Connections;
+import bgu.spl.net.impl.stomp.protocol.impl.Frames.Connect;
 import bgu.spl.net.impl.stomp.protocol.impl.Frames.Frame;
 import bgu.spl.net.impl.stomp.protocol.interfaces.StompMessagingProtocol;
 
