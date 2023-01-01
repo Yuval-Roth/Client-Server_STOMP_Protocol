@@ -1,5 +1,6 @@
 package bgu.spl.net.impl.stomp.protocol.impl.Frames;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public abstract class Frame {
         CONNECT, CONNECTED, SEND, SUBSCRIBE, UNSUBSCRIBE, DISCONNECT, MESSAGE, RECEIPT, ERROR
     }
 
-    protected class HeaderLine{
+    protected static class HeaderLine{
         public final String headerName;
         public final String headerValue;
 
@@ -39,10 +40,37 @@ public abstract class Frame {
         }
     }
 
-    public static Frame parse(String frame){
+    public static Frame parse(String message){
         
         
-        return null;
+        // TODO createFrame
+        String[] frameParameters = message.split("\n");
+        StompCommand command = StompCommand.valueOf(frameParameters[0]);
+
+        // parse headers
+        int startOfFrameBody = -1;
+        List<HeaderLine> headers = new ArrayList<HeaderLine>();
+        for (int i = 1; i < frameParameters.length - 1; i++){
+            if(frameParameters[i].contains(":")){
+                String[] header = frameParameters[i].split(":");
+                headers.add(new HeaderLine(header[0], header[1]));
+            }
+            else {
+                startOfFrameBody = i;
+            }
+        }
+
+        // parse frame body
+        String frameBody = "";
+        if (startOfFrameBody != -1){
+            for (int i = startOfFrameBody; i < frameParameters.length - 1; i++){
+                frameBody += frameParameters[i];
+            }
+        }
+        else {
+            frameBody = null;
+        }
+        return createFrame(command, headers, frameBody);
     }
 
     private static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
