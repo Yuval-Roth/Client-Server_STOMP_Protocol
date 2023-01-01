@@ -1,15 +1,21 @@
 package bgu.spl.net.impl.stomp.protocol.impl.Frames;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Frame {
+    protected final static String END_OF_FRAME = "^@";
+    protected final static String NEW_LINE = "\n";
+    protected final static String HEADER_DELIMITER = ":";
+
+    
 
     protected enum StompCommand {
         CONNECT, CONNECTED, SEND, SUBSCRIBE, UNSUBSCRIBE, DISCONNECT, MESSAGE, RECEIPT, ERROR
     }
 
-    protected class HeaderLine{
+    protected static class HeaderLine{
         public final String headerName;
         public final String headerValue;
 
@@ -39,10 +45,33 @@ public abstract class Frame {
         }
     }
 
-    public static Frame parse(String frame){
+    public static Frame parse(String messageToParse){
+        String[] frameParameters = messageToParse.split(NEW_LINE); // split by new line
+        StompCommand command = StompCommand.valueOf(frameParameters[0]); // parse command
+
+        // parse headers
+        List<HeaderLine> headers = new LinkedList<HeaderLine>();
+        int frameParametersLine = 1;
+        while (!frameParameters[frameParametersLine].trim().equals(""))
+        {
+            String[] header = frameParameters[frameParametersLine].split(HEADER_DELIMITER);
+            headers.add(new HeaderLine(header[0], header[1]));
+            frameParametersLine++;
+        }
         
-        
-        return null;
+        // parse body
+        String frameBody = "";
+        while (!frameParameters[frameParametersLine].trim().equals(END_OF_FRAME))
+        {
+            frameBody += frameParameters[frameParametersLine];
+            frameParametersLine++;
+        }
+
+        if (frameBody.equals("")) {
+            frameBody = null;
+        }
+
+        return createFrame(command, headers, frameBody);
     }
 
     private static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
