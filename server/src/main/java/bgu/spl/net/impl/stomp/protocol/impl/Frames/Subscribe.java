@@ -12,7 +12,6 @@ public class Subscribe extends Frame{
     @Override
     public void execute() {
         // TODO Auto-generated method stub
-        
     }
     
 }

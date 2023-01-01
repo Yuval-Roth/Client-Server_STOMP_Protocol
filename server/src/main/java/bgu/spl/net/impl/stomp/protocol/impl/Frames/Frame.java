@@ -5,6 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Frame {
+    protected final static String END_OF_FRAME = "^@";
+    protected final static String NEW_LINE = "\n";
+    protected final static String HEADER_DELIMITER = ":";
+
+    
 
     protected enum StompCommand {
         CONNECT, CONNECTED, SEND, SUBSCRIBE, UNSUBSCRIBE, DISCONNECT, MESSAGE, RECEIPT, ERROR
@@ -41,31 +46,31 @@ public abstract class Frame {
     }
 
     public static Frame parse(String messageToParse){
-        String[] frameParameters = messageToParse.split("\n"); // split by new line
+        String[] frameParameters = messageToParse.split(NEW_LINE); // split by new line
         StompCommand command = StompCommand.valueOf(frameParameters[0]); // parse command
 
         // parse headers
-        int startOfFrameBody = -1;
         List<HeaderLine> headers = new LinkedList<HeaderLine>();
         int frameParametersLine = 1;
-        while (!frameParameters[frameParametersLine].trim().equals("") && frameParametersLine < frameParameters.length)
+        while (!frameParameters[frameParametersLine].trim().equals("") && frameParametersLine < frameParameters.length - 1)
         {
-            String[] header = frameParameters[frameParametersLine].split(":");
+            String[] header = frameParameters[frameParametersLine].split(HEADER_DELIMITER);
             headers.add(new HeaderLine(header[0], header[1]));
             frameParametersLine++;
         }
         
-        startOfFrameBody = frameParametersLine + 1;
-        // parse frame body
+        // parse body
         String frameBody = "";
-        if (startOfFrameBody != -1){
-            for (int i = startOfFrameBody; i < frameParameters.length - 1; i++){
-                frameBody += frameParameters[i];
-            }
+        while (!frameParameters[frameParametersLine].trim().equals(END_OF_FRAME) && frameParametersLine < frameParameters.length - 1)
+        {
+            frameBody += frameParameters[frameParametersLine];
+            frameParametersLine++;
         }
-        else {
+
+        if (frameBody.equals("")) {
             frameBody = null;
         }
+
         return createFrame(command, headers, frameBody);
     }
 
