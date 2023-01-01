@@ -9,17 +9,13 @@ public class StompMessagingProtocolImpl implements StompMessagingProtocol {
     @Override
     public void start(int connectionId, Connections<String> connections) {
         // TODO start
-        
     }
 
     @Override
     public String process(String message) {
-        // TODO process
+        // TODO process - need to see if this is enough
         Frame frame = Frame.parse(message);
-
-
-
-        return null;
+        return frame.execute();
     }
 
     @Override
