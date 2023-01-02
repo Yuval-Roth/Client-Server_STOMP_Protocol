@@ -8,12 +8,11 @@ public class StompMessagingProtocolImpl implements StompMessagingProtocol {
 
     @Override
     public void start(int connectionId, Connections<String> connections) {
-        // TODO start
+        // TODO This shit is probably redundant
     }
 
     @Override
     public String process(String message) {
-        // TODO process - need to see if this is enough
         Frame frame = Frame.parse(message);
         return frame.execute();
     }

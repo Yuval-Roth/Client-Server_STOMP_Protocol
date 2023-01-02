@@ -5,7 +5,7 @@ import java.util.List;
 public class Subscribe extends Frame{
 
     protected Subscribe(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody);
+        super(headers, frameBody, StompCommand.SUBSCRIBE);
         //TODO Auto-generated constructor stub
     }
 

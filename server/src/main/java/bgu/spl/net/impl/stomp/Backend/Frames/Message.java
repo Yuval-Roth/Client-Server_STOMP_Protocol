@@ -5,7 +5,7 @@ import java.util.List;
 public class Message extends Frame {
 
     protected Message(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody);
+        super(headers, frameBody, StompCommand.MESSAGE);
         //TODO Auto-generated constructor stub
     }
 

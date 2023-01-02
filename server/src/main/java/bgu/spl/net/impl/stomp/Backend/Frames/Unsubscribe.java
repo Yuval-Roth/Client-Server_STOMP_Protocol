@@ -5,7 +5,7 @@ import java.util.List;
 public class Unsubscribe extends Frame {
 
     protected Unsubscribe(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody);
+        super(headers, frameBody, StompCommand.UNSUBSCRIBE);
         //TODO Auto-generated constructor stub
     }
 

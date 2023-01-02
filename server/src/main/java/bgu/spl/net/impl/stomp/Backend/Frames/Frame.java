@@ -27,26 +27,30 @@ public abstract class Frame {
         }
     }
 
-    protected Frame(List<HeaderLine> headers, String frameBody){
+    protected Frame(List<HeaderLine> headers, String frameBody, StompCommand command){
         instantiateHeaders(headers);
         this.frameBody = frameBody;
+        this.command = command;
     }
 
+    protected StompCommand command;
     protected HeaderLine[] headers;
     protected String frameBody;
 
+
+    //================================================================================================|
+    //=================================== Main Methods  ==============================================|
+    //================================================================================================|
+
+    /**
+     * Execute the frame according to the command received and return the response
+     */
     public abstract String execute();
 
-    private void instantiateHeaders(List<HeaderLine> headers){
-        this.headers = new HeaderLine[headers.size()];
-        Iterator<HeaderLine> iter = headers.iterator();
-        int i = 0;
-        while (iter.hasNext()){
-            this.headers[i] = iter.next();
-            i++;
-        }
-    }
-
+    /**
+     * Create a frame according to the command received
+     * Returns
+     */
     public static Frame parse(String messageToParse){
         String[] frameParameters = messageToParse.split(NEW_LINE); // split by new line
         StompCommand command = StompCommand.valueOf(frameParameters[0]); // parse command
@@ -60,12 +64,12 @@ public abstract class Frame {
             headers.add(new HeaderLine(header[0], header[1]));
             frameParametersLine++;
         }
-        
+        frameParametersLine++;
         // parse body
         String frameBody = "";
         while (!frameParameters[frameParametersLine].trim().equals(END_OF_FRAME))
         {
-            frameBody += frameParameters[frameParametersLine];
+            frameBody += frameParameters[frameParametersLine]+NEW_LINE;
             frameParametersLine++;
         }
 
@@ -73,7 +77,39 @@ public abstract class Frame {
             frameBody = null;
         }
 
-        return createFrame(command, headers, frameBody);
+        Frame output = createFrame(command, headers, frameBody);
+        if(output == null){
+            return Error.generateInvalidCommandError(messageToParse);
+        }
+        return output;
+    }
+
+    public String getFrameString(){
+        String output = "";
+        output += command + NEW_LINE;
+        for (HeaderLine header : headers){
+            output += header.headerName + HEADER_DELIMITER + header.headerValue + NEW_LINE;
+        }
+        output += NEW_LINE;
+        if (frameBody != null){
+            output += frameBody;
+        }
+        output += END_OF_FRAME;
+        return output;
+    }
+
+    //================================================================================================|
+    //==================================== Utility Methods ===========================================|
+    //================================================================================================|
+
+    private void instantiateHeaders(List<HeaderLine> headers){
+        this.headers = new HeaderLine[headers.size()];
+        Iterator<HeaderLine> iter = headers.iterator();
+        int i = 0;
+        while (iter.hasNext()){
+            this.headers[i] = iter.next();
+            i++;
+        }
     }
 
     private static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){

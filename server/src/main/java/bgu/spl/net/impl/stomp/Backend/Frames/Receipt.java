@@ -5,7 +5,7 @@ import java.util.List;
 public class Receipt extends Frame {
 
     protected Receipt(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody);
+        super(headers, frameBody, StompCommand.RECEIPT);
         //TODO Auto-generated constructor stub
     }
 

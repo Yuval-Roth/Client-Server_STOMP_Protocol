@@ -5,7 +5,7 @@ import java.util.List;
 public class Disconnect extends Frame {
 
     protected Disconnect(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody);
+        super(headers, frameBody, StompCommand.DISCONNECT);
         //TODO Auto-generated constructor stub
     }
 

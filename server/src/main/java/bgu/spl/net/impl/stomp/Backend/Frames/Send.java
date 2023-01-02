@@ -5,7 +5,7 @@ import java.util.List;
 public class Send extends Frame {
 
     protected Send(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody);
+        super(headers, frameBody, StompCommand.SEND);
         //TODO Auto-generated constructor stub
     }
 

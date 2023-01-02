@@ -51,4 +51,10 @@ public class GameChannel implements Subscribeable{
         
         
     }
+
+    @Override
+    public void notifySubscribers(String message) {
+        // TODO Auto-generated method stub
+        
+    }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 public class Connected extends Frame {
 
     protected Connected(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody);
+        super(headers, frameBody, StompCommand.CONNECTED);
         //TODO Auto-generated constructor stub
     }
 
