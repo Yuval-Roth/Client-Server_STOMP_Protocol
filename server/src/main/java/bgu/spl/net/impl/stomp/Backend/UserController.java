@@ -14,15 +14,15 @@ public class UserController {
         users = new HashMap<String,String>();
         loggedInUsers = new HashSet<String>();
     }
-    public boolean addUser(String username, String password) {
-        username = username.toLowerCase();
-        
+
+    public void addUser(String username, String password) throws UserException {
+        username = username.toLowerCase(); // Is this necessary? 
         if (users.containsKey(username)) {
-            return false;
+            throw new UserException("User already exists");
         }
         users.put(username, password);
-        return true;
     }
+
     public boolean containsUser(String username) {
         username = username.toLowerCase();
 
@@ -42,6 +42,18 @@ public class UserController {
             else {
                 throw new UserException("Wrong password");
             }
+        }
+    }
+
+
+    public void logout(String username) throws UserException {
+        username = username.toLowerCase();
+
+        if (!loggedInUsers.contains(username)) {
+            throw new UserException("User not logged in");
+        }
+        else {
+            loggedInUsers.remove(username);
         }
     }
 }

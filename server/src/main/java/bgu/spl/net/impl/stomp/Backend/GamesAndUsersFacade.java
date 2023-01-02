@@ -9,21 +9,27 @@ public class GamesAndUsersFacade {
     
     private final UserController uc;
     private final GameController gc;
+    
+
 
     private GamesAndUsersFacade() {
         uc = new UserController();
         gc = new GameController();
     }
     
-    public boolean Connect(String username, String password) throws UserException{
+    public void Connect(String username, String password) throws UserException{
         
         if(uc.containsUser(username)) {
             uc.login(username, password);
-            return true;
         }
         else {
-            return uc.addUser(username, password);
+            uc.addUser(username, password);
+
         }
+    }
+
+    public void Disconnect(String username) throws UserException{
+        uc.logout(username);
     }
 
 
