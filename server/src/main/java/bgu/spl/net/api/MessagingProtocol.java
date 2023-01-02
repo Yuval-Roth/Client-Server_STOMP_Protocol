@@ -1,7 +1,7 @@
 package bgu.spl.net.api;
 
 public interface MessagingProtocol<T> {
- 
+
     /**
      * process the given message 
      * @param msg the received message
