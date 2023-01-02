@@ -2,7 +2,7 @@ package bgu.spl.net.impl.stomp.Backend;
 
 import java.util.HashMap;
 
-import bgu.spl.net.impl.stomp.StompExceptions.GameException;
+import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 
 public class GameChannelController {
 
@@ -12,17 +12,17 @@ public class GameChannelController {
         gameChannels = new HashMap<String,GameChannel>();
     }
 
-    public void addGame(GameChannel game) throws GameException {
+    public void addGame(GameChannel game) throws GameChannelException {
 
         if (gameChannels.containsKey(game.getName())) {
-            throw new GameException("Game already exists");
+            throw new GameChannelException("Game already exists");
         }
         gameChannels.put(game.getName(), game);
     }
 
-    public void removeGame(GameChannel game) throws GameException {
+    public void removeGame(GameChannel game) throws GameChannelException {
         if (!gameChannels.containsKey(game.getName())) {
-            throw new GameException("Game does not exist");
+            throw new GameChannelException("Game does not exist");
         }
         gameChannels.remove(game.getName());
     }
@@ -31,10 +31,10 @@ public class GameChannelController {
         return gameChannels.containsKey(home+"_"+away);
     }
 
-    public GameChannel getGame(String home, String away) throws GameException {
+    public GameChannel getGame(String home, String away) throws GameChannelException {
 
         if (!gameChannels.containsKey(home+"_"+away)) {
-            throw new GameException("Game does not exist");
+            throw new GameChannelException("Game does not exist");
         }
         return gameChannels.get(home+"_"+away);
     }
