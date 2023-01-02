@@ -3,14 +3,11 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import bgu.spl.net.impl.stomp.Backend.GameController;
-import bgu.spl.net.impl.stomp.Backend.UserController;
+import bgu.spl.net.impl.stomp.Backend.GamesAndUsersFacade;
 
 public abstract class Frame {
 
-    protected static final GameController gameController = GameController.getInstance();
-    protected static final UserController userController = UserController.getInstance();
+    protected static final GamesAndUsersFacade op = GamesAndUsersFacade.getInstance();
 
     protected final static String END_OF_FRAME = "^@";
     protected final static String NEW_LINE = "\n";

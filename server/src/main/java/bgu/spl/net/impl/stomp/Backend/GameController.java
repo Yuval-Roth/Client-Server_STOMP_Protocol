@@ -4,11 +4,9 @@ import java.util.HashMap;
 
 public class GameController {
 
-    private static GameController instance = null;
-
     private HashMap<String,Game> games;
 
-    private GameController() {
+    public GameController() {
         games = new HashMap<String,Game>();
     }
 
@@ -36,11 +34,4 @@ public class GameController {
     public Game getGame(String home, String away) {
         return games.get(home+"_"+away);
     }
-
-    public static GameController getInstance() {
-        if(instance == null) {
-            instance = new GameController();
-        }
-        return instance;
-    }   
 }
