@@ -12,30 +12,52 @@ public class GameChannelController {
         gameChannels = new HashMap<String,GameChannel>();
     }
 
-    public void addGame(GameChannel game) throws GameChannelException {
+    public void addGameChannel(String team1, String team2) throws GameChannelException {
 
-        if (gameChannels.containsKey(game.getName())) {
+        String name = parseName(team1, team2);
+
+        if (gameChannels.containsKey(name)) {
             throw new GameChannelException("Game already exists");
         }
-        gameChannels.put(game.getName(), game);
+        gameChannels.put(name, new GameChannel(team1, team2));
     }
 
-    public void removeGame(GameChannel game) throws GameChannelException {
-        if (!gameChannels.containsKey(game.getName())) {
+    public void removeGameChannel(String team1, String team2) throws GameChannelException {
+
+        String name = parseName(team1, team2);
+
+        if (!gameChannels.containsKey(name)) {
             throw new GameChannelException("Game does not exist");
         }
-        gameChannels.remove(game.getName());
+        gameChannels.remove(name);
     }
 
-    public boolean containsGame(String home, String away) {
-        return gameChannels.containsKey(home+"_"+away);
+    public boolean containsGameChannel(String team1, String team2) {
+
+        String name = parseName(team1, team2);
+        
+        return gameChannels.containsKey(name);
     }
 
-    public GameChannel getGame(String home, String away) throws GameChannelException {
+    public GameChannel getGameChannel(String team1, String team2) throws GameChannelException {
 
-        if (!gameChannels.containsKey(home+"_"+away)) {
+        String name = parseName(team1, team2);
+
+        if (!gameChannels.containsKey(name)) {
             throw new GameChannelException("Game does not exist");
         }
-        return gameChannels.get(home+"_"+away);
+        return gameChannels.get(name);
+    }
+
+    private String parseName(String team1, String team2) {
+        if (team1.compareTo(team2) < 0) {
+            return team1+"_"+team2;
+        }
+        else if (team1.compareTo(team2) > 0){
+            return team2+"_"+team1;
+        }
+        else {
+            throw new IllegalArgumentException("Team names are the same");
+        }
     }
 }

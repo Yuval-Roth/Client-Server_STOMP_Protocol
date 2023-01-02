@@ -1,18 +1,19 @@
 package bgu.spl.net.impl.stomp.Backend;
 
 import bgu.spl.net.genericServers.interfaces.Connections;
-import bgu.spl.net.impl.stomp.Backend.facade_interfaces.ServerManager;
+import bgu.spl.net.impl.stomp.Backend.facade_interfaces.ConnectionManager;
+import bgu.spl.net.impl.stomp.Backend.facade_interfaces.SubscriptionManager;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
-public class SubscriptionFacade implements Connections<String>, ServerManager {
+public class StompFacade implements Connections<String>, ConnectionManager, SubscriptionManager {
     
-    private static SubscriptionFacade instance = null;
+    private static StompFacade instance = null;
     
     private final UserController uc;
     private final GameChannelController gc;
     
-    private SubscriptionFacade() {
+    private StompFacade() {
         uc = new UserController();
         gc = new GameChannelController();
     }
@@ -21,7 +22,7 @@ public class SubscriptionFacade implements Connections<String>, ServerManager {
     //============================ ServerManager interface methods ==================================|
     //===============================================================================================|
 
-    
+    @Override
     public void Connect(String username, String password) throws UserException{
         
         if(uc.containsUser(username)) {
@@ -29,10 +30,10 @@ public class SubscriptionFacade implements Connections<String>, ServerManager {
         }
         else {
             uc.addUser(username, password);
-
         }
     }
 
+    @Override
     public void Disconnect(String username) throws UserException{
 
         validateUser(username);
@@ -40,19 +41,25 @@ public class SubscriptionFacade implements Connections<String>, ServerManager {
         uc.logout(username);
     }
 
+    //===============================================================================================|
+    //============================ SubscriptionManager interface methods ============================|
+    //===============================================================================================|
+
+    @Override
     public void Unsubscribe(String username,String hometeam, String awayteam) throws GameChannelException, UserException{
         
         validateUser(username);
         
-        GameChannel channel = gc.getGame(hometeam, awayteam);
+        GameChannel channel = gc.getGameChannel(hometeam, awayteam);
         channel.removeSubscriber(username);
     }
 
+    @Override
     public void Subscribe(String username,String hometeam, String awayteam) throws GameChannelException, UserException{
 
         validateUser(username);
         
-        GameChannel channel = gc.getGame(hometeam, awayteam);
+        GameChannel channel = gc.getGameChannel(hometeam, awayteam);
         channel.addSubscriber(username);
     }
 
@@ -60,23 +67,8 @@ public class SubscriptionFacade implements Connections<String>, ServerManager {
 
         validateUser(username);
 
-        GameChannel channel = gc.getGame(hometeam, awayteam);
+        GameChannel channel = gc.getGameChannel(hometeam, awayteam);
         channel.addMessage(username, message);
-    }
-
-
-    /**
-     * Validate that the user exists and is logged in
-     * @param username
-     * @throws UserException
-     */
-    private void validateUser(String username) throws UserException {
-        if(uc.containsUser(username) == false) {
-            throw new UserException("User does not exist");
-        }
-        if(uc.isLoggedIn(username) == false) {
-            throw new UserException("User is not logged in");
-        }
     }
 
     //================================================================================================|
@@ -102,12 +94,26 @@ public class SubscriptionFacade implements Connections<String>, ServerManager {
     }
 
     //===============================================================================================|
-    //============================ Singleton methods ================================================|
+    //============================== Utility methods ================================================|
     //===============================================================================================|
 
-    public static SubscriptionFacade getInstance() {
+    /**
+     * Validate that the user exists and is logged in
+     * @param username
+     * @throws UserException
+     */
+    private void validateUser(String username) throws UserException {
+        if(uc.containsUser(username) == false) {
+            throw new UserException("User does not exist");
+        }
+        if(uc.isLoggedIn(username) == false) {
+            throw new UserException("User is not logged in");
+        }
+    }
+
+    public static StompFacade getInstance() {
         if(instance == null) {
-            instance = new SubscriptionFacade();
+            instance = new StompFacade();
         }
         return instance;
     }

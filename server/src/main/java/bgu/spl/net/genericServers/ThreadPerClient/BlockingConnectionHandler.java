@@ -8,6 +8,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler<T> {
 
@@ -18,10 +20,13 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     private BufferedOutputStream out;
     private volatile boolean connected = true;
 
+    private volatile ConcurrentLinkedQueue<T> messagesToSend;
+
     public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, MessagingProtocol<T> protocol) {
         this.sock = sock;
         this.encdec = reader;
         this.protocol = protocol;
+        this.messagesToSend = new ConcurrentLinkedQueue<>();
     }
 
     @Override
@@ -32,17 +37,28 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
             in = new BufferedInputStream(sock.getInputStream());
             out = new BufferedOutputStream(sock.getOutputStream());
 
-            while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
-                T nextMessage = encdec.decodeNextByte((byte) read);
-                if (nextMessage != null) {
-                    T response = protocol.process(nextMessage);
-                    if (response != null) {
-                        out.write(encdec.encode(response));
-                        out.flush();
+            while (!protocol.shouldTerminate() && connected) {
+
+                if((read = in.read()) > 0){
+                    T nextMessage = encdec.decodeNextByte((byte) read);
+                    if (nextMessage != null) {
+                        T response = protocol.process(nextMessage);
+                        if (response != null) {
+                            out.write(encdec.encode(response));
+                            out.flush();
+                        }
                     }
                 }
+                try{
+                    while(true){
+                        T msg = messagesToSend.remove();
+                        out.write(encdec.encode(msg));
+                        out.flush();
+                    }
+                }catch(NoSuchElementException e){
+                    //no more messages to send
+                }
             }
-
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -57,6 +73,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
 
     @Override
     public void send(T msg) {
-        //IMPLEMENT IF NEEDED
+        messagesToSend.add(msg);
+        synchronized(in){in.notifyAll();}
     }
 }
