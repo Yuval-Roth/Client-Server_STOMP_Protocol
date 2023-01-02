@@ -1,6 +1,6 @@
 package bgu.spl.net.impl.stomp.Backend;
 
-import bgu.spl.net.impl.stomp.StompExceptions.GameException;
+import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
 public class SubscriptionFacade {
@@ -35,7 +35,7 @@ public class SubscriptionFacade {
      * @param username
      * @param game
      */
-    public void Unsubscribe(String username,String hometeam, String awayteam) throws GameException{
+    public void Unsubscribe(String username,String hometeam, String awayteam) throws GameChannelException{
         GameChannel channel = gc.getGame(hometeam, awayteam);
         channel.removeSubscriber(username);
     }
@@ -45,7 +45,7 @@ public class SubscriptionFacade {
      * @param username
      * @param game
      */
-    public void Subscribe(String username,String hometeam, String awayteam) throws GameException{
+    public void Subscribe(String username,String hometeam, String awayteam) throws GameChannelException{
         GameChannel channel = gc.getGame(hometeam, awayteam);
         channel.addSubscriber(username);
     }
