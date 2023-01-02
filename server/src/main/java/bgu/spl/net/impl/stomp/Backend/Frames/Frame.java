@@ -43,11 +43,6 @@ public abstract class Frame {
     //================================================================================================|
 
     /**
-     * Execute the frame according to the command received and return the response
-     */
-    public abstract String execute();
-
-    /**
      * Create a frame according to the command received
      * Returns
      */

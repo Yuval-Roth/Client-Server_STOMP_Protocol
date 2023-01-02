@@ -8,12 +8,5 @@ public class ReceiptFrame extends Frame {
         super(headers, frameBody, StompCommand.RECEIPT);
         //TODO Auto-generated constructor stub
     }
-
-    @Override
-    public String execute() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    
+ 
 }

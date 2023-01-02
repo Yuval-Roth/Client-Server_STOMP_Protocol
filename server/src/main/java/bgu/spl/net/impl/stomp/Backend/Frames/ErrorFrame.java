@@ -7,11 +7,6 @@ public class ErrorFrame extends Frame {
     protected ErrorFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.ERROR);
     }
-
-    @Override
-    public String execute() {
-        throw new UnsupportedOperationException("ERROR frame cannot be executed");
-    }
     
     public static Frame generateInvalidCommandError(String badFrame) {
 
@@ -29,4 +24,5 @@ public class ErrorFrame extends Frame {
         System.out.println(frame);
         return Frame.parse(frame);
     }
+    public static Frame generateErrorFrame(String ,)
 }

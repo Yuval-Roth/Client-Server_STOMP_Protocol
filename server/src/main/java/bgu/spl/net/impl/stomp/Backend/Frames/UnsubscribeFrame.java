@@ -2,7 +2,7 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
-public class UnsubscribeFrame extends Frame {
+public class UnsubscribeFrame extends ExecutableFrame {
 
     protected UnsubscribeFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.UNSUBSCRIBE);

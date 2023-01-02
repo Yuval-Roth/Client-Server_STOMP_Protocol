@@ -2,7 +2,7 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
-public class MessageFrame extends Frame {
+public class MessageFrame extends ExecutableFrame {
 
     protected MessageFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.MESSAGE);

@@ -2,7 +2,7 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
-public class SendFrame extends Frame {
+public class SendFrame extends ExecutableFrame {
 
     protected SendFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.SEND);

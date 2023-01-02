@@ -4,7 +4,7 @@ import java.util.List;
 
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
-public class ConnectFrame extends Frame {
+public class ConnectFrame extends ExecutableFrame {
 
     protected ConnectFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.CONNECT);
@@ -15,16 +15,15 @@ public class ConnectFrame extends Frame {
 
         //TODO - finish the implementation of execute in ConnectFrame
 
-        String output = "";
+        String username = headers[2].headerValue;
+        String password = headers[3].headerValue;
 
         try{
-            op.Connect(headers[0].headerValue, headers[1].headerValue);
-            output = "CONNECTED" + NEW_LINE + "version:1.2" + NEW_LINE + END_OF_FRAME;
+            op.Connect(username, password);
         }catch(UserException e){
-            
+            // return ErrorFrame.generateInvalidCommandError("CONNECT").getFrameString();
         }
-
-        return null;
+        return ConnectedFrame.generateConnectedFrame().getFrameString();
     }
 
 
