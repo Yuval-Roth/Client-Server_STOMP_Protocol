@@ -1,6 +1,6 @@
 package bgu.spl.net.impl.stomp.Backend;
 
-import bgu.spl.net.api.Connections;
+import bgu.spl.net.genericServers.interfaces.Connections;
 import bgu.spl.net.impl.stomp.Backend.facade_interfaces.ConnectionManager;
 import bgu.spl.net.impl.stomp.Backend.facade_interfaces.SubscriptionManager;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
