@@ -10,8 +10,6 @@ public class GamesAndUsersFacade {
     private final UserController uc;
     private final GameController gc;
     
-
-
     private GamesAndUsersFacade() {
         uc = new UserController();
         gc = new GameController();
@@ -32,6 +30,7 @@ public class GamesAndUsersFacade {
         uc.logout(username);
     }
 
+    public void Subscribe
 
     public static GamesAndUsersFacade getInstance() {
         if(instance == null) {
