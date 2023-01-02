@@ -3,11 +3,11 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import bgu.spl.net.impl.stomp.Backend.GamesAndUsersFacade;
+import bgu.spl.net.impl.stomp.Backend.SubscriptionFacade;
 
 public abstract class Frame {
 
-    protected static final GamesAndUsersFacade op = GamesAndUsersFacade.getInstance();
+    protected static final SubscriptionFacade op = SubscriptionFacade.getInstance();
 
     protected final static String END_OF_FRAME = "^@";
     protected final static String NEW_LINE = "\n";
