@@ -2,6 +2,8 @@ package bgu.spl.net.impl.stomp.Backend;
 
 import java.util.LinkedList;
 
+import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
+
 /**
  * The Game class represents a game in the system.
  * It holds the channel of the game, the game events and the scores.
@@ -24,14 +26,22 @@ public class GameChannel {
 
     /**
      * subscribes the user to the channel
+     * @throws GameChannelException
      */
-    public void addSubscriber(String username) {
+    public void addSubscriber(String username) throws GameChannelException {
+        if(subscribedUsers.contains(username))
+            throw new GameChannelException("User already subscribed to channel");
+
         subscribedUsers.add(username);
     }
     /**
      * unsubscribes the user from the channel
+     * @throws GameChannelException
      */
-    public void removeSubscriber(String username) {
+    public void removeSubscriber(String username) throws GameChannelException {
+        if(!subscribedUsers.contains(username))
+            throw new GameChannelException("User not subscribed to channel");
+
         subscribedUsers.remove(username);
     }
 

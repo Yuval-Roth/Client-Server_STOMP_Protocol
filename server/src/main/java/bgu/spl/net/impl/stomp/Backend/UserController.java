@@ -56,4 +56,8 @@ public class UserController {
             loggedInUsers.remove(username);
         }
     }
+
+    public boolean isLoggedIn(String username) {
+        return false;
+    }
 }
