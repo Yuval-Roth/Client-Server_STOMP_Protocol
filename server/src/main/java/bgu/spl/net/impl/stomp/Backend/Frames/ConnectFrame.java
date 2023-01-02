@@ -4,9 +4,9 @@ import java.util.List;
 
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
-public class Connect extends Frame {
+public class ConnectFrame extends Frame {
 
-    protected Connect(List<HeaderLine> headers, String frameBody) {
+    protected ConnectFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.CONNECT);
     }
 

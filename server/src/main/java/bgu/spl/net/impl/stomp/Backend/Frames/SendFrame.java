@@ -2,10 +2,10 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
-public class Receipt extends Frame {
+public class SendFrame extends Frame {
 
-    protected Receipt(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody, StompCommand.RECEIPT);
+    protected SendFrame(List<HeaderLine> headers, String frameBody) {
+        super(headers, frameBody, StompCommand.SEND);
         //TODO Auto-generated constructor stub
     }
 
@@ -15,5 +15,5 @@ public class Receipt extends Frame {
         return null;
     }
 
-    
+
 }

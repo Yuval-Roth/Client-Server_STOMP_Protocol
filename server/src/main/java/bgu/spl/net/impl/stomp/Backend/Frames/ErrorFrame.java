@@ -2,17 +2,15 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
-public class Error extends Frame {
+public class ErrorFrame extends Frame {
 
-    protected Error(List<HeaderLine> headers, String frameBody) {
+    protected ErrorFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.ERROR);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public String execute() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("ERROR frame cannot be executed");
     }
     
     public static Frame generateInvalidCommandError(String badFrame) {

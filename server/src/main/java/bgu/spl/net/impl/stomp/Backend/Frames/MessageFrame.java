@@ -2,10 +2,10 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
-public class Unsubscribe extends Frame {
+public class MessageFrame extends Frame {
 
-    protected Unsubscribe(List<HeaderLine> headers, String frameBody) {
-        super(headers, frameBody, StompCommand.UNSUBSCRIBE);
+    protected MessageFrame(List<HeaderLine> headers, String frameBody) {
+        super(headers, frameBody, StompCommand.MESSAGE);
         //TODO Auto-generated constructor stub
     }
 
@@ -13,5 +13,8 @@ public class Unsubscribe extends Frame {
     public String execute() {
         // TODO Auto-generated method stub
         return null;
-    } 
+    }
+
+
+    
 }

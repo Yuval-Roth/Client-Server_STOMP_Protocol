@@ -77,11 +77,7 @@ public abstract class Frame {
             frameBody = null;
         }
 
-        Frame output = createFrame(command, headers, frameBody);
-        if(output == null){
-            return Error.generateInvalidCommandError(messageToParse);
-        }
-        return output;
+        return createFrame(command, headers, frameBody);
     }
 
     public String getFrameString(){
@@ -115,23 +111,23 @@ public abstract class Frame {
     private static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
         switch (command){
             case CONNECT:
-                return new Connect(headers, frameBody);
+                return new ConnectFrame(headers, frameBody);
             case CONNECTED:
-                return new Connected(headers, frameBody);
+                return new ConnectedFrame(headers, frameBody);
             case SEND:
-                return new Send(headers, frameBody);
+                return new SendFrame(headers, frameBody);
             case SUBSCRIBE:
-                return new Subscribe(headers, frameBody);
+                return new SubscribeFrame(headers, frameBody);
             case UNSUBSCRIBE:
-                return new Unsubscribe(headers, frameBody);
+                return new UnsubscribeFrame(headers, frameBody);
             case DISCONNECT:
-                return new Disconnect(headers, frameBody);
+                return new DisconnectFrame(headers, frameBody);
             case MESSAGE:
-                return new Message(headers, frameBody);
+                return new MessageFrame(headers, frameBody);
             case RECEIPT:
-                return new Receipt(headers, frameBody);
+                return new ReceiptFrame(headers, frameBody);
             case ERROR:
-                return new Error(headers, frameBody);
+                return new ErrorFrame(headers, frameBody);
             default:
                 return null;
         }
