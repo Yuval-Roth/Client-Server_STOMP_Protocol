@@ -50,10 +50,17 @@ public class SubscriptionFacade {
         channel.addSubscriber(username);
     }
 
+    public void Send(String username, String hometeam, String awayteam, String message) throws GameException{
+        GameChannel channel = gc.getGame(hometeam, awayteam);
+        channel.addMessage(username, message);
+    }
+
     public static SubscriptionFacade getInstance() {
         if(instance == null) {
             instance = new SubscriptionFacade();
         }
         return instance;
     }
+
+
 }

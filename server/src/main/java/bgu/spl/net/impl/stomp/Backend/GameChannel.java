@@ -36,4 +36,9 @@ public class GameChannel {
     }
 
     public String getName() {return home+"_"+away;}
+
+    public void addMessage(String username, String message) {
+        //TODO
+        
+    }
 }
