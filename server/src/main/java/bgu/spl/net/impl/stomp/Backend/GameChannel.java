@@ -2,7 +2,6 @@ package bgu.spl.net.impl.stomp.Backend;
 
 import java.util.LinkedList;
 
-import bgu.spl.net.impl.stomp.Backend.facade_interfaces.Observable;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 
 /**
@@ -10,7 +9,7 @@ import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
  * It holds the channel of the game, the game events and the scores.
  * It also holds the id, home and away teams.
  */
-public class GameChannel implements Observable{
+public class GameChannel implements Subscribeable{
 
       /**
      * holds the users subscribed to the channel
