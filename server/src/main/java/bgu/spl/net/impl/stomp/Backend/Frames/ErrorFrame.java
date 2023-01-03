@@ -11,7 +11,7 @@ public class ErrorFrame extends Frame {
     /**
      * @param receiptId - if receipt-id => 0, receipt-id header will be added
      * @param message - the message to be sent in the header
-     * @param body - the body of the error frame
+     * @param body - the body of the error frame, will be added iff body.length() > 0 
      * @param bodyIsBadFrame - if true, the body will be added as the frame that caused the error
      */
     public static Frame generateErrorFrame(int receiptId,String message,String body, boolean bodyIsBadFrame) {
@@ -49,10 +49,10 @@ public class ErrorFrame extends Frame {
     }
 
     /**
-     * This overload does not add the body as a normal string. It does not add a receipt-id header
+     * This overload adds the body as a normal string. It does not add a receipt-id header
      * 
      * @param message - the message to be sent in the header
-     * @param body - the body of the error frame
+     * @param body - the body of the error frame, will be added iff body.length() > 0 
      */
     public static Frame generateErrorFrame(String message,String body) {
 
@@ -63,7 +63,7 @@ public class ErrorFrame extends Frame {
      * this overload does not add a receipt-id header
      * 
      * @param message - the message to be sent in the header
-     * @param body - the body of the error frame
+     * @param body - the body of the error frame, will be added iff body.length() > 0 
      * @param bodyIsBadFrame - if true, the body will be added as the frame that caused the error, 
      * if false, the body will be added as a regular string
      */
