@@ -38,6 +38,11 @@ public class ErrorFrame extends Frame {
         return generateErrorFrame(message, badFrame.getFrameString());
     }
 
+    public static Frame generateErrorFrame(int receiptId,String message,Frame badFrame) {
+
+        return generateErrorFrame(message, badFrame.getFrameString());
+    }
+
     public static Frame generateErrorFrame(String message) {
 
         return generateErrorFrame(-1, message, "");
