@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 
 /**
- * The Game class represents a game in the system.
- * It holds the channel of the game, the game events and the scores.
- * It also holds the id, home and away teams.
+ * represents a game channel, which is a subscribeable object
+ * the channel is identified by the names of the teams playing in the game
+ * the channel holds the users subscribed to it and notifies them when a new message is received
  */
 public class GameChannel implements Subscribeable{
 
@@ -46,11 +46,6 @@ public class GameChannel implements Subscribeable{
     }
 
     public String getName() {return home+"_"+away;}
-
-    public void addMessage(String username, String message) {
-        
-        
-    }
 
     @Override
     public void notifySubscribers(String message) {

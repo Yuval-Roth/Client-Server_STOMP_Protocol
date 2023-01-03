@@ -6,6 +6,12 @@ import bgu.spl.net.impl.stomp.Backend.facade_interfaces.SubscriptionManager;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
+
+/**
+ * This class is the facade of the backend.
+ * It implements the Connections interface, the ConnectionManager interface and the SubscriptionManager interface.
+ * It is a singleton class.
+ */
 public class StompFacade implements Connections<String>, ConnectionManager, SubscriptionManager {
     
     private static StompFacade instance = null;
@@ -63,14 +69,6 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
         channel.addSubscriber(username);
     }
 
-    public void Send(String username, String hometeam, String awayteam, String message) throws GameChannelException, UserException{
-
-        validateUser(username);
-
-        GameChannel channel = gc.getGameChannel(hometeam, awayteam);
-        channel.addMessage(username, message);
-    }
-
     //================================================================================================|
     //============================ Connections interface methods =====================================|
     //================================================================================================|
@@ -111,6 +109,9 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
         }
     }
 
+    /**
+     * Singleton instance
+     */
     public static StompFacade getInstance() {
         if(instance == null) {
             instance = new StompFacade();

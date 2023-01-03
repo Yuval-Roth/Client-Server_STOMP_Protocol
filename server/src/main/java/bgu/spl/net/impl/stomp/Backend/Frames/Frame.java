@@ -3,11 +3,22 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import bgu.spl.net.impl.stomp.Backend.StompFacade;
 
+import bgu.spl.net.genericServers.interfaces.Connections;
+import bgu.spl.net.impl.stomp.Backend.StompFacade;
+import bgu.spl.net.impl.stomp.Backend.facade_interfaces.ConnectionManager;
+import bgu.spl.net.impl.stomp.Backend.facade_interfaces.SubscriptionManager;
+
+/**
+ * Frame is an abstract class that represents a frame in the STOMP protocol.
+ * It contains the main methods that are used by all the frames.
+ * It also contains the main fields that are used by all the frames.
+ */
 public abstract class Frame {
 
-    protected static final StompFacade op = StompFacade.getInstance();
+    protected static final Connections<String> connections = StompFacade.getInstance();
+    protected static final SubscriptionManager subM = StompFacade.getInstance();
+    protected static final ConnectionManager conM = StompFacade.getInstance();
 
     protected static final double PROTOCOL_VERSION = 1.2;
     protected final static String END_OF_FRAME = "^@";

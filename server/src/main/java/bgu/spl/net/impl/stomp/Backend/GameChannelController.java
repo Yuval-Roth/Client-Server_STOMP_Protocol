@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 
+/**
+ * This class is used to manage all the game channels in the system.
+ */
 public class GameChannelController {
 
     private HashMap<String,GameChannel> gameChannels;

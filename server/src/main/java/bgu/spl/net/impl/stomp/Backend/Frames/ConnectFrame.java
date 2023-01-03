@@ -17,7 +17,7 @@ public class ConnectFrame extends ExecutableFrame {
         String password = headers[3].headerValue;
 
         try{
-            op.Connect(username, password);
+            conM.Connect(username, password);
         }catch(UserException e){
             return ErrorFrame.generateErrorFrame(e.getMessage()).toString();
         }

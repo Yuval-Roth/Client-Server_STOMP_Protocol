@@ -5,6 +5,10 @@ import java.util.HashSet;
 
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
+
+/**
+ * This class is responsible for managing the users of the system.
+ */
 public class UserController {
 
     private HashMap<String,String> users;
@@ -58,6 +62,8 @@ public class UserController {
     }
 
     public boolean isLoggedIn(String username) {
-        return false;
+        username = username.toLowerCase();
+
+        return loggedInUsers.contains(username);
     }
 }
