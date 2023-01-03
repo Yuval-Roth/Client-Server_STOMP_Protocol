@@ -2,6 +2,7 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
 public class ConnectFrame extends ExecutableFrame {
@@ -11,7 +12,7 @@ public class ConnectFrame extends ExecutableFrame {
     }
 
     @Override
-    public String execute() {
+    public String execute(ConnectionHandler<String> handler) {
 
         String username = headers[2].headerValue;
         String password = headers[3].headerValue;

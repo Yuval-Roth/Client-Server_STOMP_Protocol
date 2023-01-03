@@ -16,7 +16,7 @@ public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
     }
 
     @Override
-    public String process(String message) {
+    public String process(ConnectionHandler<String> handler,String message) {
         ExecutableFrame frame = ExecutableFrame.parse(message);
 
         if(frame == null){

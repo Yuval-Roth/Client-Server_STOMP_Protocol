@@ -97,7 +97,7 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     public void connect(ConnectionHandler<String> handler, String connectionMessage) {
         ExecutableFrame frame = ExecutableFrame.parse(connectionMessage);
         String username = frame.getHeaders()[2].headerValue;
-        
+
 
         frame.execute();
     }

@@ -2,6 +2,8 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.util.List;
 
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
+
 public abstract class ExecutableFrame extends Frame {
 
     protected ExecutableFrame(List<HeaderLine> headers, String frameBody, StompCommand command) {
@@ -11,7 +13,7 @@ public abstract class ExecutableFrame extends Frame {
     /**
      * Execute the frame according to the command received and return the response
      */
-    public abstract String execute();
+    public abstract String execute(ConnectionHandler<String> handler);
 
     public static ExecutableFrame parse(String messageToParse){
 

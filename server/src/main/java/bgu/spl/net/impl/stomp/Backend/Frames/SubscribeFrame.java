@@ -3,6 +3,8 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 import java.io.IOException;
 import java.util.List;
 
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
+
 public class SubscribeFrame extends ExecutableFrame{
 
     protected SubscribeFrame(List<HeaderLine> headers, String frameBody) {
@@ -10,7 +12,7 @@ public class SubscribeFrame extends ExecutableFrame{
     }
 
     @Override
-    public String execute() {
+    public String execute(ConnectionHandler<String> handler) {
 
         String topic = headers[0].headerValue;
         
