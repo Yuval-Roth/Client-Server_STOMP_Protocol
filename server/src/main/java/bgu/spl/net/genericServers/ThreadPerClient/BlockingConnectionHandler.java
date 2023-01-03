@@ -31,7 +31,6 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
 
     @Override
     public void run() {
-        
         try (Socket sock = this.sock) { //just for automatic closing
             int read;
             
@@ -68,6 +67,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     @Override
     public void close() throws IOException {
         connected = false;
+        synchronized(in){in.notifyAll();}
         sock.close();
     }
 
