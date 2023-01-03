@@ -5,6 +5,7 @@ import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
 public interface SubscriptionManager {
     
+    
     /**
      * unsubscribe from a game's channel
      * @param username - the user that wants to unsubscribe
@@ -13,7 +14,8 @@ public interface SubscriptionManager {
      * @throws UserException
      * @throws GameChannelException
      */
-    public void Unsubscribe(int id, String team1, String team2) throws UserException, GameChannelException;
+    public void Unsubscribe(int id/*, String team1, String team2*/) throws UserException, GameChannelException;
+    //TODO: fix to support int id and removal of team1 and team2
 
 
     /**

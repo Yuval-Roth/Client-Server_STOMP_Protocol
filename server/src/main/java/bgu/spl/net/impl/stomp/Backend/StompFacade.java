@@ -52,8 +52,10 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     //===============================================================================================|
 
     @Override
-    public void Unsubscribe(int id,String hometeam, String awayteam) throws GameChannelException, UserException{
+    public void Unsubscribe(int id/*,String hometeam, String awayteam*/) throws GameChannelException, UserException{
         
+        //TODO: fix to support int id and removal of team1 and team2
+
         // validateUser(username);
         
         // GameChannel channel = gc.getGameChannel(hometeam, awayteam);
@@ -62,6 +64,8 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
 
     @Override
     public void Subscribe(int id,String hometeam, String awayteam) throws GameChannelException, UserException{
+
+        // TODO: fix to support int id instead of String username
 
         // validateUser(username);
         
