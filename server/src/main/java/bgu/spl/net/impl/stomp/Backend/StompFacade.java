@@ -2,7 +2,6 @@ package bgu.spl.net.impl.stomp.Backend;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.genericServers.interfaces.Connections;
-import bgu.spl.net.impl.stomp.Backend.Frames.ExecutableFrame;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionManager;
 import bgu.spl.net.impl.stomp.Backend.interfaces.SubscriptionManager;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
@@ -20,10 +19,12 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     
     private final UserController uc;
     private final GameChannelController gc;
+    private final ConnectionController cc;
     
     private StompFacade() {
         uc = new UserController();
         gc = new GameChannelController();
+        cc = new ConnectionController();
     }
 
     //===============================================================================================|
@@ -31,7 +32,7 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     //===============================================================================================|
 
     @Override
-    public void loginIn(String username, String password) throws UserException{
+    public void connect(ConnectionHandler<String> handler,String username, String password) throws UserException{
         
         if(uc.containsUser(username)) {
             uc.login(username, password);
@@ -39,14 +40,16 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
         else {
             uc.addUser(username, password);
         }
+        cc.startConnection(handler, username);
     }
 
     @Override
-    public void logOut(String username) throws UserException{
+    public void disconnect(String username) throws UserException{
 
         validateUser(username);
 
         uc.logout(username);
+        cc.endConnection(username);
     }
 
     //===============================================================================================|
@@ -91,15 +94,6 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     public void disconnect(int connectionId) {
         // TODO Auto-generated method stub
         
-    }
-
-    @Override
-    public void connect(ConnectionHandler<String> handler, String connectionMessage) {
-        ExecutableFrame frame = ExecutableFrame.parse(connectionMessage);
-        String username = frame.getHeaders()[2].headerValue;
-
-
-        frame.execute();
     }
 
     //===============================================================================================|

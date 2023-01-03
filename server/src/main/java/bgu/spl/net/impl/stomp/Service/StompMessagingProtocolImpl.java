@@ -10,12 +10,6 @@ import bgu.spl.net.impl.stomp.Backend.Frames.ExecutableFrame;
 public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
 
     @Override
-    public void start(ConnectionHandler<String> handler, String connectionMessage) {
-        Connections<String> conn = StompFacade.getInstance();
-        conn.connect(handler,connectionMessage);
-    }
-
-    @Override
     public String process(ConnectionHandler<String> handler,String message) {
         ExecutableFrame frame = ExecutableFrame.parse(message);
 
@@ -24,7 +18,7 @@ public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
                                                     ,message,true).toString();
         }
         else{
-            return frame.execute();
+            return frame.execute(handler);
         }
     }
 
