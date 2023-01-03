@@ -2,8 +2,6 @@ package bgu.spl.net.impl.stomp.Service;
 
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.genericServers.interfaces.Connections;
-import bgu.spl.net.impl.stomp.Backend.StompFacade;
 import bgu.spl.net.impl.stomp.Backend.Frames.ErrorFrame;
 import bgu.spl.net.impl.stomp.Backend.Frames.ExecutableFrame;
 

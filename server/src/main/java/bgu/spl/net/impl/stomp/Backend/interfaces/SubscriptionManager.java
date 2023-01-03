@@ -1,11 +1,20 @@
 package bgu.spl.net.impl.stomp.Backend.interfaces;
 
+import java.io.IOException;
+
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
 public interface SubscriptionManager {
     
-    
+    /**
+     * subscribe to a game's channel
+     * @param username
+     * @param topic
+     */
+    public void subscribe(ConnectionHandler<String> handler, int subId, String topic) throws IOException;
+
     /**
      * unsubscribe from a game's channel
      * @param username - the user that wants to unsubscribe
@@ -14,14 +23,5 @@ public interface SubscriptionManager {
      * @throws UserException
      * @throws GameChannelException
      */
-    public void unsubscribe(String username, String topic) throws UserException, GameChannelException;
-
-    /**
-     * subscribe to a game's channel
-     * @param username
-     * @param topic
-     * @throws UserException
-     * @throws GameChannelException
-     */
-    public void subscribe(String username, String topic) throws UserException, GameChannelException;
+    public void unsubscribe(ConnectionHandler<String> handler ,int subId)throws IOException;
 }

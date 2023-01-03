@@ -2,6 +2,7 @@ package bgu.spl.net.impl.stomp.Backend;
 
 import java.util.LinkedList;
 
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.Backend.interfaces.Subscribeable;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 
@@ -15,35 +16,35 @@ public class GameChannel implements Subscribeable{
       /**
      * holds the users subscribed to the channel
      */
-    private final LinkedList<String> subscribedUsers;
+    private final LinkedList<ConnectionHandler<String>> subscribers;
     private final String topic;
 
     public GameChannel(String topic) {
         this.topic = topic;
-        subscribedUsers = new LinkedList<>();
+        subscribers = new LinkedList<>();
     }
 
     /**
      * subscribes the user to the channel
      * @throws GameChannelException
      */
-    public void addSubscriber(String username) throws GameChannelException {
+    public void addSubscriber(ConnectionHandler<String> handler) throws GameChannelException {
 
-        if(subscribedUsers.contains(username))
+        if(subscribers.contains(handler))
             throw new GameChannelException("User already subscribed to channel");
 
-        subscribedUsers.add(username);
+        subscribers.add(handler);
     }
     /**
      * unsubscribes the user from the channel
      * @throws GameChannelException
      */
-    public void removeSubscriber(String username) throws GameChannelException {
+    public void removeSubscriber(ConnectionHandler<String> handler) throws GameChannelException {
 
-        if(!subscribedUsers.contains(username))
+        if(!subscribers.contains(handler))
             throw new GameChannelException("User not subscribed to channel");
 
-        subscribedUsers.remove(username);
+        subscribers.remove(handler);
     }
 
     public String getName() {

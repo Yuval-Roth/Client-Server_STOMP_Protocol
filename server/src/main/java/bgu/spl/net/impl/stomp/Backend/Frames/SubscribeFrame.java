@@ -23,7 +23,7 @@ public class SubscribeFrame extends ExecutableFrame{
 
         try{
             //TODO implement map from connection id to username and replace PLACE_HOLDER
-            subM.subscribe("PLACE_HOLDER",topic);
+            subM.subscribe(handler, id,topic);
             return ReceiptFrame.get(receipt).toString();
         }catch (IOException e){
             return ErrorFrame.get(e.getMessage()).toString();

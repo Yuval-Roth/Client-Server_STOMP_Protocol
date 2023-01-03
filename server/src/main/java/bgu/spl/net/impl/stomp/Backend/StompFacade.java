@@ -1,10 +1,14 @@
 package bgu.spl.net.impl.stomp.Backend;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.genericServers.interfaces.Connections;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionManager;
 import bgu.spl.net.impl.stomp.Backend.interfaces.SubscriptionManager;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
+import bgu.spl.net.impl.stomp.StompExceptions.SubscriptionException;
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
 
@@ -20,11 +24,17 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     private final UserController uc;
     private final GameChannelController gc;
     private final ConnectionController cc;
+    private final SubscriptionController sc;
+
+    private int connectionIdCounter;
     
     private StompFacade() {
         uc = new UserController();
         gc = new GameChannelController();
         cc = new ConnectionController();
+        sc = new SubscriptionController();
+
+        connectionIdCounter = 0;
     }
 
     //===============================================================================================|
@@ -40,38 +50,40 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
         else {
             uc.addUser(username, password);
         }
-        cc.startConnection(handler, username);
+        int connectionId = connectionIdCounter++;
+        cc.startConnection(handler, connectionId, username);
     }
 
     @Override
-    public void disconnect(String username) throws UserException{
+    public void disconnect(ConnectionHandler<String> handler) throws UserException{
 
-        validateUser(username);
+        String username = cc.getUsername(handler);
+        int connectionId = cc.getConnectionId(handler);
 
         uc.logout(username);
-        cc.endConnection(username);
+        cc.endConnection(connectionId);
     }
 
     //===============================================================================================|
     //============================ SubscriptionManager interface methods ============================|
     //===============================================================================================|
 
+    
     @Override
-    public void unsubscribe(String username, String topic) throws GameChannelException, UserException{
-
-        validateUser(username);
+    public void subscribe(ConnectionHandler<String> handler, int subId ,String topic) throws GameChannelException, SubscriptionException{
         
         GameChannel channel = gc.getGameChannel(topic);
-        channel.removeSubscriber(username);
+        channel.addSubscriber(handler);
+        sc.addSub(handler, subId, topic);
     }
-
+    
     @Override
-    public void subscribe(String username ,String topic) throws GameChannelException, UserException{
+    public void unsubscribe(ConnectionHandler<String> handler, int subId) throws GameChannelException, SubscriptionException{
 
-        validateUser(username);
-        
+        String topic = sc.getTopic(handler,subId);
         GameChannel channel = gc.getGameChannel(topic);
-        channel.addSubscriber(username);
+        channel.removeSubscriber(handler);
+        sc.removeSub(handler,subId);
     }
 
     //================================================================================================|
