@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp.Backend.facade_interfaces;
+package bgu.spl.net.impl.stomp.Backend.interfaces;
 
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 

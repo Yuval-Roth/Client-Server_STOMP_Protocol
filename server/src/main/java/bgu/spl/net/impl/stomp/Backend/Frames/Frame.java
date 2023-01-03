@@ -6,8 +6,8 @@ import java.util.List;
 
 import bgu.spl.net.genericServers.interfaces.Connections;
 import bgu.spl.net.impl.stomp.Backend.StompFacade;
-import bgu.spl.net.impl.stomp.Backend.facade_interfaces.ConnectionManager;
-import bgu.spl.net.impl.stomp.Backend.facade_interfaces.SubscriptionManager;
+import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionManager;
+import bgu.spl.net.impl.stomp.Backend.interfaces.SubscriptionManager;
 
 /**
  * Frame is an abstract class that represents a frame in the STOMP protocol.

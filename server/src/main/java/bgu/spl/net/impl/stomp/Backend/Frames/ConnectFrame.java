@@ -19,9 +19,13 @@ public class ConnectFrame extends ExecutableFrame {
         try{
             conM.Connect(username, password);
         }catch(UserException e){
-            return ErrorFrame.generateErrorFrame(e.getMessage()).toString();
+
+            //this is the case where the user is already connected or the password is wrong
+            return ErrorFrame.get(e.getMessage()).toString();
         }
-        return ConnectedFrame.generateConnectedFrame().toString();
+
+        //this is the case where the user is connected successfully
+        return ConnectedFrame.get().toString();
     }
 
 

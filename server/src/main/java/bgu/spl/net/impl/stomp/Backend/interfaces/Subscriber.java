@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp.Backend;
+package bgu.spl.net.impl.stomp.Backend.interfaces;
 
 public interface Subscriber {
 

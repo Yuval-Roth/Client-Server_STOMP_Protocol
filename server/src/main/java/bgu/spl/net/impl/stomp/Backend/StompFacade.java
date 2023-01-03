@@ -1,8 +1,8 @@
 package bgu.spl.net.impl.stomp.Backend;
 
 import bgu.spl.net.genericServers.interfaces.Connections;
-import bgu.spl.net.impl.stomp.Backend.facade_interfaces.ConnectionManager;
-import bgu.spl.net.impl.stomp.Backend.facade_interfaces.SubscriptionManager;
+import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionManager;
+import bgu.spl.net.impl.stomp.Backend.interfaces.SubscriptionManager;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
@@ -52,21 +52,21 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     //===============================================================================================|
 
     @Override
-    public void Unsubscribe(String username,String hometeam, String awayteam) throws GameChannelException, UserException{
+    public void Unsubscribe(int id,String hometeam, String awayteam) throws GameChannelException, UserException{
         
-        validateUser(username);
+        // validateUser(username);
         
-        GameChannel channel = gc.getGameChannel(hometeam, awayteam);
-        channel.removeSubscriber(username);
+        // GameChannel channel = gc.getGameChannel(hometeam, awayteam);
+        // channel.removeSubscriber(username);
     }
 
     @Override
-    public void Subscribe(String username,String hometeam, String awayteam) throws GameChannelException, UserException{
+    public void Subscribe(int id,String hometeam, String awayteam) throws GameChannelException, UserException{
 
-        validateUser(username);
+        // validateUser(username);
         
-        GameChannel channel = gc.getGameChannel(hometeam, awayteam);
-        channel.addSubscriber(username);
+        // GameChannel channel = gc.getGameChannel(hometeam, awayteam);
+        // channel.addSubscriber(username);
     }
 
     //================================================================================================|

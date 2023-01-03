@@ -14,7 +14,7 @@ public class ErrorFrame extends Frame {
      * @param body - the body of the error frame, will be added iff body.length() > 0 
      * @param bodyIsBadFrame - if true, the body will be added as the frame that caused the error
      */
-    public static Frame generateErrorFrame(int receiptId,String message,String body, boolean bodyIsBadFrame) {
+    public static Frame get(int receiptId,String message,String body, boolean bodyIsBadFrame) {
 
         String frame = "ERROR"+NEW_LINE; // command
         if(receiptId >= 0)
@@ -43,9 +43,9 @@ public class ErrorFrame extends Frame {
      * This overload does not add a body and does not add a receipt-id header
      * @param message - the message to be sent in the header
      */
-    public static Frame generateErrorFrame(String message) {
+    public static Frame get(String message) {
 
-        return generateErrorFrame(-1, message, "", false);
+        return get(-1, message, "", false);
     }
 
     /**
@@ -54,9 +54,9 @@ public class ErrorFrame extends Frame {
      * @param message - the message to be sent in the header
      * @param body - the body of the error frame, will be added iff body.length() > 0 
      */
-    public static Frame generateErrorFrame(String message,String body) {
+    public static Frame get(String message,String body) {
 
-        return generateErrorFrame(-1, message, body,false);
+        return get(-1, message, body,false);
     }
 
     /**
@@ -67,9 +67,9 @@ public class ErrorFrame extends Frame {
      * @param bodyIsBadFrame - if true, the body will be added as the frame that caused the error, 
      * if false, the body will be added as a regular string
      */
-    public static Frame generateErrorFrame(String message,String body,boolean bodyIsBadFrame) {
+    public static Frame get(String message,String body,boolean bodyIsBadFrame) {
 
-        return generateErrorFrame(-1, message, body, bodyIsBadFrame);
+        return get(-1, message, body, bodyIsBadFrame);
     }
 
     /**
@@ -79,9 +79,9 @@ public class ErrorFrame extends Frame {
      * @param message - the message to be sent in the header
      * @param badFrame - the frame that caused the error
      */
-    public static Frame generateErrorFrame(String message,Frame badFrame) {
+    public static Frame get(String message,Frame badFrame) {
 
-        return generateErrorFrame(-1,message, badFrame.toString(), true);
+        return get(-1,message, badFrame.toString(), true);
     }
 
     /**
@@ -91,9 +91,9 @@ public class ErrorFrame extends Frame {
      * @param message - the message to be sent in the header
      * @param badFrame - the frame that caused the error
      */
-    public static Frame generateErrorFrame(int receiptId,String message,Frame badFrame) {
+    public static Frame get(int receiptId,String message,Frame badFrame) {
 
-        return generateErrorFrame(receiptId,message, badFrame.toString(),true);
+        return get(receiptId,message, badFrame.toString(),true);
     }
 
 

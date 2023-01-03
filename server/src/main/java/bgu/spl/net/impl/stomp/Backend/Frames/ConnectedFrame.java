@@ -8,7 +8,7 @@ public class ConnectedFrame extends Frame {
         super(headers, frameBody, StompCommand.CONNECTED);
     }
 
-    public static Frame generateConnectedFrame() {
+    public static Frame get() {
         String frame = "CONNECTED"+NEW_LINE; // command
         frame += "version:"+PROTOCOL_VERSION+NEW_LINE;
         frame += NEW_LINE;//end of headers

@@ -8,5 +8,12 @@ public class ReceiptFrame extends Frame {
         super(headers, frameBody, StompCommand.RECEIPT);
         //TODO Auto-generated constructor stub
     }
- 
+    
+    public static Frame get(int receiptId) {
+        String frame = "RECEIPT"+NEW_LINE; // command
+        frame += "receipt-id:"+receiptId+NEW_LINE;
+        frame += NEW_LINE;//end of headers
+        frame += END_OF_FRAME;
+        return Frame.parse(frame);
+    }
 }
