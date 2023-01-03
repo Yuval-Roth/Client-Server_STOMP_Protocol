@@ -22,8 +22,6 @@ public class SubscriptionController {
 
         //if the subId already exists, throw an exception
         if(handlerAndSubIdToTopic.get(handler).containsKey(subId)) {
-
-            //TODO change this to a more specific exception
             throw new SubscriptionException ("SubId already exists");
         }
         
@@ -32,9 +30,13 @@ public class SubscriptionController {
 
     public void removeSub(ConnectionHandler<String> handler, int subId) throws SubscriptionException {
 
-        if(handlerAndSubIdToTopic.get(handler).containsKey(subId) == false) {
+        //if the handler does not exist, throw an exception
+        if(handlerAndSubIdToTopic.containsKey(handler) == false) {
+            throw new SubscriptionException("Handler has no subscriptions");
+        }
 
-            //TODO change this to a more specific exception
+        //if the subId does not exist, throw an exception
+        if(handlerAndSubIdToTopic.get(handler).containsKey(subId) == false) {
             throw new SubscriptionException("SubId does not exist");
         }
     
@@ -43,9 +45,13 @@ public class SubscriptionController {
 
     public String getTopic(ConnectionHandler<String> handler, int subId) throws SubscriptionException {
 
-        if(handlerAndSubIdToTopic.get(handler).containsKey(subId) == false) {
+        //if the handler does not exist, throw an exception
+        if(handlerAndSubIdToTopic.containsKey(handler) == false) {
+            throw new SubscriptionException("Handler has no subscriptions");
+        }
 
-            //TODO change this to a more specific exception
+        //if the subId does not exist, throw an exception
+        if(handlerAndSubIdToTopic.get(handler).containsKey(subId) == false) {
             throw new SubscriptionException("SubId does not exist");
         }
 
