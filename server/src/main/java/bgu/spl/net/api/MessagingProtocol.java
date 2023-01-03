@@ -1,5 +1,7 @@
 package bgu.spl.net.api;
 
+import bgu.spl.net.genericServers.interfaces.Connections;
+
 public interface MessagingProtocol<T> {
 
     /**

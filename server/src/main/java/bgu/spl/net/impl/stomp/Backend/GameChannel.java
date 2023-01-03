@@ -10,7 +10,7 @@ import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
  * the channel is identified by the names of the teams playing in the game
  * the channel holds the users subscribed to it and notifies them when a new message is received
  */
-public class GameChannel /*implements Subscribeable*/{
+public class GameChannel implements Subscribeable{
 
       /**
      * holds the users subscribed to the channel
@@ -29,27 +29,23 @@ public class GameChannel /*implements Subscribeable*/{
      * subscribes the user to the channel
      * @throws GameChannelException
      */
-    public void addSubscriber(int id) throws GameChannelException {
+    public void addSubscriber(String username) throws GameChannelException {
 
-        //TODO: fix to support int id instead of String username
+        if(subscribedUsers.contains(username))
+            throw new GameChannelException("User already subscribed to channel");
 
-        // if(subscribedUsers.contains(username))
-        //     throw new GameChannelException("User already subscribed to channel");
-
-        // subscribedUsers.add(username);
+        subscribedUsers.add(username);
     }
     /**
      * unsubscribes the user from the channel
      * @throws GameChannelException
      */
-    public void removeSubscriber(int id) throws GameChannelException {
+    public void removeSubscriber(String username) throws GameChannelException {
 
-        //TODO: fix to support int id instead of String username
+        if(!subscribedUsers.contains(username))
+            throw new GameChannelException("User not subscribed to channel");
 
-        // if(!subscribedUsers.contains(username))
-        //     throw new GameChannelException("User not subscribed to channel");
-
-        // subscribedUsers.remove(username);
+        subscribedUsers.remove(username);
     }
 
     public String getName() {return home+"_"+away;}

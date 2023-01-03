@@ -14,9 +14,7 @@ public interface SubscriptionManager {
      * @throws UserException
      * @throws GameChannelException
      */
-    public void Unsubscribe(int id/*, String team1, String team2*/) throws UserException, GameChannelException;
-    //TODO: fix to support int id and removal of team1 and team2
-
+    public void unsubscribe(String username, String team1, String team2) throws UserException, GameChannelException;
 
     /**
      * subscribe to a game's channel
@@ -26,5 +24,5 @@ public interface SubscriptionManager {
      * @throws UserException
      * @throws GameChannelException
      */
-    public void Subscribe(int id, String team1, String team2) throws UserException, GameChannelException;
+    public void subscribe(String username, String team1, String team2) throws UserException, GameChannelException;
 }
