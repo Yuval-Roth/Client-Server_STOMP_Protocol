@@ -51,9 +51,8 @@ public class GameChannel implements Subscribeable{
         return topic;
     }
 
-    // @Override // TODO uncomment this when done fixing
+    @Override
     public void notifySubscribers(String message) {
-        // TODO Auto-generated method stub
-        
+        //TODO GameChannel - notifySubscribers     
     }
 }

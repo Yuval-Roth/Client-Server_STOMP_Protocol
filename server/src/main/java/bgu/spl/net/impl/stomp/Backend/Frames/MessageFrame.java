@@ -8,12 +8,11 @@ public class MessageFrame extends ExecutableFrame {
 
     protected MessageFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.MESSAGE);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public String execute(ConnectionHandler<String> handler) {
-        // TODO Auto-generated method stub
+        // TODO MessageFrame - execute
         return null;
     }
 

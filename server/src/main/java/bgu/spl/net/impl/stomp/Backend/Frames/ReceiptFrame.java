@@ -6,7 +6,6 @@ public class ReceiptFrame extends Frame {
 
     protected ReceiptFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.RECEIPT);
-        //TODO Auto-generated constructor stub
     }
     
     public static Frame get(int receiptId) {

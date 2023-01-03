@@ -8,12 +8,11 @@ public class DisconnectFrame extends ExecutableFrame {
 
     protected DisconnectFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.DISCONNECT);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public String execute(ConnectionHandler<String> handler) {
-        // TODO Auto-generated method stub
+        // TODO DisconnectFrame - execute
         return null;
     }
   

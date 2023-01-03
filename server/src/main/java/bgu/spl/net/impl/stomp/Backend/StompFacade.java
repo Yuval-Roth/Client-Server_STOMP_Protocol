@@ -89,19 +89,19 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     
     @Override
     public boolean send(int connectionId, String msg) {
-        // TODO Auto-generated method stub
+        // TODO Connections interface - send(int connectionId, String msg)
         return false;
     }
 
     @Override
     public void send(String channel, String msg) {
-        // TODO Auto-generated method stub
+        // TODO Connections interface - send(String channel, String msg)
         
     }
 
     @Override
     public void disconnect(int connectionId) {
-        // TODO Auto-generated method stub
+        // TODO Connections interface - disconnect(int connectionId)
         
     }
 

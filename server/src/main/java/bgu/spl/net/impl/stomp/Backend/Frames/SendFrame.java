@@ -8,12 +8,11 @@ public class SendFrame extends ExecutableFrame {
 
     protected SendFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.SEND);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public String execute(ConnectionHandler<String> handler) {
-        // TODO Auto-generated method stub
+        // TODO SendFrame - execute
         return null;
     }
 
