@@ -9,6 +9,7 @@ public abstract class Frame {
 
     protected static final StompFacade op = StompFacade.getInstance();
 
+    protected static final double PROTOCOL_VERSION = 1.2;
     protected final static String END_OF_FRAME = "^@";
     protected final static String NEW_LINE = "\n";
     protected final static String HEADER_DELIMITER = ":";
@@ -93,10 +94,6 @@ public abstract class Frame {
     //================================================================================================|
     //==================================== Utility Methods ===========================================|
     //================================================================================================|
-
-    protected String encapsulateBody (String body){
-        return "Received frame was:\n====================\n" + body + "====================\n";
-    }
 
     private void instantiateHeaders(List<HeaderLine> headers){
         this.headers = new HeaderLine[headers.size()];
