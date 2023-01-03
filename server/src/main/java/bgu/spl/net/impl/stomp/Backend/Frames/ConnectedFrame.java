@@ -6,7 +6,6 @@ public class ConnectedFrame extends Frame {
 
     protected ConnectedFrame(List<HeaderLine> headers, String frameBody) {
         super(headers, frameBody, StompCommand.CONNECTED);
-        //TODO Auto-generated constructor stub
     }
 
     public static Frame generateConnectedFrame() {
