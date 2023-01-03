@@ -13,7 +13,7 @@ public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
 
         if(frame == null){
             return ErrorFrame.generateErrorFrame("The frame received does not contain a valid STOMP command"
-                                                    ,frame).getFrameString();
+                                                    ,frame).toString();
         }
         else{
             return frame.execute();

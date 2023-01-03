@@ -13,18 +13,15 @@ public class ConnectFrame extends ExecutableFrame {
     @Override
     public String execute() {
 
-        //TODO - finish the implementation of execute in ConnectFrame
-
         String username = headers[2].headerValue;
         String password = headers[3].headerValue;
 
         try{
             op.Connect(username, password);
         }catch(UserException e){
-            String body = encapsulateBody(getFrameString());
-            return ErrorFrame.generateErrorFrame(e.getMessage(),body).getFrameString();
+            return ErrorFrame.generateErrorFrame(e.getMessage()).toString();
         }
-        return ConnectedFrame.generateConnectedFrame().getFrameString();
+        return ConnectedFrame.generateConnectedFrame().toString();
     }
 
 

@@ -42,7 +42,6 @@ public class ErrorFrame extends Frame {
     /**
      * This overload does not add a body and does not add a receipt-id header
      * @param message - the message to be sent in the header
-     * @return
      */
     public static Frame generateErrorFrame(String message) {
 
@@ -82,7 +81,7 @@ public class ErrorFrame extends Frame {
      */
     public static Frame generateErrorFrame(String message,Frame badFrame) {
 
-        return generateErrorFrame(-1,message, badFrame.getFrameString(), true);
+        return generateErrorFrame(-1,message, badFrame.toString(), true);
     }
 
     /**
@@ -94,7 +93,7 @@ public class ErrorFrame extends Frame {
      */
     public static Frame generateErrorFrame(int receiptId,String message,Frame badFrame) {
 
-        return generateErrorFrame(receiptId,message, badFrame.getFrameString(),true);
+        return generateErrorFrame(receiptId,message, badFrame.toString(),true);
     }
 
 

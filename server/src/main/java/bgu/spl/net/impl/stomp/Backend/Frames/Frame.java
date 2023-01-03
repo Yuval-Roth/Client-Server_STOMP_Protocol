@@ -75,7 +75,8 @@ public abstract class Frame {
         return createFrame(command, headers, frameBody);
     }
 
-    public String getFrameString(){
+    @Override
+    public String toString(){
         String output = "";
         output += command + NEW_LINE;
         for (HeaderLine header : headers){
