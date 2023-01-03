@@ -1,9 +1,9 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
+import java.io.IOException;
 import java.util.List;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
 public class ConnectFrame extends ExecutableFrame {
 
@@ -19,7 +19,7 @@ public class ConnectFrame extends ExecutableFrame {
 
         try{
             conM.connect(handler,username, password);
-        }catch(UserException e){
+        }catch(IOException e){
 
             //this is the case where the user is already connected or the password is wrong
             return ErrorFrame.get(e.getMessage()).toString();
