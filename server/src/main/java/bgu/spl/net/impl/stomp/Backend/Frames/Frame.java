@@ -29,7 +29,7 @@ public abstract class Frame {
         CONNECT, CONNECTED, SEND, SUBSCRIBE, UNSUBSCRIBE, DISCONNECT, MESSAGE, RECEIPT, ERROR
     }
 
-    protected static class HeaderLine{
+    public static class HeaderLine{
         public final String headerName;
         public final String headerValue;
 
@@ -48,11 +48,21 @@ public abstract class Frame {
     protected StompCommand command;
     protected HeaderLine[] headers;
     protected String frameBody;
-
-
+    
+    
+    public StompCommand getCommand() {
+        return command;
+    }
+    public HeaderLine[] getHeaders() {
+        return headers;
+    }
+    public String getFrameBody() {
+        return frameBody;
+    }
     //================================================================================================|
     //=================================== Main Methods  ==============================================|
     //================================================================================================|
+
 
     /**
      * Create a frame according to the command received

@@ -22,7 +22,7 @@ public class UnsubscribeFrame extends ExecutableFrame {
         try{
 
             //TODO implement map from connection id to username and replace PLACE_HOLDER
-            subM.unsubscribe("PLACE_HOLDER","PLACE_HOLDER","PLACE_HOLDER");
+            subM.unsubscribe("PLACE_HOLDER","PLACE_HOLDER");
             return ReceiptFrame.get(receipt).toString();
         }catch (IOException e){
             return ErrorFrame.get(e.getMessage()).toString();

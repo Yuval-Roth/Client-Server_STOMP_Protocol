@@ -17,7 +17,7 @@ public class ConnectFrame extends ExecutableFrame {
         String password = headers[3].headerValue;
 
         try{
-            conM.Connect(username, password);
+            conM.loginIn(username, password);
         }catch(UserException e){
 
             //this is the case where the user is already connected or the password is wrong

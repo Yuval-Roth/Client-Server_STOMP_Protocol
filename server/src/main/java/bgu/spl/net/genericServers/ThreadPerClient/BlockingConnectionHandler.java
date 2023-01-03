@@ -31,11 +31,23 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
 
     @Override
     public void run() {
+
+        
         try (Socket sock = this.sock) { //just for automatic closing
             int read;
-
+            
             in = new BufferedInputStream(sock.getInputStream());
             out = new BufferedOutputStream(sock.getOutputStream());
+            
+
+            //======== do this to start the connection =======|
+            read = in.read();
+            T connectionMessage = null;
+            while(connectionMessage == null){
+                connectionMessage = encdec.decodeNextByte((byte) read);
+            }
+            protocol.start(this,connectionMessage);
+            //================================================|
             
             while (!protocol.shouldTerminate() && connected) {
 

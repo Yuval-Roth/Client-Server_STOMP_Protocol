@@ -15,52 +15,32 @@ public class GameChannelController {
         gameChannels = new HashMap<String,GameChannel>();
     }
 
-    public void addGameChannel(String team1, String team2) throws GameChannelException {
+    public void addGameChannel(String topic) throws GameChannelException {
 
-        String name = parseName(team1, team2);
-
-        if (gameChannels.containsKey(name)) {
-            throw new GameChannelException("Game already exists");
+        if (gameChannels.containsKey(topic)) {
+            throw new GameChannelException("Channel already exists");
         }
-        gameChannels.put(name, new GameChannel(team1, team2));
+        gameChannels.put(topic, new GameChannel(topic));
     }
 
-    public void removeGameChannel(String team1, String team2) throws GameChannelException {
+    public void removeGameChannel(String topic) throws GameChannelException {
 
-        String name = parseName(team1, team2);
-
-        if (!gameChannels.containsKey(name)) {
-            throw new GameChannelException("Game does not exist");
+        if (!gameChannels.containsKey(topic)) {
+            throw new GameChannelException("Channel does not exist");
         }
-        gameChannels.remove(name);
+        gameChannels.remove(topic);
     }
 
-    public boolean containsGameChannel(String team1, String team2) {
+    public boolean containsGameChannel(String topic) {
 
-        String name = parseName(team1, team2);
-        
-        return gameChannels.containsKey(name);
+        return gameChannels.containsKey(topic);
     }
 
-    public GameChannel getGameChannel(String team1, String team2) throws GameChannelException {
+    public GameChannel getGameChannel(String topic) throws GameChannelException {
 
-        String name = parseName(team1, team2);
-
-        if (!gameChannels.containsKey(name)) {
-            throw new GameChannelException("Game does not exist");
+        if (!gameChannels.containsKey(topic)) {
+            throw new GameChannelException("Channel does not exist");
         }
-        return gameChannels.get(name);
-    }
-
-    private String parseName(String team1, String team2) {
-        if (team1.compareTo(team2) < 0) {
-            return team1+"_"+team2;
-        }
-        else if (team1.compareTo(team2) > 0){
-            return team2+"_"+team1;
-        }
-        else {
-            throw new IllegalArgumentException("Team names are the same");
-        }
+        return gameChannels.get(topic);
     }
 }

@@ -12,20 +12,16 @@ public class SubscribeFrame extends ExecutableFrame{
     @Override
     public String execute() {
 
-        String[] destination = /*Arrays.stream(*/headers[0].headerValue.split("/")/*)*//*.filter(s -> !s.isEmpty()).toArray(String[]::new)*/;
+        String topic = headers[0].headerValue;
         
         //TODO: figure out what to do with this id header and how to map it to a connection id
         int id = Integer.parseInt(headers[1].headerValue);
 
         int receipt = Integer.parseInt(headers[2].headerValue);
 
-        //TODO: check if we need to support sub topics
-        String mainTopic = destination[0];
-        String team1 = mainTopic.split("_")[0];
-        String team2 = mainTopic.split("_")[1];
         try{
             //TODO implement map from connection id to username and replace PLACE_HOLDER
-            subM.subscribe("PLACE_HOLDER", team1,team2);
+            subM.subscribe("PLACE_HOLDER",topic);
             return ReceiptFrame.get(receipt).toString();
         }catch (IOException e){
             return ErrorFrame.get(e.getMessage()).toString();

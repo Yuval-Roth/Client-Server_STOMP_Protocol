@@ -2,6 +2,7 @@ package bgu.spl.net.impl.stomp.Backend;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.genericServers.interfaces.Connections;
+import bgu.spl.net.impl.stomp.Backend.Frames.ExecutableFrame;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionManager;
 import bgu.spl.net.impl.stomp.Backend.interfaces.SubscriptionManager;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
@@ -30,7 +31,7 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     //===============================================================================================|
 
     @Override
-    public void Connect(String username, String password) throws UserException{
+    public void loginIn(String username, String password) throws UserException{
         
         if(uc.containsUser(username)) {
             uc.login(username, password);
@@ -41,17 +42,11 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     }
 
     @Override
-    public void Disconnect(String username) throws UserException{
+    public void logOut(String username) throws UserException{
 
         validateUser(username);
 
         uc.logout(username);
-    }
-
-    @Override
-    public void Connect(ConnectionHandler<String> handler) {
-        // TODO Auto-generated method stub
-        
     }
 
     //===============================================================================================|
@@ -59,27 +54,27 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     //===============================================================================================|
 
     @Override
-    public void unsubscribe(String username, String hometeam, String awayteam) throws GameChannelException, UserException{
+    public void unsubscribe(String username, String topic) throws GameChannelException, UserException{
 
         validateUser(username);
         
-        GameChannel channel = gc.getGameChannel(hometeam, awayteam);
+        GameChannel channel = gc.getGameChannel(topic);
         channel.removeSubscriber(username);
     }
 
     @Override
-    public void subscribe(String username ,String hometeam, String awayteam) throws GameChannelException, UserException{
+    public void subscribe(String username ,String topic) throws GameChannelException, UserException{
 
         validateUser(username);
         
-        GameChannel channel = gc.getGameChannel(hometeam, awayteam);
+        GameChannel channel = gc.getGameChannel(topic);
         channel.addSubscriber(username);
     }
 
     //================================================================================================|
     //============================ Connections interface methods =====================================|
     //================================================================================================|
-
+    
     @Override
     public boolean send(int connectionId, String msg) {
         // TODO Auto-generated method stub
@@ -96,6 +91,15 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     public void disconnect(int connectionId) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public void connect(ConnectionHandler<String> handler, String connectionMessage) {
+        ExecutableFrame frame = ExecutableFrame.parse(connectionMessage);
+        String username = frame.getHeaders()[2].headerValue;
+        
+
+        frame.execute();
     }
 
     //===============================================================================================|

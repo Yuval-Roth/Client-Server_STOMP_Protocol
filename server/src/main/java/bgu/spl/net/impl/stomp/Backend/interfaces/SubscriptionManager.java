@@ -14,15 +14,14 @@ public interface SubscriptionManager {
      * @throws UserException
      * @throws GameChannelException
      */
-    public void unsubscribe(String username, String team1, String team2) throws UserException, GameChannelException;
+    public void unsubscribe(String username, String topic) throws UserException, GameChannelException;
 
     /**
      * subscribe to a game's channel
-     * @param username - the user that wants to subscribe
-     * @param team1 - any of the teams in the game
-     * @param team2 - any of the teams in the game
+     * @param username
+     * @param topic
      * @throws UserException
      * @throws GameChannelException
      */
-    public void subscribe(String username, String team1, String team2) throws UserException, GameChannelException;
+    public void subscribe(String username, String topic) throws UserException, GameChannelException;
 }

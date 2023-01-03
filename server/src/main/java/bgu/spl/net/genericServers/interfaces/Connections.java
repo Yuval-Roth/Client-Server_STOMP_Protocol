@@ -8,5 +8,5 @@ public interface Connections<T> {
 
     void disconnect(int connectionId);
 
-    void Connect(ConnectionHandler<T> handler);
+    void connect(ConnectionHandler<T> handler, T connectionMessage);
 }

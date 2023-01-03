@@ -5,10 +5,10 @@ import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 public interface MessagingProtocol<T> {
 
     /**
-     * start the protocol with the given handler
-     * @param handler
+     * start the protocol with the given connection handler
+     * @param handler the connection handler to use
      */
-    void start(ConnectionHandler<T> handler);
+    void start(ConnectionHandler<T> handler, T connectionMessage);
     
     /**
      * process the given message 

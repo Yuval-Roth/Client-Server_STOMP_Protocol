@@ -16,12 +16,10 @@ public class GameChannel implements Subscribeable{
      * holds the users subscribed to the channel
      */
     private final LinkedList<String> subscribedUsers;
-    private final String home;
-    private final String away;
+    private final String topic;
 
-    public GameChannel(String home, String away) {
-        this.home = home;
-        this.away = away;
+    public GameChannel(String topic) {
+        this.topic = topic;
         subscribedUsers = new LinkedList<>();
     }
 
@@ -48,7 +46,9 @@ public class GameChannel implements Subscribeable{
         subscribedUsers.remove(username);
     }
 
-    public String getName() {return home+"_"+away;}
+    public String getName() {
+        return topic;
+    }
 
     // @Override // TODO uncomment this when done fixing
     public void notifySubscribers(String message) {

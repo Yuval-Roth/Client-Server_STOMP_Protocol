@@ -9,11 +9,11 @@ public interface ConnectionManager {
      * @param username
      * @param password
      */
-    public void Connect(String username, String password) throws UserException;
+    public void loginIn(String username, String password) throws UserException;
 
     /**
      * Disconnect a user from the server
      * @param username
      */
-    public void Disconnect(String username) throws UserException;
+    public void logOut(String username) throws UserException;
 }
