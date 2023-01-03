@@ -1,5 +1,6 @@
 package bgu.spl.net.impl.stomp.Backend;
 
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.genericServers.interfaces.Connections;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionManager;
 import bgu.spl.net.impl.stomp.Backend.interfaces.SubscriptionManager;
@@ -45,6 +46,12 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
         validateUser(username);
 
         uc.logout(username);
+    }
+
+    @Override
+    public void Connect(ConnectionHandler<String> handler) {
+        // TODO Auto-generated method stub
+        
     }
 
     //===============================================================================================|

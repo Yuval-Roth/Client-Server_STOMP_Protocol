@@ -1,9 +1,15 @@
 package bgu.spl.net.api;
 
-import bgu.spl.net.genericServers.interfaces.Connections;
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 public interface MessagingProtocol<T> {
 
+    /**
+     * start the protocol with the given handler
+     * @param handler
+     */
+    void start(ConnectionHandler<T> handler);
+    
     /**
      * process the given message 
      * @param msg the received message
