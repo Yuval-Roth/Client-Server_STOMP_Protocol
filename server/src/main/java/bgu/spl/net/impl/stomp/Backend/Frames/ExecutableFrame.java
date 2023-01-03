@@ -14,7 +14,7 @@ public abstract class ExecutableFrame extends Frame {
     public abstract String execute();
 
     public static ExecutableFrame parse(String messageToParse){
-        
+
         Frame frame = Frame.parse(messageToParse);
 
         if(frame == null)

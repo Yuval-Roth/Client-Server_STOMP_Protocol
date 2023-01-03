@@ -93,6 +93,10 @@ public abstract class Frame {
     //==================================== Utility Methods ===========================================|
     //================================================================================================|
 
+    protected String encapsulateBody (String body){
+        return "Received frame was:\n====================\n" + body + "====================\n";
+    }
+
     private void instantiateHeaders(List<HeaderLine> headers){
         this.headers = new HeaderLine[headers.size()];
         Iterator<HeaderLine> iter = headers.iterator();

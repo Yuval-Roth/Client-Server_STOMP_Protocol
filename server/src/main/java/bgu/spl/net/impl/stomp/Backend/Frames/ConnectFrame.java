@@ -21,7 +21,8 @@ public class ConnectFrame extends ExecutableFrame {
         try{
             op.Connect(username, password);
         }catch(UserException e){
-            // return ErrorFrame.generateInvalidCommandError("CONNECT").getFrameString();
+            String body = encapsulateBody(getFrameString());
+            return ErrorFrame.generateErrorFrame(e.getMessage(),body).getFrameString();
         }
         return ConnectedFrame.generateConnectedFrame().getFrameString();
     }
