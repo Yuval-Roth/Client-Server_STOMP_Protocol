@@ -1,11 +1,9 @@
 package bgu.spl.net.impl.stomp.Backend;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.genericServers.interfaces.Connections;
+import bgu.spl.net.impl.stomp.Backend.interfaces.ChannelsManager;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionsManager;
-import bgu.spl.net.impl.stomp.Backend.interfaces.SubscriptionManager;
-import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
-import bgu.spl.net.impl.stomp.StompExceptions.SubscriptionException;
+import bgu.spl.net.impl.stomp.StompExceptions.ChannelException;
 import bgu.spl.net.impl.stomp.StompExceptions.UserException;
 
 
@@ -14,22 +12,20 @@ import bgu.spl.net.impl.stomp.StompExceptions.UserException;
  * It implements the Connections interface, the ConnectionManager interface and the SubscriptionManager interface.
  * It is a singleton class.
  */
-public class StompFacade implements Connections<String>, ConnectionsManager, SubscriptionManager {
+public class StompFacade implements ChannelsManager<String>, ConnectionsManager {
     
     private static StompFacade instance = null;
     
     private final UserController uc;
-    private final GameChannelController gc;
-    private final ChannelController sc;
-    private final SessionController sesc;
+    private final ChannelController cc;
+    private final SessionController sc;
 
     private int connectionIdCounter;
     
     private StompFacade() {
         uc = new UserController();
-        gc = new GameChannelController();
-        sc = new ChannelController();
-        sesc = new SessionController();
+        cc = new ChannelController();
+        sc = new SessionController();
 
         connectionIdCounter = 0;
     }
@@ -49,64 +45,42 @@ public class StompFacade implements Connections<String>, ConnectionsManager, Sub
         }
         int connectionId = connectionIdCounter++;
 
-        sesc.newSession(handler,connectionId, username);
+        sc.newSession(handler,connectionId, username);
     }
 
     @Override
     public void disconnect(ConnectionHandler<String> handler) throws UserException{
 
-        Session s = sesc.getSession(handler);
+        Session s = sc.getSession(handler);
         String username = s.getUsername();
-        sesc.closeSession(handler);
+        sc.closeSession(handler);
         uc.logout(username);
 
     }
 
     //===============================================================================================|
-    //============================ SubscriptionManager interface methods ============================|
+    //============================== ChannelsManager interface methods ==============================|
     //===============================================================================================|
 
-    
     @Override
-    public void subscribe(ConnectionHandler<String> handler, int subId ,String topic) throws GameChannelException, SubscriptionException{
-        
-        if(gc.containsGameChannel(topic) == false) {
-            gc.addGameChannel(topic);
-        }
-
-        GameChannel channel = gc.getGameChannel(topic);
-        channel.addSubscriber(handler);
-        sc.addSub(handler, subId, topic);
-    }
-    
-    @Override
-    public void unsubscribe(ConnectionHandler<String> handler, int subId) throws GameChannelException, SubscriptionException{
-
-        String topic = sc.getTopic(handler,subId);
-        GameChannel channel = gc.getGameChannel(topic);
-        channel.removeSubscriber(handler);
-        sc.removeSub(handler,subId);
-    }
-
-    //================================================================================================|
-    //============================ Connections interface methods =====================================|
-    //================================================================================================|
-    
-    @Override
-    public boolean send(int connectionId, String msg) {
-        // TODO Connections interface - send(int connectionId, String msg)
-        return false;
+    public void subscribe(ConnectionHandler<String> handler, int subId, String channel) throws ChannelException {
+        cc.subscribe(handler, subId, channel);
     }
 
     @Override
-    public void send(String channel, String msg) {
-        // TODO Connections interface - send(String channel, String msg)
+    public void unsubscribe(ConnectionHandler<String> handler, int subId) throws ChannelException {
+        cc.unsubscribe(handler, subId);
+    }
+
+    @Override
+    public void whisper(ConnectionHandler<String> handler, String msg) {
+        // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void disconnect(int connectionId) {
-        // TODO Connections interface - disconnect(int connectionId)
+    public void broadcast(String channel, String msg) {
+        // TODO Auto-generated method stub
         
     }
 

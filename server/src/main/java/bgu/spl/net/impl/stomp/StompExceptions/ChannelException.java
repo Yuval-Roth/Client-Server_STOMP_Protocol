@@ -2,9 +2,9 @@ package bgu.spl.net.impl.stomp.StompExceptions;
 
 import java.io.IOException;
 
-public class GameChannelException extends IOException{
+public class ChannelException extends IOException{
     
-    public GameChannelException(String message) {
+    public ChannelException(String message) {
         super(message);
     }
 }

@@ -1,63 +1,82 @@
 package bgu.spl.net.impl.stomp.Backend;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.impl.stomp.StompExceptions.SubscriptionException;
+import bgu.spl.net.impl.stomp.Backend.interfaces.ChannelsManager;
+import bgu.spl.net.impl.stomp.StompExceptions.ChannelException;
 
-public class ChannelController {
+public class ChannelController implements ChannelsManager<String> {
 
-    private final HashMap<ConnectionHandler<String>, HashMap<Integer,String>> handlerAndSubIdToTopic;
+    private final HashMap<String, HashSet<ConnectionHandler<String>>> channelToHandlers;
+    private final HashMap<ConnectionHandler<String>, HashMap<Integer,String>> handlerAndSubIdToChannel;
 
     public ChannelController() {
-        handlerAndSubIdToTopic = new HashMap<>();
+        channelToHandlers = new HashMap<>();
+        handlerAndSubIdToChannel = new HashMap<>();
     }
 
-    public void addSub(ConnectionHandler<String> handler, int subId, String topic) throws SubscriptionException {
-
-        //if the handler is not in the map, add it
-        if (!handlerAndSubIdToTopic.containsKey(handler) == false) {
-            handlerAndSubIdToTopic.put(handler, new HashMap<>());
-        }
-
-        //if the subId already exists, throw an exception
-        if(handlerAndSubIdToTopic.get(handler).containsKey(subId)) {
-            throw new SubscriptionException ("SubId already exists");
-        }
+    @Override
+    public void subscribe(ConnectionHandler<String> handler, int subId, String channel) throws ChannelException {
         
-        handlerAndSubIdToTopic.get(handler).put(subId, topic);
+        // if channel doesn't exist, create it
+        if(channelToHandlers.containsKey(channel) == false){
+            channelToHandlers.put(channel, new HashSet<>());
+        }
+
+        // if handler doesn't exist, add it
+        if(handlerAndSubIdToChannel.containsKey(handler) == false){
+            handlerAndSubIdToChannel.put(handler, new HashMap<>());
+        }
+
+        // if handler is already subscribed to channel, throw exception
+        if(channelToHandlers.get(channel).contains(handler) == true){
+            throw new ChannelException("handler is already subscribed to channel");
+        }
+
+        // if subId already exists, throw exception
+        if(handlerAndSubIdToChannel.get(handler).containsKey(subId) == true){
+            throw new ChannelException("subId already exists");
+        }
+
+        // success
+        handlerAndSubIdToChannel.get(handler).put(subId, channel);
     }
 
-    public void removeSub(ConnectionHandler<String> handler, int subId) throws SubscriptionException {
+    @Override
+    public void unsubscribe(ConnectionHandler<String> handler, int subId) throws ChannelException {
 
-        //if the handler does not exist, throw an exception
-        if(handlerAndSubIdToTopic.containsKey(handler) == false) {
-            throw new SubscriptionException("Handler has no subscriptions");
+        // if handler doesn't exist, throw exception
+        if(handlerAndSubIdToChannel.containsKey(handler) == false){
+            throw new ChannelException("handler doesn't exist");
         }
 
-        //if the subId does not exist, throw an exception
-        if(handlerAndSubIdToTopic.get(handler).containsKey(subId) == false) {
-            throw new SubscriptionException("SubId does not exist");
+        // if subId doesn't exist, throw exception
+        if(handlerAndSubIdToChannel.get(handler).containsKey(subId) == false){
+            throw new ChannelException("subId doesn't exist");
         }
-    
-        handlerAndSubIdToTopic.get(handler).remove(subId);
+
+        // if handler is not subscribed to channel, throw exception
+        if (channelToHandlers.get(handlerAndSubIdToChannel.get(handler).get(subId)).contains(handler) == false){
+            throw new ChannelException("handler is not subscribed to channel");
+        }
+
+        // success
+        String channel = handlerAndSubIdToChannel.get(handler).get(subId);
+        channelToHandlers.get(channel).remove(handler);     
+        handlerAndSubIdToChannel.get(handler).remove(subId);
     }
 
-    public String getTopic(ConnectionHandler<String> handler, int subId) throws SubscriptionException {
-
-        //if the handler does not exist, throw an exception
-        if(handlerAndSubIdToTopic.containsKey(handler) == false) {
-            throw new SubscriptionException("Handler has no subscriptions");
-        }
-
-        //if the subId does not exist, throw an exception
-        if(handlerAndSubIdToTopic.get(handler).containsKey(subId) == false) {
-            throw new SubscriptionException("SubId does not exist");
-        }
-
-        return handlerAndSubIdToTopic.get(handler).get(subId);
+    @Override
+    public void whisper(ConnectionHandler<String> handler, String msg) {
+        handler.send(msg);
     }
 
-
-
+    @Override
+    public void broadcast(String channel, String msg) {
+        for(ConnectionHandler<String> handler : channelToHandlers.get(channel)){
+            handler.send(msg);
+        }
+    }
 }
