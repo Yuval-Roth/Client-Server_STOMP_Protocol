@@ -4,7 +4,7 @@ import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ChannelsManager;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionsManager;
 import bgu.spl.net.impl.stomp.StompExceptions.ChannelException;
-import bgu.spl.net.impl.stomp.StompExceptions.UserException;
+import bgu.spl.net.impl.stomp.StompExceptions.ConnectionException;
 
 
 /**
@@ -35,7 +35,7 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager 
     //===============================================================================================|
 
     @Override
-    public void connect(ConnectionHandler<String> handler,String username, String password) throws UserException{
+    public void connect(ConnectionHandler<String> handler,String username, String password) throws ConnectionException{
         
         if(uc.containsUser(username)) {
             uc.login(username, password);
@@ -49,13 +49,12 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager 
     }
 
     @Override
-    public void disconnect(ConnectionHandler<String> handler) throws UserException{
+    public void disconnect(ConnectionHandler<String> handler) throws ConnectionException{
 
         Session s = sc.getSession(handler);
         String username = s.getUsername();
         sc.closeSession(handler);
         uc.logout(username);
-
     }
 
     //===============================================================================================|
@@ -91,14 +90,14 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager 
     /**
      * Validate that the user exists and is logged in
      * @param username
-     * @throws UserException
+     * @throws ConnectionException
      */
-    private void validateUser(String username) throws UserException {
+    private void validateUser(String username) throws ConnectionException {
         if(uc.containsUser(username) == false) {
-            throw new UserException("User does not exist");
+            throw new ConnectionException("User does not exist");
         }
         if(uc.isLoggedIn(username) == false) {
-            throw new UserException("User is not logged in");
+            throw new ConnectionException("User is not logged in");
         }
     }
 

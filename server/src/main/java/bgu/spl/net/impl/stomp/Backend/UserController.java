@@ -3,7 +3,7 @@ package bgu.spl.net.impl.stomp.Backend;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import bgu.spl.net.impl.stomp.StompExceptions.UserException;
+import bgu.spl.net.impl.stomp.StompExceptions.ConnectionException;
 
 
 /**
@@ -19,10 +19,10 @@ public class UserController {
         loggedInUsers = new HashSet<String>();
     }
 
-    public void addUser(String username, String password) throws UserException {
+    public void addUser(String username, String password) throws ConnectionException {
         username = username.toLowerCase(); // Is this necessary? 
         if (users.containsKey(username)) {
-            throw new UserException("User already exists");
+            throw new ConnectionException("User already exists");
         }
         users.put(username, password);
     }
@@ -33,27 +33,27 @@ public class UserController {
         return users.containsKey(username);
     }
 
-    public void login(String username, String password) throws UserException {
+    public void login(String username, String password) throws ConnectionException {
         username = username.toLowerCase();
 
         if (loggedInUsers.contains(username)) {
-            throw new UserException("User already logged in");
+            throw new ConnectionException("User already logged in");
         }
         else {
             if(users.get(username).equals(password)) {
                 loggedInUsers.add(username);
             }
             else {
-                throw new UserException("Wrong password");
+                throw new ConnectionException("Wrong password");
             }
         }
     }
 
-    public void logout(String username) throws UserException {
+    public void logout(String username) throws ConnectionException {
         username = username.toLowerCase();
 
         if (!loggedInUsers.contains(username)) {
-            throw new UserException("User not logged in");
+            throw new ConnectionException("User not logged in");
         }
         else {
             loggedInUsers.remove(username);

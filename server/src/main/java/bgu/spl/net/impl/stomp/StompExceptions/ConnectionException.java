@@ -2,9 +2,9 @@ package bgu.spl.net.impl.stomp.StompExceptions;
 
 import java.io.IOException;
 
-public class UserException extends IOException {
+public class ConnectionException extends IOException {
 
-    public UserException(String message) {
+    public ConnectionException(String message) {
         super(message);
     }
 }

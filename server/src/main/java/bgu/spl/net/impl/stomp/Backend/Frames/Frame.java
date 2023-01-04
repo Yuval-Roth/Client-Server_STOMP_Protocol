@@ -3,7 +3,6 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import bgu.spl.net.genericServers.interfaces.Connections;
 import bgu.spl.net.impl.stomp.Backend.StompFacade;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ChannelsManager;
 import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionsManager;
