@@ -2,7 +2,7 @@ package bgu.spl.net.impl.stomp.Backend;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.genericServers.interfaces.Connections;
-import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionManager;
+import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionsManager;
 import bgu.spl.net.impl.stomp.Backend.interfaces.SubscriptionManager;
 import bgu.spl.net.impl.stomp.StompExceptions.GameChannelException;
 import bgu.spl.net.impl.stomp.StompExceptions.SubscriptionException;
@@ -14,7 +14,7 @@ import bgu.spl.net.impl.stomp.StompExceptions.UserException;
  * It implements the Connections interface, the ConnectionManager interface and the SubscriptionManager interface.
  * It is a singleton class.
  */
-public class StompFacade implements Connections<String>, ConnectionManager, SubscriptionManager {
+public class StompFacade implements Connections<String>, ConnectionsManager, SubscriptionManager {
     
     private static StompFacade instance = null;
     

@@ -3,7 +3,7 @@ package bgu.spl.net.impl.stomp.Backend.interfaces;
 import java.io.IOException;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
-public interface ConnectionManager {
+public interface ConnectionsManager {
 
     /**
      * Connect a user to the server
