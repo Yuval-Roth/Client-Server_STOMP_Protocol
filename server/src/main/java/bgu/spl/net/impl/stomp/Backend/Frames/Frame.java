@@ -15,7 +15,7 @@ import bgu.spl.net.impl.stomp.Backend.StompFacade;
 public abstract class Frame {
 
     protected static final ChannelsManager<String> subM = StompFacade.getInstance();
-    protected static final ConnectionsManager conM = StompFacade.getInstance();
+    protected static final ConnectionsManager<String> conM = StompFacade.getInstance();
 
     protected static final double PROTOCOL_VERSION = 1.2;
     protected static final String END_OF_FRAME = "^@";
