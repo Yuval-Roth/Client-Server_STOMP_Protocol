@@ -5,11 +5,11 @@ import java.util.HashMap;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.StompExceptions.SubscriptionException;
 
-public class SubscriptionController {
+public class ChannelController {
 
     private final HashMap<ConnectionHandler<String>, HashMap<Integer,String>> handlerAndSubIdToTopic;
 
-    public SubscriptionController() {
+    public ChannelController() {
         handlerAndSubIdToTopic = new HashMap<>();
     }
 

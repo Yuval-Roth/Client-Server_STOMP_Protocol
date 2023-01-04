@@ -20,16 +20,16 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     
     private final UserController uc;
     private final GameChannelController gc;
-    private final ConnectionController cc;
-    private final SubscriptionController sc;
+    private final ChannelController sc;
+    private final SessionController sesc;
 
     private int connectionIdCounter;
     
     private StompFacade() {
         uc = new UserController();
         gc = new GameChannelController();
-        cc = new ConnectionController();
-        sc = new SubscriptionController();
+        sc = new ChannelController();
+        sesc = new SessionController();
 
         connectionIdCounter = 0;
     }
@@ -48,17 +48,18 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
             uc.addUser(username, password);
         }
         int connectionId = connectionIdCounter++;
-        cc.startConnection(handler, connectionId, username);
+
+        sesc.newSession(handler,connectionId, username);
     }
 
     @Override
     public void disconnect(ConnectionHandler<String> handler) throws UserException{
 
-        String username = cc.getUsername(handler);
-        int connectionId = cc.getConnectionId(handler);
-
+        Session s = sesc.getSession(handler);
+        String username = s.getUsername();
+        sesc.closeSession(handler);
         uc.logout(username);
-        cc.endConnection(connectionId);
+
     }
 
     //===============================================================================================|

@@ -49,7 +49,6 @@ public class UserController {
         }
     }
 
-
     public void logout(String username) throws UserException {
         username = username.toLowerCase();
 
