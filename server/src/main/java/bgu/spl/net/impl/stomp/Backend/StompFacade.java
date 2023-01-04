@@ -69,6 +69,10 @@ public class StompFacade implements Connections<String>, ConnectionManager, Subs
     @Override
     public void subscribe(ConnectionHandler<String> handler, int subId ,String topic) throws GameChannelException, SubscriptionException{
         
+        if(gc.containsGameChannel(topic) == false) {
+            gc.addGameChannel(topic);
+        }
+
         GameChannel channel = gc.getGameChannel(topic);
         channel.addSubscriber(handler);
         sc.addSub(handler, subId, topic);
