@@ -1,22 +1,26 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 public class SubscribeFrame extends ExecutableFrame{
 
-    protected SubscribeFrame(List<HeaderLine> headers, String frameBody) {
+    private static String TOPIC_FIELD = "destination";
+    private static String ID_FIELD = "id";
+    private static String RECEIPT_FIELD = "receipt";
+
+    protected SubscribeFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.SUBSCRIBE);
     }
 
     @Override
     public String execute(ConnectionHandler<String> handler) {
 
-        String topic = headers[0].headerValue;
-        int id = Integer.parseInt(headers[1].headerValue);
-        int receipt = Integer.parseInt(headers[2].headerValue);
+        String topic = headers.get(TOPIC_FIELD);
+        int id = Integer.parseInt(headers.get(ID_FIELD));
+        int receipt = Integer.parseInt(headers.get(RECEIPT_FIELD));
 
         try{
             subM.subscribe(handler, id,topic);

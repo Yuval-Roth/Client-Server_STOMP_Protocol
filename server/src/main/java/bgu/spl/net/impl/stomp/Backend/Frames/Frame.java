@@ -1,8 +1,7 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import bgu.spl.net.genericServers.interfaces.Connections;
 import bgu.spl.net.impl.stomp.Backend.StompFacade;
@@ -21,44 +20,24 @@ public abstract class Frame {
     protected static final ConnectionManager conM = StompFacade.getInstance();
 
     protected static final double PROTOCOL_VERSION = 1.2;
-    protected final static String END_OF_FRAME = "^@";
-    protected final static String NEW_LINE = "\n";
-    protected final static String HEADER_DELIMITER = ":";
+    protected static final String END_OF_FRAME = "^@";
+    protected static final String NEW_LINE = "\n";
+    protected static final String HEADER_DELIMITER = ":";
 
     protected enum StompCommand {
         CONNECT, CONNECTED, SEND, SUBSCRIBE, UNSUBSCRIBE, DISCONNECT, MESSAGE, RECEIPT, ERROR
     }
 
-    public static class HeaderLine{
-        public final String headerName;
-        public final String headerValue;
-
-        public HeaderLine(String key, String value) {
-            this.headerName = key;
-            this.headerValue = value;
-        }
-    }
-
-    protected Frame(List<HeaderLine> headers, String frameBody, StompCommand command){
-        instantiateHeaders(headers);
+    protected Frame(HashMap<String,String> headers, String frameBody, StompCommand command){
+        this.headers = headers;
         this.frameBody = frameBody;
         this.command = command;
     }
 
     protected StompCommand command;
-    protected HeaderLine[] headers;
+    protected HashMap<String,String> headers;
     protected String frameBody;
     
-    
-    public StompCommand getCommand() {
-        return command;
-    }
-    public HeaderLine[] getHeaders() {
-        return headers;
-    }
-    public String getFrameBody() {
-        return frameBody;
-    }
     //================================================================================================|
     //=================================== Main Methods  ==============================================|
     //================================================================================================|
@@ -73,12 +52,12 @@ public abstract class Frame {
         StompCommand command = StompCommand.valueOf(frameParameters[0]); // parse command
 
         // parse headers
-        List<HeaderLine> headers = new LinkedList<HeaderLine>();
+        HashMap<String,String> headers = new HashMap<String,String>();
         int frameParametersLine = 1;
         while (!frameParameters[frameParametersLine].trim().equals(""))
         {
             String[] header = frameParameters[frameParametersLine].split(HEADER_DELIMITER);
-            headers.add(new HeaderLine(header[0], header[1]));
+            headers.put(header[0], header[1]);
             frameParametersLine++;
         }
         frameParametersLine++;
@@ -101,8 +80,11 @@ public abstract class Frame {
     public String toString(){
         String output = "";
         output += command + NEW_LINE;
-        for (HeaderLine header : headers){
-            output += header.headerName + HEADER_DELIMITER + header.headerValue + NEW_LINE;
+        Iterator<String> iter = headers.keySet().iterator();
+        while (iter.hasNext()){
+            String headerName = iter.next();
+            String headerValue = headers.get(headerName);
+            output += headerName + HEADER_DELIMITER + headerValue + NEW_LINE;
         }
         output += NEW_LINE;
         if (frameBody != null){
@@ -116,17 +98,7 @@ public abstract class Frame {
     //==================================== Utility Methods ===========================================|
     //================================================================================================|
 
-    private void instantiateHeaders(List<HeaderLine> headers){
-        this.headers = new HeaderLine[headers.size()];
-        Iterator<HeaderLine> iter = headers.iterator();
-        int i = 0;
-        while (iter.hasNext()){
-            this.headers[i] = iter.next();
-            i++;
-        }
-    }
-
-    private static Frame createFrame(StompCommand command, List<HeaderLine> headers, String frameBody){
+    private static Frame createFrame(StompCommand command, HashMap<String,String> headers, String frameBody){
         switch (command){
             case CONNECT:
                 return new ConnectFrame(headers, frameBody);

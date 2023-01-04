@@ -1,20 +1,22 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 public class DisconnectFrame extends ExecutableFrame {
 
-    protected DisconnectFrame(List<HeaderLine> headers, String frameBody) {
+    private static String RECEIPT_FIELD = "receipt";
+
+    protected DisconnectFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.DISCONNECT);
     }
 
     @Override
     public String execute(ConnectionHandler<String> handler) {
         
-        int receipt = Integer.parseInt(headers[0].headerValue);
+        int receipt = Integer.parseInt(headers.get(RECEIPT_FIELD));
 
         try{
             conM.disconnect(handler);

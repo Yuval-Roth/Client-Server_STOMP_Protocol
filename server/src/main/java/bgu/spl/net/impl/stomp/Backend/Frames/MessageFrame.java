@@ -1,12 +1,12 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
-import java.util.List;
+import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 public class MessageFrame extends ExecutableFrame {
 
-    protected MessageFrame(List<HeaderLine> headers, String frameBody) {
+    protected MessageFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.MESSAGE);
     }
 

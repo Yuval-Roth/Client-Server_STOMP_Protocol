@@ -1,10 +1,10 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class ConnectedFrame extends Frame {
 
-    protected ConnectedFrame(List<HeaderLine> headers, String frameBody) {
+    protected ConnectedFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.CONNECTED);
     }
 

@@ -1,21 +1,24 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 public class UnsubscribeFrame extends ExecutableFrame {
 
-    protected UnsubscribeFrame(List<HeaderLine> headers, String frameBody) {
+    private static String ID_FIELD = "id";
+    private static String RECEIPT_FIELD = "receipt";
+
+    protected UnsubscribeFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.UNSUBSCRIBE);
     }
 
     @Override
     public String execute(ConnectionHandler<String> handler) {
 
-        int id = Integer.parseInt(headers[0].headerValue);
-        int receipt = Integer.parseInt(headers[1].headerValue);
+        int id = Integer.parseInt(headers.get(ID_FIELD));
+        int receipt = Integer.parseInt(headers.get(RECEIPT_FIELD));
 
         try{
             subM.unsubscribe(handler,id);

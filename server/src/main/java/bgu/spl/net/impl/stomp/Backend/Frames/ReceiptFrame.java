@@ -1,10 +1,10 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class ReceiptFrame extends Frame {
 
-    protected ReceiptFrame(List<HeaderLine> headers, String frameBody) {
+    protected ReceiptFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.RECEIPT);
     }
     

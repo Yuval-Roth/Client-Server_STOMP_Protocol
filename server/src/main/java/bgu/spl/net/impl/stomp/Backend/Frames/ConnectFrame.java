@@ -1,21 +1,24 @@
 package bgu.spl.net.impl.stomp.Backend.Frames;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 public class ConnectFrame extends ExecutableFrame {
 
-    protected ConnectFrame(List<HeaderLine> headers, String frameBody) {
+    private static String USERNAME_FIELD = "login";
+    private static String PASSWORD_FIELD = "passcode";
+
+    protected ConnectFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.CONNECT);
     }
 
     @Override
     public String execute(ConnectionHandler<String> handler) {
 
-        String username = headers[2].headerValue;
-        String password = headers[3].headerValue;
+        String username = headers.get(USERNAME_FIELD);
+        String password = headers.get(PASSWORD_FIELD);
 
         try{
             conM.connect(handler,username, password);
