@@ -28,10 +28,12 @@ public class SessionController {
         int hashCode = connectionIdToHashCode.get(connectionId);
         return hashCodeToSession.get(hashCode);
     }
+    
     public Session getSession(String username) {
         int hashCode = usernameToHashCode.get(username);
         return hashCodeToSession.get(hashCode);
     }
+
     public Session getSession(ConnectionHandler<String> handler) {
         int hashCode = handler.hashCode();
         return hashCodeToSession.get(hashCode);
@@ -42,11 +44,13 @@ public class SessionController {
         Session session = hashCodeToSession.get(hashCode);
         closeSession(session);
     }
+
     public void closeSession(String username) {
         int hashCode = usernameToHashCode.get(username);
         Session session = hashCodeToSession.get(hashCode);
         closeSession(session);
     }
+
     public void closeSession(ConnectionHandler<String> handler) {
         int hashCode = handler.hashCode();
         Session session = hashCodeToSession.get(hashCode);
