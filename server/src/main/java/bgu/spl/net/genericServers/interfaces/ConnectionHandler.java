@@ -13,8 +13,8 @@ import java.io.Closeable;
 public interface ConnectionHandler<T> extends Closeable {
 
     /**
-     * Comment the following lines (both send methods) for the existing implentations to work.
-     *
+     * Sends a message to the client
+     * @param msg the message to send
      */
     void send(T msg);
 

@@ -3,8 +3,8 @@ package bgu.spl.net.impl.stomp.Backend;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import bgu.spl.net.genericServers.interfaces.ChannelsManager;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.impl.stomp.Backend.interfaces.ChannelsManager;
 import bgu.spl.net.impl.stomp.StompExceptions.ChannelException;
 
 public class ChannelController implements ChannelsManager<String> {

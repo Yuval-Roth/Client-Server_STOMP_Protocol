@@ -3,9 +3,9 @@ package bgu.spl.net.impl.stomp.Backend.Frames;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import bgu.spl.net.genericServers.interfaces.ChannelsManager;
+import bgu.spl.net.genericServers.interfaces.ConnectionsManager;
 import bgu.spl.net.impl.stomp.Backend.StompFacade;
-import bgu.spl.net.impl.stomp.Backend.interfaces.ChannelsManager;
-import bgu.spl.net.impl.stomp.Backend.interfaces.ConnectionsManager;
 
 /**
  * Frame is an abstract class that represents a frame in the STOMP protocol.
