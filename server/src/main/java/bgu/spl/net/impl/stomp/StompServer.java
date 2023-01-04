@@ -5,6 +5,7 @@ import java.io.IOException;
 import bgu.spl.net.genericServers.BaseServer;
 import bgu.spl.net.genericServers.Reactor.Reactor;
 import bgu.spl.net.genericServers.ThreadPerClient.ThreadPerClient;
+import bgu.spl.net.impl.stomp.Backend.StompFacade;
 import bgu.spl.net.impl.stomp.Service.StompMessageEncoderDecoder;
 import bgu.spl.net.impl.stomp.Service.StompMessagingProtocolImpl;
 
@@ -56,7 +57,10 @@ public class StompServer{
             default: 
                 throw new IllegalArgumentException("Invalid server type");
         }
+
+        StompFacade.getInstance(); // Initialize the StompFacade singleton to prevent parallel initialization
         server.serve();
+        
         try{
             server.close();
         }catch(IOException ex){}
