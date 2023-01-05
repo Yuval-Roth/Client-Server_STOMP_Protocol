@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashSet;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
+import bgu.spl.net.impl.stomp.Backend.utils.Tuple;
 
 public class Session implements Closeable {
 
