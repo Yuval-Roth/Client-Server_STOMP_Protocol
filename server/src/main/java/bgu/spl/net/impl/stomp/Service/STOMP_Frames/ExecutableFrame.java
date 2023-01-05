@@ -1,6 +1,5 @@
 package bgu.spl.net.impl.stomp.Service.STOMP_Frames;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
