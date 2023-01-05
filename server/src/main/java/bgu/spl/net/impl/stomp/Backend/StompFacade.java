@@ -89,11 +89,11 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
         for(Tuple<Integer> tuple : cc.getChannelSubscribers(channel)) {
             int connectionId = tuple.get(0);
             int subId = tuple.get(1);
-            Frame frame = MessageFrame.get(subId, messageIdCounter++,channel, msg);
+            Frame frameToSend = MessageFrame.get(subId, messageIdCounter++,channel, msg);
 
             Session session = sc.getSession(connectionId);
             ConnectionHandler<String> handler = session.getHandler();
-            handler.send(frame.toString());
+            handler.send(frameToSend.toString());
         }  
     }
 
