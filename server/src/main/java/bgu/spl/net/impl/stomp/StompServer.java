@@ -13,27 +13,26 @@ public class StompServer{
     public static void main(String[] args) {
 
         if(args.length != 2){
-            System.out.println("Usage: java StompServer <port> <Reactor | ThreadPerClient>");
+            System.out.println("Accepted arguments: <port> <Reactor | TPC>");
             return;
         }
         if(args[0].matches("[0-9]+"))
             System.out.println("Port: " + args[0]);
         else{
             System.out.println("Invalid port");
-            System.out.println("Usage: java StompServer <port> <Reactor | ThreadPerClient>");
+            System.out.println("Accepted arguments: <port> <Reactor | TPC>");
             return;
         }
         
         if(args[1].toLowerCase().equals("reactor"))
             System.out.println("Starting Reactor Server...");
-        else if(args[1].toLowerCase().equals("threadperclient"))
+        else if(args[1].toLowerCase().equals("tpc"))
             System.out.println("Starting Thread Per Client Server...");
         else{
             System.out.println("Invalid server type");
-            System.out.println("Usage: java StompServer <port> <Reactor | ThreadPerClient>");
+            System.out.println("Accepted arguments: <port> <Reactor | TPC>");
             return;
         }
-
 
         int port = Integer.parseInt(args[0]);
         BaseServer<String> server;
@@ -47,7 +46,7 @@ public class StompServer{
                     () -> new StompMessageEncoderDecoder()
                 );
                 break;
-            case "threadperclient":
+            case "tpc":
                 server = new ThreadPerClient<String>(
                     port,
                     () -> new StompMessagingProtocolImpl(),
