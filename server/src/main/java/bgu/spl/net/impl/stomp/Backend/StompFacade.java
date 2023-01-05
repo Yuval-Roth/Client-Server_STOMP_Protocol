@@ -1,7 +1,6 @@
 package bgu.spl.net.impl.stomp.Backend;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.impl.stomp.Backend.utils.Tuple;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.Frame;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.MessageFrame;
 import bgu.spl.net.impl.stomp.Service.interfaces.ChannelsManager;
@@ -57,11 +56,9 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
 
         Session session = sc.getSession(handler);
         String username = session.getUsername();
-        for(Tuple<Integer> subscription : session.getSubscriptions()) {
-            int connectionId = subscription.get(0);
-            int subId = subscription.get(1);
+        for(SubscriberId subscription : session.getSubscriptions()) {
             try {
-                cc.unsubscribe(connectionId, subId);
+                cc.unsubscribe(subscription);
             } catch (ChannelException e) {
                 e.printStackTrace();
                 throw new ConnectionException("Error while disconnecting");
@@ -79,14 +76,16 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     public void subscribe(ConnectionHandler<String> handler, int subId, String channel) throws ChannelException {
         Session session = sc.getSession(handler);
         int connectionId = session.getConnectionId();
-        cc.subscribe(connectionId, subId, channel);
+        SubscriberId subberId = cc.subscribe(connectionId, subId, channel);
+        session.addSubscription(subberId);
     }
 
     @Override
     public void unsubscribe(ConnectionHandler<String> handler, int subId) throws ChannelException {
         Session session = sc.getSession(handler);
         int connectionId = session.getConnectionId();
-        cc.unsubscribe(connectionId, subId);
+        SubscriberId subberId = cc.unsubscribe(connectionId, subId);
+        session.removeSubscription(subberId);
     }
 
     @Override
@@ -97,9 +96,9 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     @Override
     public void broadcast(String channel, String msg) throws ChannelException {
 
-        for(Tuple<Integer> tuple : cc.getChannelSubscribers(channel)) {
-            int connectionId = tuple.get(0);
-            int subId = tuple.get(1);
+        for(SubscriberId subberId : cc.getChannelSubscribers(channel)) {
+            int connectionId = subberId.connectionId;
+            int subId = subberId.subId;
             Frame frameToSend = MessageFrame.get(subId, messageIdCounter++,channel, msg);
 
             Session session = sc.getSession(connectionId);

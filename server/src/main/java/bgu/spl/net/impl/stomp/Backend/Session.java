@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.util.HashSet;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.impl.stomp.Backend.utils.Tuple;
 
 public class Session implements Closeable {
 
     private final String username;
     private final ConnectionHandler<String> handler;
     private final int connectionId;
-    private final HashSet<Tuple<Integer>> subscriptions;
+    private final HashSet<SubscriberId> subscriptions;
 
     public Session(ConnectionHandler<String> handler, int connectionId, String username) {
         this.handler = handler;
@@ -25,14 +24,14 @@ public class Session implements Closeable {
     public int getConnectionId() {return connectionId;}
     public ConnectionHandler<String> getHandler() {return handler;}
 
-    public void addSubscription(Tuple<Integer> subcription) { 
+    public void addSubscription(SubscriberId subcription) { 
         subscriptions.add(subcription);
     }
-    public void removeSubscription(Tuple<Integer> subcription) {
+    public void removeSubscription(SubscriberId subcription) {
         subscriptions.remove(subcription);
     }
 
-    public HashSet<Tuple<Integer>> getSubscriptions() {
+    public HashSet<SubscriberId> getSubscriptions() {
         return subscriptions;
     }
 
