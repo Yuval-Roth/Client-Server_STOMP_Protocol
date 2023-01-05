@@ -9,7 +9,7 @@ import bgu.spl.net.impl.stomp.StompExceptions.ConnectionException;
 
 /**
  * This class is the facade of the backend.
- * It implements the Connections interface, the ConnectionManager interface and the SubscriptionManager interface.
+ * It implements the ConnectionsManager and ChannelsManager interfaces.
  * It is a singleton class.
  */
 public class StompFacade implements ChannelsManager<String>, ConnectionsManager<String> {
@@ -51,8 +51,8 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     @Override
     public void disconnect(ConnectionHandler<String> handler) throws ConnectionException{
 
-        Session s = sc.getSession(handler);
-        String username = s.getUsername();
+        Session session = sc.getSession(handler);
+        String username = session.getUsername();
         sc.closeSession(handler);
         uc.logout(username);
     }
