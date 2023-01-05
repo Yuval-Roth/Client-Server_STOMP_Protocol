@@ -56,6 +56,16 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
 
         Session session = sc.getSession(handler);
         String username = session.getUsername();
+        for(Tuple<Integer> subscription : session.getSubscriptions()) {
+            int connectionId = subscription.get(0);
+            int subId = subscription.get(1);
+            try {
+                cc.unsubscribe(connectionId, subId);
+            } catch (ChannelException e) {
+                e.printStackTrace();
+                throw new ConnectionException("Error while disconnecting");
+            }
+        }
         sc.closeSession(handler);
         uc.logout(username);
     }
