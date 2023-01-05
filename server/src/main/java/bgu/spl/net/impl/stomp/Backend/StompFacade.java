@@ -1,7 +1,6 @@
 package bgu.spl.net.impl.stomp.Backend;
 
 import java.util.HashMap;
-import java.util.Set;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.Frame;
@@ -112,10 +111,6 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
             handler.send(frameToSend.toString());
         }  
     }
-
-    //===============================================================================================|
-    //============================== Utility methods ================================================|
-    //===============================================================================================|
 
     /**
      * Singleton instance
