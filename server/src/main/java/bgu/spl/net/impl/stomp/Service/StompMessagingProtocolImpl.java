@@ -1,5 +1,7 @@
 package bgu.spl.net.impl.stomp.Service;
 
+import java.io.IOException;
+
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.ErrorFrame;
@@ -9,7 +11,13 @@ public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
 
     @Override
     public String process(ConnectionHandler<String> handler,String message) {
-        ExecutableFrame frame = ExecutableFrame.parse(message);
+        ExecutableFrame frame = null;
+        try {
+            frame = ExecutableFrame.parse(message);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ErrorFrame.get(e.getMessage(),message,true).toString();
+        }
 
         if(frame == null){
             return ErrorFrame.get("The frame received does not contain a valid STOMP command"

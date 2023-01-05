@@ -1,5 +1,6 @@
 package bgu.spl.net.impl.stomp.Service.STOMP_Frames;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
@@ -15,7 +16,12 @@ public abstract class ExecutableFrame extends Frame {
      */
     public abstract String execute(ConnectionHandler<String> handler);
 
-    public static ExecutableFrame parse(String messageToParse){
+    /**
+     * Parse the message to an executable frame
+     * @param messageToParse
+     * @throws RuntimeException if the frame is not executable
+     */
+    public static ExecutableFrame parse(String messageToParse) throws RuntimeException{
 
         Frame frame = Frame.parse(messageToParse);
 
