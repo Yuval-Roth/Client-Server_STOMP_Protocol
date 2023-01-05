@@ -1,11 +1,11 @@
-package bgu.spl.net.impl.stomp.Backend.Frames;
+package bgu.spl.net.impl.stomp.Service.STOMP_Frames;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
-import bgu.spl.net.genericServers.interfaces.ChannelsManager;
-import bgu.spl.net.genericServers.interfaces.ConnectionsManager;
 import bgu.spl.net.impl.stomp.Backend.StompFacade;
+import bgu.spl.net.impl.stomp.Service.interfaces.ChannelsManager;
+import bgu.spl.net.impl.stomp.Service.interfaces.ConnectionsManager;
 
 /**
  * Frame is an abstract class that represents a frame in the STOMP protocol.
@@ -14,8 +14,8 @@ import bgu.spl.net.impl.stomp.Backend.StompFacade;
  */
 public abstract class Frame {
 
-    protected static final ChannelsManager<String> subM = StompFacade.getInstance();
-    protected static final ConnectionsManager<String> conM = StompFacade.getInstance();
+    protected static final ChannelsManager<String> channelsManager = StompFacade.getInstance();
+    protected static final ConnectionsManager<String> connectionsManager = StompFacade.getInstance();
 
     protected static final double PROTOCOL_VERSION = 1.2;
     protected static final String END_OF_FRAME = "^@";

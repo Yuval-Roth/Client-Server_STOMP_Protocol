@@ -1,6 +1,8 @@
-package bgu.spl.net.genericServers.interfaces;
+package bgu.spl.net.impl.stomp.Service.interfaces;
 
 import java.io.IOException;
+
+import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 public interface ChannelsManager<T> {
     

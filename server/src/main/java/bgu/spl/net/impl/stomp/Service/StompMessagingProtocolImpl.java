@@ -2,8 +2,8 @@ package bgu.spl.net.impl.stomp.Service;
 
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.impl.stomp.Backend.Frames.ErrorFrame;
-import bgu.spl.net.impl.stomp.Backend.Frames.ExecutableFrame;
+import bgu.spl.net.impl.stomp.Service.STOMP_Frames.ErrorFrame;
+import bgu.spl.net.impl.stomp.Service.STOMP_Frames.ExecutableFrame;
 
 public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
 

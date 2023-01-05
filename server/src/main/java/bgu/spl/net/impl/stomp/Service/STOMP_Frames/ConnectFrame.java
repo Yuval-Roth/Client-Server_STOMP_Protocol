@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp.Backend.Frames;
+package bgu.spl.net.impl.stomp.Service.STOMP_Frames;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class ConnectFrame extends ExecutableFrame {
         String password = headers.get(PASSWORD_FIELD);
 
         try{
-            conM.connect(handler,username, password);
+            connectionsManager.connect(handler,username, password);
         }catch(IOException e){
 
             //this is the case where the user is already connected or the password is wrong

@@ -1,8 +1,8 @@
 package bgu.spl.net.impl.stomp.Backend;
 
-import bgu.spl.net.genericServers.interfaces.ChannelsManager;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.genericServers.interfaces.ConnectionsManager;
+import bgu.spl.net.impl.stomp.Service.interfaces.ChannelsManager;
+import bgu.spl.net.impl.stomp.Service.interfaces.ConnectionsManager;
 import bgu.spl.net.impl.stomp.StompExceptions.ChannelException;
 import bgu.spl.net.impl.stomp.StompExceptions.ConnectionException;
 
@@ -37,14 +37,12 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     @Override
     public void connect(ConnectionHandler<String> handler,String username, String password) throws ConnectionException{
         
-        if(uc.containsUser(username)) {
-            uc.login(username, password);
-        }
-        else {
+        if(uc.containsUser(username) == false) {
             uc.addUser(username, password);
         }
+        
+        uc.login(username, password);
         int connectionId = connectionIdCounter++;
-
         sc.newSession(handler,connectionId, username);
     }
 

@@ -1,4 +1,4 @@
-package bgu.spl.net.impl.stomp.Backend.Frames;
+package bgu.spl.net.impl.stomp.Service.STOMP_Frames;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,8 +19,7 @@ public class DisconnectFrame extends ExecutableFrame {
         int receipt = Integer.parseInt(headers.get(RECEIPT_FIELD));
 
         try{
-            conM.disconnect(handler);
-            handler.close();
+            connectionsManager.disconnect(handler);
             return ReceiptFrame.get(receipt).toString();
         }catch (IOException e){
             return ErrorFrame.get(e.getMessage()).toString();
