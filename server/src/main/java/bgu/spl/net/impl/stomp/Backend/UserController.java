@@ -11,8 +11,8 @@ import bgu.spl.net.impl.stomp.StompExceptions.ConnectionException;
  */
 public class UserController {
 
-    private HashMap<String,String> users;
-    private HashSet<String> loggedInUsers;
+    private volatile HashMap<String,String> users;
+    private volatile HashSet<String> loggedInUsers;
 
     public UserController() {
         users = new HashMap<String,String>();

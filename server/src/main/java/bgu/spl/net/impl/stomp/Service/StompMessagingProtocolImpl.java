@@ -1,7 +1,5 @@
 package bgu.spl.net.impl.stomp.Service;
 
-import java.io.IOException;
-
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.ErrorFrame;

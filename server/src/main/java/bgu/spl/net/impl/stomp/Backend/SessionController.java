@@ -1,19 +1,19 @@
 package bgu.spl.net.impl.stomp.Backend;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
 public class SessionController {
 
-    private HashMap<Integer,Integer> connectionIdToHashCode;
-    private HashMap<String,Integer> usernameToHashCode;
-    private HashMap<Integer,Session> hashCodeToSession;
+    private volatile ConcurrentHashMap<Integer,Integer> connectionIdToHashCode;
+    private volatile ConcurrentHashMap<String,Integer> usernameToHashCode;
+    private volatile ConcurrentHashMap<Integer,Session> hashCodeToSession;
 
     public SessionController() {
-        connectionIdToHashCode = new HashMap<>();
-        usernameToHashCode = new HashMap<>();
-        hashCodeToSession = new HashMap<>();
+        connectionIdToHashCode = new ConcurrentHashMap<>();
+        usernameToHashCode = new ConcurrentHashMap<>();
+        hashCodeToSession = new ConcurrentHashMap<>();
     }
 
     public void newSession(ConnectionHandler<String> handler, int connectionId, String username) {

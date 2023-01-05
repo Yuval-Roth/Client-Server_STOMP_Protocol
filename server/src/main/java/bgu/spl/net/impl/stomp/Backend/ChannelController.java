@@ -1,18 +1,18 @@
 package bgu.spl.net.impl.stomp.Backend;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import bgu.spl.net.impl.stomp.StompExceptions.ChannelException;
 
 public class ChannelController{
 
-    private final HashMap<String, HashSet<SubscriberId>> channelToIdTuple;
-    private final HashMap<SubscriberId,String> IdTupleToChannel;
+    private volatile ConcurrentHashMap<String, Set<SubscriberId>> channelToIdTuple;
+    private volatile ConcurrentHashMap<SubscriberId,String> IdTupleToChannel;
 
     public ChannelController() {
-        channelToIdTuple = new HashMap<>();
-        IdTupleToChannel = new HashMap<>();
+        channelToIdTuple = new ConcurrentHashMap<>();
+        IdTupleToChannel = new ConcurrentHashMap<>();
     }
 
     public SubscriberId subscribe(int connectionId, int subId, String channel) throws ChannelException {
@@ -21,7 +21,7 @@ public class ChannelController{
 
         // if channel doesn't exist, create it
         if(channelToIdTuple.containsKey(channel) == false){
-            channelToIdTuple.put(channel, new HashSet<>());
+            channelToIdTuple.put(channel, ConcurrentHashMap.newKeySet());
         }
 
         // check if the user is already subscribed to channel
@@ -63,7 +63,7 @@ public class ChannelController{
         return subberId;
     }
 
-    public HashSet<SubscriberId> getChannelSubscribers(String channel) throws ChannelException {
+    public Set<SubscriberId> getChannelSubscribers(String channel) throws ChannelException {
         if(channelToIdTuple.containsKey(channel) == false){
             throw new ChannelException("channel doesn't exist");
         }

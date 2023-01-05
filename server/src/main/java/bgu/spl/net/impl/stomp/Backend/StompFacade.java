@@ -22,17 +22,14 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     private final ChannelController cc;
     private final SessionController sc;
 
-    private int connectionIdCounter;
-    private int messageIdCounter;
+    private volatile int connectionIdCounter;
 
-    
     private StompFacade() {
         uc = new UserController();
         cc = new ChannelController();
         sc = new SessionController();
 
         connectionIdCounter = 0;
-        messageIdCounter = 0;
     }
 
     //===============================================================================================|
@@ -99,7 +96,7 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
         for(SubscriberId subberId : cc.getChannelSubscribers(channel)) {
             int connectionId = subberId.connectionId;
             int subId = subberId.subId;
-            Frame frameToSend = MessageFrame.get(subId, messageIdCounter++,channel, msg);
+            Frame frameToSend = MessageFrame.get(subId, channel, msg);
 
             Session session = sc.getSession(connectionId);
             ConnectionHandler<String> handler = session.getHandler();
@@ -111,19 +108,19 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     //============================== Utility methods ================================================|
     //===============================================================================================|
 
-    /**
-     * Validate that the user exists and is logged in
-     * @param username
-     * @throws ConnectionException
-     */
-    private void validateUser(String username) throws ConnectionException {
-        if(uc.containsUser(username) == false) {
-            throw new ConnectionException("User does not exist");
-        }
-        if(uc.isLoggedIn(username) == false) {
-            throw new ConnectionException("User is not logged in");
-        }
-    }
+    // /**
+    //  * Validate that the user exists and is logged in
+    //  * @param username
+    //  * @throws ConnectionException
+    //  */
+    // private void validateUser(String username) throws ConnectionException {
+    //     if(uc.containsUser(username) == false) {
+    //         throw new ConnectionException("User does not exist");
+    //     }
+    //     if(uc.isLoggedIn(username) == false) {
+    //         throw new ConnectionException("User is not logged in");
+    //     }
+    // }
 
     /**
      * Singleton instance

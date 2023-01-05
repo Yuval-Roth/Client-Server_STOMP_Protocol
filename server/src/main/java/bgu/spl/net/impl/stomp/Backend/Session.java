@@ -11,7 +11,7 @@ public class Session implements Closeable {
     private final String username;
     private final ConnectionHandler<String> handler;
     private final int connectionId;
-    private final HashSet<SubscriberId> subscriptions;
+    private volatile HashSet<SubscriberId> subscriptions;
 
     public Session(ConnectionHandler<String> handler, int connectionId, String username) {
         this.handler = handler;
