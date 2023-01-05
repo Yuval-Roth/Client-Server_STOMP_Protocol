@@ -36,9 +36,10 @@ public interface ChannelsManager<T> {
     /**
      * Send a message to all users subscribed to a channel.
      * this method takes care of wrapping the message in a protocol.
+     * @param sender - the handler of the user who sent the message
      * @param channel
      * @param msg - raw message
      * @throws IOException if the channel does not exist
      */
-    void broadcast(String channel, T msg) throws IOException;
+    void broadcast(ConnectionHandler<T> sender ,String channel, T msg) throws IOException;
 }

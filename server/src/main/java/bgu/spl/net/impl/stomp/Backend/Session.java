@@ -2,7 +2,7 @@ package bgu.spl.net.impl.stomp.Backend;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
@@ -11,27 +11,27 @@ public class Session implements Closeable {
     private final String username;
     private final ConnectionHandler<String> handler;
     private final int connectionId;
-    private volatile HashSet<SubscriberId> subscriptions;
+    private volatile HashMap<SubscriberId,String> subscriptions;
 
     public Session(ConnectionHandler<String> handler, int connectionId, String username) {
         this.handler = handler;
         this.connectionId = connectionId;
         this.username = username;
-        this.subscriptions = new HashSet<>();
+        this.subscriptions = new HashMap<>();
     }
 
     public String getUsername() {return username;}
     public int getConnectionId() {return connectionId;}
     public ConnectionHandler<String> getHandler() {return handler;}
 
-    public void addSubscription(SubscriberId subcription) { 
-        subscriptions.add(subcription);
+    public void addSubscription(SubscriberId subcription, String topic) { 
+        subscriptions.put(subcription,topic);
     }
     public void removeSubscription(SubscriberId subcription) {
         subscriptions.remove(subcription);
     }
 
-    public HashSet<SubscriberId> getSubscriptions() {
+    public HashMap<SubscriberId,String> getSubscriptions() {
         return subscriptions;
     }
 

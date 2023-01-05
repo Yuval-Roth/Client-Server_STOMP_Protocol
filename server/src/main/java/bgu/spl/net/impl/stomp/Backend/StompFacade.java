@@ -1,5 +1,8 @@
 package bgu.spl.net.impl.stomp.Backend;
 
+import java.util.HashMap;
+import java.util.Set;
+
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.Frame;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.MessageFrame;
@@ -53,7 +56,7 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
 
         Session session = sc.getSession(handler);
         String username = session.getUsername();
-        for(SubscriberId subscription : session.getSubscriptions()) {
+        for(SubscriberId subscription : session.getSubscriptions().keySet()) {
             try {
                 cc.unsubscribe(subscription);
             } catch (ChannelException e) {
@@ -74,7 +77,7 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
         Session session = sc.getSession(handler);
         int connectionId = session.getConnectionId();
         SubscriberId subberId = cc.subscribe(connectionId, subId, channel);
-        session.addSubscription(subberId);
+        session.addSubscription(subberId, channel);
     }
 
     @Override
@@ -91,14 +94,20 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     }
 
     @Override
-    public void broadcast(String channel, String msg) throws ChannelException {
+    public void broadcast(ConnectionHandler<String> sender ,String channel, String msg) throws ChannelException {
 
+        Session session = sc.getSession(sender);
+        HashMap<SubscriberId,String> senderSubscriptions = session.getSubscriptions();
+        if(senderSubscriptions.containsValue(channel) == false) {
+            throw new ChannelException("User is not subscribed to channel");
+        }
+    
         for(SubscriberId subberId : cc.getChannelSubscribers(channel)) {
             int connectionId = subberId.connectionId;
             int subId = subberId.subId;
             Frame frameToSend = MessageFrame.get(subId, channel, msg);
 
-            Session session = sc.getSession(connectionId);
+            session = sc.getSession(connectionId);
             ConnectionHandler<String> handler = session.getHandler();
             handler.send(frameToSend.toString());
         }  
@@ -107,20 +116,6 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     //===============================================================================================|
     //============================== Utility methods ================================================|
     //===============================================================================================|
-
-    // /**
-    //  * Validate that the user exists and is logged in
-    //  * @param username
-    //  * @throws ConnectionException
-    //  */
-    // private void validateUser(String username) throws ConnectionException {
-    //     if(uc.containsUser(username) == false) {
-    //         throw new ConnectionException("User does not exist");
-    //     }
-    //     if(uc.isLoggedIn(username) == false) {
-    //         throw new ConnectionException("User is not logged in");
-    //     }
-    // }
 
     /**
      * Singleton instance

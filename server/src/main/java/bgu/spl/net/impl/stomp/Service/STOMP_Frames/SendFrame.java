@@ -17,7 +17,7 @@ public class SendFrame extends ExecutableFrame {
     public String execute(ConnectionHandler<String> handler) {
         
         try {
-            channelsManager.broadcast(headers.get(DESTINATION_FIELD), frameBody);
+            channelsManager.broadcast(handler,headers.get(DESTINATION_FIELD), frameBody);
             return ""; //this frame has no response - not sure if this will work
         } catch (IOException e) {
             return ErrorFrame.get(e.getMessage()).toString();
