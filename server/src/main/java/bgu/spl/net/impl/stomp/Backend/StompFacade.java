@@ -61,24 +61,34 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
 
     @Override
     public void subscribe(ConnectionHandler<String> handler, int subId, String channel) throws ChannelException {
-        cc.subscribe(handler, subId, channel);
+        Session session = sc.getSession(handler);
+        int connectionId = session.getConnectionId();
+        cc.subscribe(connectionId, subId, channel);
     }
 
     @Override
     public void unsubscribe(ConnectionHandler<String> handler, int subId) throws ChannelException {
-        cc.unsubscribe(handler, subId);
+        Session session = sc.getSession(handler);
+        int connectionId = session.getConnectionId();
+        cc.unsubscribe(connectionId, subId);
     }
 
     @Override
     public void whisper(ConnectionHandler<String> handler, String msg) {
-        // TODO Auto-generated method stub
-        
+        handler.send(msg);     
     }
 
     @Override
-    public void broadcast(String channel, String msg) {
-        // TODO Auto-generated method stub
-        
+    public void broadcast(String channel, String msg) throws ChannelException {
+
+        for(Tuple<Integer> tuple : cc.getChannelSubscribers(channel)) {
+            int connectionId = tuple.get(0);
+            int subId = tuple.get(1);
+            Session session = sc.getSession(connectionId);
+            ConnectionHandler<String> handler = session.getHandler();
+            string 
+            handler.send(msg);
+        }  
     }
 
     //===============================================================================================|

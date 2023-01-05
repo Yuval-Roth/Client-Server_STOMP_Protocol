@@ -16,27 +16,22 @@ public class ErrorFrame extends Frame {
      */
     public static Frame get(int receiptId,String message,String body, boolean bodyIsBadFrame) {
 
-        String frame = "ERROR"+NEW_LINE; // command
+        HashMap<String,String> headers = new HashMap<>();
         if(receiptId >= 0)
-            frame += "receipt-id:"+receiptId+NEW_LINE;
-        frame += "message:"+message+NEW_LINE;
-        frame += NEW_LINE;//end of headers
+            headers.put("receipt-id", Integer.toString(receiptId));
+        headers.put("message", message);
         
-        //body
-        if(body.length() > 0){
-            if(bodyIsBadFrame){
-                frame += "The frame received was:"+NEW_LINE;
-                frame += "========================"+NEW_LINE;
-                frame += body.replace("^@", "")+NEW_LINE;
-                frame += "========================"+NEW_LINE;    
-            }
-            else{
-                frame += body.replace("^@", "")+NEW_LINE;
-            }
+        if(bodyIsBadFrame){
+            body = body.replace("^@", "");
+            String badFrame = "";
+            badFrame += "The frame received was:"+NEW_LINE;
+            badFrame += "========================"+NEW_LINE;
+            badFrame += body+NEW_LINE;
+            badFrame += "========================"+NEW_LINE;    
+            body = badFrame;
         }
-        frame += END_OF_FRAME;
 
-        return Frame.parse(frame);
+        return new ErrorFrame(headers, body);
     }
     
     /**

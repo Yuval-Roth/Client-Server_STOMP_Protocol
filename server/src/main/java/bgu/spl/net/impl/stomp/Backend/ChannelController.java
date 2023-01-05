@@ -3,80 +3,56 @@ package bgu.spl.net.impl.stomp.Backend;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
-import bgu.spl.net.impl.stomp.Service.interfaces.ChannelsManager;
 import bgu.spl.net.impl.stomp.StompExceptions.ChannelException;
 
-public class ChannelController implements ChannelsManager<String> {
+public class ChannelController{
 
-    private final HashMap<String, HashSet<ConnectionHandler<String>>> channelToHandlers;
-    private final HashMap<ConnectionHandler<String>, HashMap<Integer,String>> handlerAndSubIdToChannel;
+    private final HashMap<String, HashSet<Tuple<Integer>>> channelToIdTuple;
+    private final HashMap<Tuple<Integer>,String> IdTupleToChannel;
 
     public ChannelController() {
-        channelToHandlers = new HashMap<>();
-        handlerAndSubIdToChannel = new HashMap<>();
+        channelToIdTuple = new HashMap<>();
+        IdTupleToChannel = new HashMap<>();
     }
 
-    @Override
-    public void subscribe(ConnectionHandler<String> handler, int subId, String channel) throws ChannelException {
+    public void subscribe(int connectionId, int subId, String channel) throws ChannelException {
         
+        Tuple<Integer> tuple = new Tuple<>(connectionId, subId);
+
         // if channel doesn't exist, create it
-        if(channelToHandlers.containsKey(channel) == false){
-            channelToHandlers.put(channel, new HashSet<>());
+        if(channelToIdTuple.containsKey(channel) == false){
+            channelToIdTuple.put(channel, new HashSet<>());
         }
 
-        // if handler doesn't exist, add it
-        if(handlerAndSubIdToChannel.containsKey(handler) == false){
-            handlerAndSubIdToChannel.put(handler, new HashMap<>());
+        // check if the user is already subscribed to channel
+        if(channelToIdTuple.get(channel).contains(tuple) == true){
+            throw new ChannelException("user is already subscribed to channel");
         }
 
-        // if handler is already subscribed to channel, throw exception
-        if(channelToHandlers.get(channel).contains(handler) == true){
-            throw new ChannelException("handler is already subscribed to channel");
-        }
-
-        // if subId already exists, throw exception
-        if(handlerAndSubIdToChannel.get(handler).containsKey(subId) == true){
-            throw new ChannelException("subId already exists");
-        }
-
-        // success
-        handlerAndSubIdToChannel.get(handler).put(subId, channel);
+        //success
+        channelToIdTuple.get(channel).add(tuple);
+        IdTupleToChannel.put(tuple, channel);
     }
 
-    @Override
-    public void unsubscribe(ConnectionHandler<String> handler, int subId) throws ChannelException {
+    public void unsubscribe(int connectionId, int subId) throws ChannelException {
 
-        // if handler doesn't exist, throw exception
-        if(handlerAndSubIdToChannel.containsKey(handler) == false){
-            throw new ChannelException("handler doesn't exist");
-        }
+        Tuple<Integer> tuple = new Tuple<>(connectionId, subId);
 
-        // if subId doesn't exist, throw exception
-        if(handlerAndSubIdToChannel.get(handler).containsKey(subId) == false){
+        // check if the user is subscribed to channel
+        if(IdTupleToChannel.containsKey(tuple) == false){
             throw new ChannelException("subId doesn't exist");
         }
 
-        // if handler is not subscribed to channel, throw exception
-        if (channelToHandlers.get(handlerAndSubIdToChannel.get(handler).get(subId)).contains(handler) == false){
-            throw new ChannelException("handler is not subscribed to channel");
-        }
-
-        // success
-        String channel = handlerAndSubIdToChannel.get(handler).get(subId);
-        channelToHandlers.get(channel).remove(handler);     
-        handlerAndSubIdToChannel.get(handler).remove(subId);
+        //success
+        String channel = IdTupleToChannel.get(tuple);
+        channelToIdTuple.get(channel).remove(tuple);
+        IdTupleToChannel.remove(tuple);  
     }
 
-    @Override
-    public void whisper(ConnectionHandler<String> handler, String msg) {
-        handler.send(msg);
-    }
-
-    @Override
-    public void broadcast(String channel, String msg) {
-        for(ConnectionHandler<String> handler : channelToHandlers.get(channel)){
-            handler.send(msg);
+    public HashSet<Tuple<Integer>> getChannelSubscribers(String channel) throws ChannelException {
+        if(channelToIdTuple.containsKey(channel) == false){
+            throw new ChannelException("channel doesn't exist");
         }
+        return channelToIdTuple.get(channel);
     }
 }

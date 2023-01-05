@@ -29,14 +29,17 @@ public interface ChannelsManager<T> {
     /**
      * Send a message to a specific user.
      * @param handler
-     * @param msg
+     * @param msg - must be wrapped in a frame
      */
     void whisper(ConnectionHandler<T> handler, T msg);
 
     /**
      * Send a message to all users subscribed to a channel.
+     * this method takes care of wrapping the message in a frame
+     * that is specific to the user.
      * @param channel
-     * @param msg
+     * @param msg - raw message
+     * @throws IOException if the channel does not exist
      */
-    void broadcast(String channel, T msg);
+    void broadcast(String channel, T msg) throws IOException;
 }
