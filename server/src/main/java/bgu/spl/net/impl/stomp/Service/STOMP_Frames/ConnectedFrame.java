@@ -4,16 +4,17 @@ import java.util.HashMap;
 
 public class ConnectedFrame extends Frame {
 
+    private static final String VERSION_FIELD = "version";
+
     protected ConnectedFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.CONNECTED);
     }
 
     public static Frame get() {
-        String frame = "CONNECTED"+NEW_LINE; // command
-        frame += "version:"+PROTOCOL_VERSION+NEW_LINE;
-        frame += NEW_LINE;//end of headers
-        frame += END_OF_FRAME;
-        return Frame.parse(frame);
+
+        HashMap<String,String> headers = new HashMap<>();
+        headers.put(VERSION_FIELD, ""+PROTOCOL_VERSION);
+        return new ConnectedFrame(headers, "");
     }
 
     

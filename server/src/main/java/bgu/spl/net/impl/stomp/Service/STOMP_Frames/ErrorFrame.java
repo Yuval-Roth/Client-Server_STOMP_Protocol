@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 public class ErrorFrame extends Frame {
 
+    private static final String MESSAGE_FIELD = "message";
+    private static final String RECEIPT_ID_FIELD = "receipt-id";
+
     protected ErrorFrame(HashMap<String,String> headers, String frameBody) {
         super(headers, frameBody, StompCommand.ERROR);
     }
@@ -18,8 +21,8 @@ public class ErrorFrame extends Frame {
 
         HashMap<String,String> headers = new HashMap<>();
         if(receiptId >= 0)
-            headers.put("receipt-id", Integer.toString(receiptId));
-        headers.put("message", message);
+            headers.put(RECEIPT_ID_FIELD, Integer.toString(receiptId));
+        headers.put(MESSAGE_FIELD, message);
         
         if(bodyIsBadFrame){
             body = body.replace("^@", "");

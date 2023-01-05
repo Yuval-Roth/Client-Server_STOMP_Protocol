@@ -43,7 +43,6 @@ public abstract class Frame {
 
     /**
      * Create a frame according to the command received
-     * Returns
      */
     public static Frame parse(String messageToParse){
         String[] frameParameters = messageToParse.split(NEW_LINE); // split by new line

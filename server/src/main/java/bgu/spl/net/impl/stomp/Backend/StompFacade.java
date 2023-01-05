@@ -1,6 +1,8 @@
 package bgu.spl.net.impl.stomp.Backend;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
+import bgu.spl.net.impl.stomp.Service.STOMP_Frames.Frame;
+import bgu.spl.net.impl.stomp.Service.STOMP_Frames.MessageFrame;
 import bgu.spl.net.impl.stomp.Service.interfaces.ChannelsManager;
 import bgu.spl.net.impl.stomp.Service.interfaces.ConnectionsManager;
 import bgu.spl.net.impl.stomp.StompExceptions.ChannelException;
@@ -21,6 +23,8 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     private final SessionController sc;
 
     private int connectionIdCounter;
+    private int messageIdCounter;
+
     
     private StompFacade() {
         uc = new UserController();
@@ -28,6 +32,7 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
         sc = new SessionController();
 
         connectionIdCounter = 0;
+        messageIdCounter = 0;
     }
 
     //===============================================================================================|
@@ -84,10 +89,11 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
         for(Tuple<Integer> tuple : cc.getChannelSubscribers(channel)) {
             int connectionId = tuple.get(0);
             int subId = tuple.get(1);
+            Frame frame = MessageFrame.get(subId, messageIdCounter++,channel, msg);
+
             Session session = sc.getSession(connectionId);
             ConnectionHandler<String> handler = session.getHandler();
-            string 
-            handler.send(msg);
+            handler.send(frame.toString());
         }  
     }
 
