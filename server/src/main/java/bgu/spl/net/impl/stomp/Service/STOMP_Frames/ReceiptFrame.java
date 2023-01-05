@@ -10,6 +10,11 @@ public class ReceiptFrame extends Frame {
         super(headers, frameBody, StompCommand.RECEIPT);
     }
     
+    /**
+     * Returns a receipt frame with the given receipt id
+     *
+     * @param receiptId
+     */
     public static Frame get(int receiptId) {
 
         HashMap<String,String> headers = new HashMap<>();

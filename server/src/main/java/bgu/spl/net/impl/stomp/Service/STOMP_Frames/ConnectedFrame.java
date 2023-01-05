@@ -10,6 +10,9 @@ public class ConnectedFrame extends Frame {
         super(headers, frameBody, StompCommand.CONNECTED);
     }
 
+    /**
+     * Returns a connected frame with the current protocol version
+     */
     public static Frame get() {
 
         HashMap<String,String> headers = new HashMap<>();

@@ -27,10 +27,15 @@ public class Session implements Closeable {
     public void addSubscription(SubscriberId subcription, String topic) { 
         subscriptions.put(subcription,topic);
     }
+
     public void removeSubscription(SubscriberId subcription) {
         subscriptions.remove(subcription);
     }
-
+   
+    /**
+     * Returns a map of all the subscriptions of the session.
+     * The key is the SubscriberId object and the value is the topic name.
+     */
     public HashMap<SubscriberId,String> getSubscriptions() {
         return subscriptions;
     }

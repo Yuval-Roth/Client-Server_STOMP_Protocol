@@ -42,7 +42,10 @@ public abstract class Frame {
 
 
     /**
-     * Create a frame according to the command received
+     * this method parses a string to a frame in the STOMP protocol.
+     * if the string is not in the correct format or the command is not a valid command,
+     * the method will return null.
+     * @param messageToParse - the string to parse
      */
     public static Frame parse(String messageToParse){
         String[] frameParameters = messageToParse.split(NEW_LINE); // split by new line
