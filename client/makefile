@@ -1,32 +1,31 @@
-# Specify the target executable name
+all: clean $(TARGET)
+
+# Target executable name
 TARGET = bin/StompWCIClient
 
-# Specify the source code files
+# Source code files
 SOURCES = $(wildcard src/*.cpp)
 
-# Specify the object files that will be created from the source code files
+# Object files that will be created from the source code files
 OBJECTS = $(SOURCES:src/%.cpp=bin/%.o)
 
-# Specify the C++ compiler to use
+# C++ compiler to use
 CXX = g++
 
-# Specify the C++ compiler flags
+# C++ compiler flags
 CXXFLAGS = -g -Wall -Weffc++ -std=c++11 -Iinclude
 
-# Specify the libraries to link to
+# Libraries to link to
 LIBS = -lboost_system -lpthread
 
-# Default target
+# Target to build
 $(TARGET): $(OBJECTS)
 	$(CXX) -o $(TARGET) $(OBJECTS) $(LIBS)
 
 # Rule to build the object files from the source code files
-
 bin/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Rule to clean up the build artifacts
-all: clean $(TARGET)
-
 clean:
 	rm -f $(OBJECTS) $(TARGET)
