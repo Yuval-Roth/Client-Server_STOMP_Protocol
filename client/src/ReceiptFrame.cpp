@@ -1,0 +1,1 @@
+#include "../include/ReceiptFrame.h";
