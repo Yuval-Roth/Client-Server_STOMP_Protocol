@@ -18,7 +18,7 @@ class Frame {
         Frame(unordered_map<string, string> headers, string frameBody, StompCommand command);
         static Frame* parse(string messageToParse);
         string toString();
-        ~Frame() = default;
+        virtual ~Frame() = default;
 
     private:
         unordered_map<string, string> headers;

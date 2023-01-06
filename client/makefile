@@ -1,3 +1,5 @@
+all: clean $(TARGET)
+
 # Specify the target executable name
 TARGET = bin/StompWCIClient
 
@@ -14,7 +16,7 @@ CXX = g++
 CXXFLAGS = -g -Wall -Weffc++ -std=c++11 -Iinclude
 
 # Specify the libraries to link to
-LIBS = -lm -lboost_system -lpthread
+LIBS = -lboost_system -lpthread
 
 # Default target
 $(TARGET): $(OBJECTS)
@@ -26,5 +28,7 @@ bin/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Rule to clean up the build artifacts
+.PHONY: clean
+
 clean:
 	rm -f $(OBJECTS) $(TARGET)

@@ -82,6 +82,7 @@ Frame* Frame::createFrame(StompCommand command, unordered_map<string, string> he
             return new ReceiptFrame(headers, frameBody);
         case ERROR:
             return new ErrorFrame(headers, frameBody);
+        default: return nullptr;
     }
 }
 
