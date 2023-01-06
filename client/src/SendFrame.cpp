@@ -1,5 +1,5 @@
-#include "../include/SendFrame.h";
+#include "SendFrame.h"
 
-void ExecutableFrame::execute(){
+void SendFrame::execute(ConnectionHandler& handler){
     //TODO
 }

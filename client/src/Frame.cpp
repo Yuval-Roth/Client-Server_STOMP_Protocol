@@ -1,4 +1,4 @@
-#include "../include/Frame.h";
+#include "../include/Frame.h"
 #include "../include/ConnectFrame.h"
 #include "../include/ConnectedFrame.h"
 #include "../include/SendFrame.h"
@@ -88,8 +88,8 @@ Frame* Frame::createFrame(StompCommand command, unordered_map<string, string> he
 string Frame::toString() {
     string output = "";
     output += command + NEW_LINE;
-    for (const auto& [key, value] : headers) {
-        output += key + HEADER_DELIMITER + value + NEW_LINE;
+    for (const auto& header : headers) {
+        output += header.first + HEADER_DELIMITER + header.second + NEW_LINE;
     }
     output += NEW_LINE;
     if (!frameBody.empty()) {

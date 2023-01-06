@@ -1,5 +1,5 @@
-#include "../include/SubscribeFrame.h";
+#include "SubscribeFrame.h"
 
-void ExecutableFrame::execute(){
+void SubscribeFrame::execute(ConnectionHandler& handler){
     //TODO
 }

@@ -1,5 +1,5 @@
-#include "../include/DisconnectFrame.h";
+#include "DisconnectFrame.h"
 
-void ExecutableFrame::execute(){
+void DisconnectFrame::execute(ConnectionHandler& handler){
     //TODO
 }

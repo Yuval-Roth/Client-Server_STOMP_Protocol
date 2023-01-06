@@ -1,54 +1,30 @@
-CFLAGS:=-c -Wall -Weffc++ -g -std=c++11 -Iinclude
-LDFLAGS:=-lboost_system -lpthread
+# Specify the target executable name
+TARGET = bin/StompWCIClient
 
-all: bin/StompWCIClient
+# Specify the source code files
+SOURCES = $(wildcard src/*.cpp)
 
-StompWCIClient: bin/ConnectionHandler.o bin/StompClient.o bin/event.o
-	g++ -o bin/StompWCIClient bin/ConnectionHandler.o bin/StompClient.o $(LDFLAGS)
+# Specify the object files that will be created from the source code files
+OBJECTS = $(SOURCES:src/%.cpp=bin/%.o)
 
-bin/ConnectionHandler.o: src/ConnectionHandler.cpp
-	g++ $(CFLAGS) -o bin/ConnectionHandler.o src/ConnectionHandler.cpp
+# Specify the C++ compiler to use
+CXX = g++
 
-bin/event.o: src/event.cpp
-	g++ $(CFLAGS) -o bin/event.o src/event.cpp
+# Specify the C++ compiler flags
+CXXFLAGS = -g -Wall -Weffc++ -std=c++11 -Iinclude
 
-bin/StompClient.o: src/StompClient.cpp
-	g++ $(CFLAGS) -o bin/StompClient.o src/StompClient.cpp
+# Specify the libraries to link to
+LIBS = -lm -lboost_system -lpthread
 
-bin/Frames.o: src/Frames.cpp
-	g++ $(CFLAGS) -o bin/Frames.o src/Frames.cpp
+# Default target
+$(TARGET): $(OBJECTS)
+	$(CXX) $(OBJECTS) $(LIBS) -o $(TARGET)
 
-bin/ExecutableFrames.o: src/ExecutableFrames.cpp
-	g++ $(CFLAGS) -o bin/ExecutableFrames.o src/ExecutableFrames.cpp
+# Rule to build the object files from the source code files
 
-bin/ConnectedFrame.o: src/ConnectedFrame.cpp
-	g++ $(CFLAGS) -o bin/ConnectedFrame.o src/ConnectedFrame.cpp
+bin/%.o: src/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-bin/ConnectionFrame.o: src/ConnectionFrame.cpp
-	g++ $(CFLAGS) -o bin/ConnectionFrame.o src/ConnectionFrame.cpp
-
-bin/DisconnectFrame.o: src/DisconnectFrame.cpp
-	g++ $(CFLAGS) -o bin/DisconnectFrame.o src/DisconnectFrame.cpp
-
-bin/ErrorFrame.o: src/ErrorFrame.cpp
-	g++ $(CFLAGS) -o bin/ErrorFrame.o src/ErrorFrame.cpp
-
-bin/MessageFrame.o: src/MessageFrame.cpp
-	g++ $(CFLAGS) -o bin/MessageFrame.o src/MessageFrame.cpp
-
-bin/ReceiptFrame.o: src/ReceiptFrame.cpp
-	g++ $(CFLAGS) -o bin/ReceiptFrame.o src/ReceiptFrame.cpp
-
-bin/SendFrame.o: src/SendFrame.cpp
-	g++ $(CFLAGS) -o bin/SendFrame.o src/SendFrame.cpp
-
-bin/SubscribeFrame.o: src/SubscribeFrame.cpp
-	g++ $(CFLAGS) -o bin/SubscribeFrame.o src/SubscribeFrame.cpp
-
-bin/UnsubscribeFrame.o: src/UnsubscribeFrame.cpp
-	g++ $(CFLAGS) -o bin/UnsubscribeFrame.o src/UnsubscribeFrame.cpp
-
-.PHONY: clean
+# Rule to clean up the build artifacts
 clean:
-	rm -f bin/*
-	
+	rm -f $(OBJECTS) $(TARGET)
