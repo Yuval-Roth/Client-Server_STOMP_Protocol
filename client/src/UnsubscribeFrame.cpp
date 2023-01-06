@@ -1,5 +1,11 @@
 #include "UnsubscribeFrame.h"
 
-void UnsubscribeFrame::execute(ConnectionHandler& handler){
+UnsubscribeFrame::UnsubscribeFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
+    : ExecutableFrame(command, headers, frameBody)
+{
+}
+
+void UnsubscribeFrame::execute(ConnectionHandler &handler)
+{
     //TODO
 }

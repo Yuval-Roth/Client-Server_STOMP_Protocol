@@ -4,5 +4,5 @@
 
 class ErrorFrame : public Frame {
     public:
-        ErrorFrame(unordered_map<string, string> headers, string frameBody);
+        ErrorFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
 };

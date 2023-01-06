@@ -4,6 +4,6 @@
 
 class SendFrame : public ExecutableFrame {
     public:
-        SendFrame(unordered_map<string, string> headers, string frameBody);
+        SendFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
         void execute(ConnectionHandler& handler);
 };

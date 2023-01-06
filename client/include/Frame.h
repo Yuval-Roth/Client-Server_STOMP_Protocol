@@ -15,7 +15,8 @@ class Frame {
         static constexpr char NEW_LINE = '\n';
         static constexpr char HEADER_DELIMITER = ':';
            
-        Frame(unordered_map<string, string> headers, string frameBody, StompCommand command);
+        Frame () = delete;   
+        Frame(StompCommand command, unordered_map<string, string> headers, string frameBody);
         static Frame* parse(string messageToParse);
         string toString();
         virtual ~Frame() = default;

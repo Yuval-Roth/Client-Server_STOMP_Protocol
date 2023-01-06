@@ -9,7 +9,7 @@
 #include "ReceiptFrame.h"
 #include "ErrorFrame.h"
 
-Frame::Frame(unordered_map<string, string> headers, string frameBody, StompCommand command)
+Frame::Frame(StompCommand command, unordered_map<string, string> headers, string frameBody)
     : headers(headers), frameBody(frameBody), command(command) {}
 
 Frame* Frame::parse(string messageToParse) {
@@ -63,25 +63,26 @@ StompCommand Frame::parseCommand(string command) {
 }
 
 Frame* Frame::createFrame(StompCommand command, unordered_map<string, string> headers, string frameBody) {
+
     switch (command) {
         case CONNECT:
-            return new ConnectFrame(headers, frameBody);
+            return new ConnectFrame(command, headers, frameBody);
         case CONNECTED:
-            return new ConnectedFrame(headers, frameBody);
+            return new ConnectedFrame(command, headers, frameBody);
         case SEND:
-            return new SendFrame(headers, frameBody);
+            return new SendFrame(command, headers, frameBody);
         case SUBSCRIBE:
-            return new SubscribeFrame(headers, frameBody);
+            return new SubscribeFrame(command, headers, frameBody);
         case UNSUBSCRIBE:
-            return new UnsubscribeFrame(headers, frameBody);
+            return new UnsubscribeFrame(command, headers, frameBody);
         case DISCONNECT:
-            return new DisconnectFrame(headers, frameBody);
+            return new DisconnectFrame(command, headers, frameBody);
         case MESSAGE:
-            return new MessageFrame(headers, frameBody);
+            return new MessageFrame(command, headers, frameBody);
         case RECEIPT:
-            return new ReceiptFrame(headers, frameBody);
+            return new ReceiptFrame(command, headers, frameBody);
         case ERROR:
-            return new ErrorFrame(headers, frameBody);
+            return new ErrorFrame(command, headers, frameBody);
         default: return nullptr;
     }
 }

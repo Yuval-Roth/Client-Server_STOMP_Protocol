@@ -1,5 +1,11 @@
 #include "DisconnectFrame.h"
 
-void DisconnectFrame::execute(ConnectionHandler& handler){
+DisconnectFrame::DisconnectFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
+    : ExecutableFrame(command, headers, frameBody)
+{
+}
+
+void DisconnectFrame::execute(ConnectionHandler &handler)
+{
     //TODO
 }

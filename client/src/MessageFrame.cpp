@@ -1,5 +1,11 @@
 #include "MessageFrame.h"
 
-void MessageFrame::execute(ConnectionHandler& handler){
+MessageFrame::MessageFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
+    : ExecutableFrame(command, headers, frameBody)
+{
+}
+
+void MessageFrame::execute(ConnectionHandler &handler)
+{
     //TODO
 }

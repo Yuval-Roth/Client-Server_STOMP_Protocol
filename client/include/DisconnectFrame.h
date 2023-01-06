@@ -4,6 +4,6 @@
 
 class DisconnectFrame : public ExecutableFrame {
     public:
-        DisconnectFrame(unordered_map<string, string> headers, string frameBody);
+        DisconnectFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
         void execute(ConnectionHandler& handler);
 };

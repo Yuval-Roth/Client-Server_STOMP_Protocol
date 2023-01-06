@@ -4,6 +4,6 @@
 
 class UnsubscribeFrame : public ExecutableFrame {
     public:
-        UnsubscribeFrame(unordered_map<string, string> headers, string frameBody);
+        UnsubscribeFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
         void execute(ConnectionHandler& handler);
 };
