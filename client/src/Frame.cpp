@@ -1,13 +1,13 @@
-#include "../include/Frame.h"
-#include "../include/ConnectFrame.h"
-#include "../include/ConnectedFrame.h"
-#include "../include/SendFrame.h"
-#include "../include/SubscribeFrame.h"
-#include "../include/UnsubscribeFrame.h"
-#include "../include/DisconnectFrame.h"
-#include "../include/MessageFrame.h"
-#include "../include/ReceiptFrame.h"
-#include "../include/ErrorFrame.h"
+#include "Frame.h"
+#include "ConnectFrame.h"
+#include "ConnectedFrame.h"
+#include "SendFrame.h"
+#include "SubscribeFrame.h"
+#include "UnsubscribeFrame.h"
+#include "DisconnectFrame.h"
+#include "MessageFrame.h"
+#include "ReceiptFrame.h"
+#include "ErrorFrame.h"
 
 Frame::Frame(unordered_map<string, string> headers, string frameBody, StompCommand command)
     : headers(headers), frameBody(frameBody), command(command) {}

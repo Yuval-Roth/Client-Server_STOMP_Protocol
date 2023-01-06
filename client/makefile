@@ -1,5 +1,3 @@
-all: clean $(TARGET)
-
 # Specify the target executable name
 TARGET = bin/StompWCIClient
 
@@ -20,7 +18,7 @@ LIBS = -lboost_system -lpthread
 
 # Default target
 $(TARGET): $(OBJECTS)
-	$(CXX) $(OBJECTS) $(LIBS) -o $(TARGET)
+	$(CXX) -o $(TARGET) $(OBJECTS) $(LIBS)
 
 # Rule to build the object files from the source code files
 
@@ -28,7 +26,7 @@ bin/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Rule to clean up the build artifacts
-.PHONY: clean
+all: clean $(TARGET)
 
 clean:
 	rm -f $(OBJECTS) $(TARGET)
