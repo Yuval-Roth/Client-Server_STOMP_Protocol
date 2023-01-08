@@ -1,8 +1,10 @@
+
 # Target executable name
 TARGET = bin/StompWCIClient
 
 # Source code files
-SOURCES = $(wildcard src/*.cpp)
+# SOURCES = $(wildcard src/*.cpp)
+SOURCES = $(shell find src -name '*.cpp')
 
 # Object files that will be created from the source code files
 OBJECTS = $(SOURCES:src/%.cpp=bin/%.o)
@@ -11,21 +13,27 @@ OBJECTS = $(SOURCES:src/%.cpp=bin/%.o)
 CXX = g++
 
 # C++ compiler flags
-CXXFLAGS = -g -Wall -Weffc++ -std=c++11 -Iinclude
+CXXFLAGS = -g -Wall -Weffc++ -std=c++11 -Iinclude -Iinclude/Frames
 
 # Libraries to link to
 LIBS = -lboost_system -lpthread
+
+.PRECIOUS: createBin
 
 # Default target to build
 $(TARGET): $(OBJECTS)
 	$(CXX) -o $(TARGET) $(OBJECTS) $(LIBS)
 
 # Rule to build the object files from the source code files
-bin/%.o: src/%.cpp
+bin/%.o: src/%.cpp createBin
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+createBin:
+	mkdir -p bin
+	mkdir -p bin/Frames
 
 all: clean bin/StompWCIClient
 
 # Rule to clean up the build artifacts
 clean:
-	rm -f bin/*
+	rm -f -r bin/*
