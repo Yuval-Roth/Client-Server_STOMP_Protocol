@@ -3,15 +3,12 @@ using namespace std;
 
 #include "ConnectionHandler.h"
 #include "UserData.h"
+#include <vector>
 #include "ExecutableFrame.h"
 
 int main(int argc, char *argv[]) {
 
 	UserData& userData = UserData::getInstance();
-	
-
-
-
 	return 0;
 }
 void ActorThread_run(ConnectionHandler& handler) {
