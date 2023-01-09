@@ -16,28 +16,27 @@ int main(int argc, char *argv[]) {
 void ActorThread_run(ConnectionHandler& handler) {
 	UserData& userData = UserData::getInstance();
 
-	while(userData.isConnected() == false){
+	Frame* connectFrame = userData.getFrameQueue().front();
+	userData.getFrameQueue().pop();
 
-		Frame* connectFrame = userData.getFrameQueue().front();
-		userData.getFrameQueue().pop();
-
-		handler.sendFrameAscii(connectFrame->toString(), '\0');
-		
-		string loginResponse;
-		if(handler.getFrameAscii(loginResponse, '\0')) {
-			Frame* loginFrame = Frame::parse(loginResponse);
-			if(loginFrame->getCommand() == StompCommand::CONNECTED) {
-				cout << "Login successful" << endl;
-				delete loginFrame;
-				userData.setConnected(true);
-			}
-			else {
-				cout << "Login failed: "+ loginFrame->getHeaders().at("message") << endl;
-				delete loginFrame;
-				return;
-			}		
+	handler.sendFrameAscii(connectFrame->toString(), '\0');
+	
+	string loginResponse;
+	if(handler.getFrameAscii(loginResponse, '\0')) {
+		Frame* loginFrame = Frame::parse(loginResponse);
+		if(loginFrame->getCommand() == StompCommand::CONNECTED) {
+			cout << "Login successful" << endl;
+			userData.setConnected(true);
 		}
+		else {
+			cout << "Login failed: "+ loginFrame->getHeaders().at("message") << endl;
+		}	
+		delete loginFrame;
+		if(userData.isConnected() == false){
+			return;	// Login failed, terminate thread
+		} 
 	}
+	
 	while(userData.shouldTerminate() == false){
 
 		string message;
