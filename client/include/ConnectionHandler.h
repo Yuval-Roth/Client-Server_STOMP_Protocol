@@ -43,6 +43,9 @@ public:
 	// Returns false in case connection closed before null can be read.
 	bool getFrameAscii(std::string &frame, char delimiter);
 
+	//stop reading/writing from/to socket
+	void interrupt();
+
 	// Send a message to the remote host.
 	// Returns false in case connection is closed before all the data is sent.
 	bool sendFrameAscii(const std::string &frame, char delimiter);

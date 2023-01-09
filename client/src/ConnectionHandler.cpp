@@ -95,6 +95,11 @@ bool ConnectionHandler::getFrameAscii(std::string &frame, char delimiter) {
 	return true;
 }
 
+void ConnectionHandler::interrupt()
+{
+	socket_.cancel();
+}
+
 bool ConnectionHandler::sendFrameAscii(const std::string &frame, char delimiter) {
 	bool result = sendBytes(frame.c_str(), frame.length());
 	if (!result) return false;
