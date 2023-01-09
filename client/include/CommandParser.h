@@ -5,15 +5,19 @@
 #include "UserData.h"
 #include "StompCommand.h"
 #include <sstream>
+#include <iostream>
 
 class CommandParser
 {
 private:
-    CommandParser(/* args */);
+    CommandParser();
     ~CommandParser();
+    std::vector<std::string> split(std::string str, char delimiter);
 public:
-    static void parseCommand(string commandToParse);
+    void parseCommand(string commandToParse);
     ConnectionHandler* parseLoginCommand(vector<string> commandParameters);
 };
+
+
 
 

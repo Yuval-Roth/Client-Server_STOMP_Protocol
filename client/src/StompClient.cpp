@@ -8,14 +8,16 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-	ConnectionHandler handler();
-	thread actorThread(ActorThread_run, ref(handler));
-	UserData& userData = UserData::getInstance();
+	
+	//thread actorThread(actorThread_run); // Understand why it doesn't compile 
+		// note - it didn't compile even before I removed the connectionHandler argument from the function
+	UserData& userData = UserData::getInstance(); 
 	return 0;
 }
-void ActorThread_run(ConnectionHandler& handler) {
-	UserData& userData = UserData::getInstance();
 
+void actorThread_run() {
+	UserData& userData = UserData::getInstance();
+	ConnectionHandler& handler = userData.getHandler();
 	Frame* connectFrame = userData.getFrameQueue().front();
 	userData.getFrameQueue().pop();
 

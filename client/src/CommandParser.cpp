@@ -19,10 +19,8 @@ void CommandParser::parseCommand(string commandToParse)
     //TODO
     CommandParser commandParser;
     Frame* frame = new Frame();
-    vector<string> commandParameters;
-    // istringstream stream(commandToParse);
-    // getline(stream, ' ', commandParameters);
-    std::getline(commandToParse, ' ', commandParameters);
+    vector<string> commandParameters = split(commandToParse, ' ');
+    //vector<string> commandParameters;
 	string command = commandParameters[0];
 	if(command == "login"){
         ConnectionHandler* connectionHandler = 
@@ -59,4 +57,20 @@ ConnectionHandler* CommandParser::parseLoginCommand(vector<string> commandParame
 
     return connectionHandler;
 
+}
+
+
+
+std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
+  std::vector<std::string> tokens;
+  std::string token;
+  size_t start = 0;
+  size_t end = 0;
+  while ((end = str.find(delimiter, start)) != std::string::npos) {
+    token = str.substr(start, end - start);
+    tokens.push_back(token);
+    start = end + 1;
+  }
+  tokens.push_back(str.substr(start));
+  return tokens;
 }

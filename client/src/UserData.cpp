@@ -5,12 +5,11 @@ mutex& UserData::getLock()
     return m;
 }
 
-UserData &UserData::getInstance()
-{
-    //TODO - implement UserData::getInstance
 
-    return * new UserData(); 
-}
+// UserData * UserData::getInstancePtr(){
+//     static UserData instance;
+//     return &instance;
+// }
 
 void UserData::addAction(Frame* frame)
 {
@@ -58,3 +57,14 @@ void UserData::setConnected(bool connected)
     this->connected = connected;
 }
 
+
+void UserData::setHandler(ConnectionHandler& handler)
+{
+    this->handler = &handler;
+}
+
+
+ConnectionHandler& UserData::getHandler()
+{
+    return *handler;
+}

@@ -4,10 +4,10 @@ using namespace std;
 
 #include "StompCommand.h"
 #include "UserData.h"
-
 #include <unordered_map>
 #include <string>
 #include <sstream>
+class UserData; // Forward declaration, just to make the compiler happy
 
 class Frame {
     public:
