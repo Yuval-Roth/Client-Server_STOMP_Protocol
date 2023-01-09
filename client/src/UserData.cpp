@@ -1,15 +1,20 @@
 #include "UserData.h"
 
-UserData& UserData::getInstance()
+mutex& UserData::getLock()
+{
+    return m;
+}
+
+UserData &UserData::getInstance()
 {
     //TODO - implement UserData::getInstance
 
     return * new UserData(); 
 }
 
-void UserData::addAction(Frame frame)
+void UserData::addAction(Frame* frame)
 {
-    actionQueue.push(frame);
+    frameQueue.push(frame);
 }
 
 void UserData::setUserName(string userName)
@@ -17,7 +22,7 @@ void UserData::setUserName(string userName)
     this->userName = userName;
 }
 
-string UserData::getUserName()
+string& UserData::getUserName()
 {
     return userName;
 }
@@ -33,9 +38,9 @@ void UserData::notifyAll()
     cv.notify_all();
 }
 
-queue<Frame> UserData::getActionQueue()
+queue<Frame*>& UserData::getFrameQueue()
 {
-    return queue<Frame>();
+    return frameQueue;
 }
 
 bool UserData::shouldTerminate()
