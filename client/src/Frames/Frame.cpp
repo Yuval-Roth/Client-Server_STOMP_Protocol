@@ -100,3 +100,13 @@ string Frame::toString() {
     output += END_OF_FRAME;
     return output;
 }
+
+StompCommand Frame::getCommand()
+{
+    return StompCommand();
+}
+
+unordered_map<string, string> Frame::getHeaders()
+{
+    return unordered_map<string, string>();
+}
