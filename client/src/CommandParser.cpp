@@ -57,6 +57,7 @@ void CommandParser::parseLoginCommand(vector<string> commandParameters)
     UserData::getInstance().setUserName(username);
     UserData::getInstance().setPassword(password);
     UserData::getInstance().notifyAll();
+    // TODO: make this a factory?
 
 
 }
