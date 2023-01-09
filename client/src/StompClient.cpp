@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
 	
 	//thread actorThread(actorThread_run); // Understand why it doesn't compile 
 		// note - it didn't compile even before I removed the connectionHandler argument from the function
-	UserData& userData = UserData::getInstance(); 
+	// UserData& userData = UserData::getInstance(); 
 	return 0;
 }
 
@@ -42,7 +42,7 @@ void actorThread_run() {
 	while(userData.shouldTerminate() == false){
 
 		string message;
-		if(handler.getFrameAscii(message, '\0') & userData.getFrameQueue().empty() == false){
+		if(handler.getFrameAscii(message, '\0') & (userData.getFrameQueue().empty() == false)){
 			ExecutableFrame* frame = ExecutableFrame::parse(message);
 			frame->execute(handler);
 		}

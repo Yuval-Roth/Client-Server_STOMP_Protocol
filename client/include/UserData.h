@@ -15,29 +15,25 @@ class UserData{
 
         UserData(); // Private constructor. May want to create an actual constructor later. 
         // singleton
+        bool shouldTerminateFlag;
         bool connected;
         string userName;
-        string password;
+        // string password;
         mutex m;
-        queue<Frame*> frameQueue;
         condition_variable cv;
-        bool shouldTerminateFlag;
         ConnectionHandler* handler;
+        queue<Frame*> frameQueue;
+
+        static UserData* instance;
 
     public:
 
-        // ~UserData() = delete; // Prevent destruction
-        // UserData(const UserData&) = delete; // Prevent copy-construction
-        // UserData& operator=(const UserData&) = delete; // Prevent assignment
-       // check if they're needed
+        UserData(const UserData&) = delete; 
+        UserData& operator=(const UserData&) = delete;
+        // check if they're needed
         mutex& getLock();
 
-        static UserData& getInstance(){ 
-            /*should be declare here as it is a static method and not a member method.
-             Do NOT move this to the .cpp file*/
-            static UserData instance;
-            return instance;
-        };
+        static UserData& getInstance();
 
         bool isConnected();
         void setConnected(bool connected);
@@ -45,7 +41,8 @@ class UserData{
         void setUserName(string userName);
         string& getUserName();
 
-        void setPassword(string password);
+        // uneccesary. what purpose does it serve?
+        // void setPassword(string password);
 
         void wait();
         void notifyAll();
@@ -56,4 +53,5 @@ class UserData{
         void setHandler(ConnectionHandler& handler);
         bool shouldTerminate();
 
+        ~UserData();
 };
