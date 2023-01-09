@@ -17,3 +17,13 @@ void UserData::notifyAll()
 {
     cv.notify_all();
 }
+
+void UserData::addAction(Frame frame)
+{
+    actionQueue.push(frame);
+}
+
+void UserData::setLoggedIn(bool loggedIn)
+{
+    this->loggedIn = loggedIn;
+}

@@ -19,6 +19,7 @@ class UserData{
         string userName;
         mutex m;
         condition_variable cv;
+        queue<Frame> actionQueue;
         UserData(); // Private constructor
         UserData(const UserData&) = delete; // Prevent copy-construction
         UserData& operator=(const UserData&) = delete; // Prevent assignment
