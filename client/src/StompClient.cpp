@@ -36,11 +36,11 @@ void ActorThread_run(ConnectionHandler& handler) {
 			return;	// Login failed, terminate thread
 		} 
 	}
-	
+
 	while(userData.shouldTerminate() == false){
 
 		string message;
-		if(handler.getFrameAscii(message, '\0')){
+		if(handler.getFrameAscii(message, '\0') & userData.getFrameQueue().empty() == false){
 			ExecutableFrame* frame = ExecutableFrame::parse(message);
 			frame->execute(handler);
 		}
