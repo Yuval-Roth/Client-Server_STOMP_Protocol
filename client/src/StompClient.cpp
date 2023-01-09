@@ -1,11 +1,15 @@
 
 using namespace std;
 
-#include "Frame.h"
 #include "ConnectionHandler.h"
+#include "UserData.h"
 
+
+UserData userData = UserData();
 
 int main(int argc, char *argv[]) {
+
+	thread actorThread(ActorThread_run);
 
 	
 
@@ -14,19 +18,10 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-void socketListener() {
+void ActorThread_run() {
 
 	ConnectionHandler handler = ConnectionHandler("localhost", 7777);
-	
+	userData.wait();
+	Frame actionQueue = userData.getActionQueue().front();
 
-
-	while(true){
-
-
-		// Read from socket
-
-
-		// Parse frame
-		// Call callback
-	}
 }
