@@ -11,23 +11,35 @@ using namespace std;
 class UserData{
 
     private:
+    
+        UserData(); // Private constructor
 
-    mutex m;
-    condition_variable cv;
-    string userName;
-    bool connected;
-    queue<Frame> actionQueue;
+        // singleton
+        static UserData* instance;
+        bool connected;
+        string userName;
+        mutex m;
+        queue<Frame> actionQueue;
+        condition_variable cv;
 
     public:
 
-    UserData() = default;
-    void addAction(Frame frame);
-    void setUserName(string userName);
-    string getUserName();
-    void wait();
-    void notifyAll();
-    queue<Frame> getActionQueue();
-    bool isConnected();
-    void setConnected(bool connected);
+        ~UserData() = delete;
+        UserData(const UserData&) = delete; // Prevent copy-construction
+        UserData& operator=(const UserData&) = delete; // Prevent assignment
+
+        static UserData& getInstance();
+
+        bool isConnected();
+        void setConnected(bool connected);
+
+        void setUserName(string userName);
+        string getUserName();
+
+        void wait();
+        void notifyAll();
+
+        void addAction(Frame frame);
+        queue<Frame> getActionQueue();
 
 };

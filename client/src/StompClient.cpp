@@ -4,16 +4,10 @@ using namespace std;
 #include "ConnectionHandler.h"
 #include "UserData.h"
 
-#include <iostream>
-
-
-
-UserData userData = UserData();
-
 int main(int argc, char *argv[]) {
 
 	thread actorThread(ActorThread_run);
-
+	UserData& userData = UserData::getInstance();
 	
 
 
@@ -22,7 +16,7 @@ int main(int argc, char *argv[]) {
 }
 
 void ActorThread_run() {
-
+	UserData& userData = UserData::getInstance();
 	ConnectionHandler handler = ConnectionHandler("localhost", 7777);
 	userData.wait();
 	Frame actionQueue = userData.getActionQueue().front();

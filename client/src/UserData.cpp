@@ -1,5 +1,12 @@
 #include "UserData.h"
 
+UserData& UserData::getInstance()
+{
+    //TODO - implement UserData::getInstance
+
+    return * new UserData(); 
+}
+
 void UserData::addAction(Frame frame)
 {
     actionQueue.push(frame);
@@ -14,7 +21,6 @@ string UserData::getUserName()
 {
     return userName;
 }
-
 void UserData::wait()
 {
     unique_lock<mutex> lock(m);
