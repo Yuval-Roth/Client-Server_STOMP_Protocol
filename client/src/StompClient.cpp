@@ -17,7 +17,6 @@ void ActorThread_run(ConnectionHandler& handler) {
 	UserData& userData = UserData::getInstance();
 
 	while(userData.isConnected() == false){
-		userData.wait();
 
 		Frame* connectFrame = userData.getFrameQueue().front();
 		userData.getFrameQueue().pop();
@@ -29,12 +28,14 @@ void ActorThread_run(ConnectionHandler& handler) {
 			Frame* loginFrame = Frame::parse(loginResponse);
 			if(loginFrame->getCommand() == StompCommand::CONNECTED) {
 				cout << "Login successful" << endl;
+				delete loginFrame;
 				userData.setConnected(true);
 			}
 			else {
 				cout << "Login failed: "+ loginFrame->getHeaders().at("message") << endl;
-			}
-			delete loginFrame;
+				delete loginFrame;
+				return;
+			}		
 		}
 	}
 	while(userData.shouldTerminate() == false){
