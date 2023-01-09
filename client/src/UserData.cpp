@@ -1,5 +1,11 @@
 #include "UserData.h"
 
+
+UserData::UserData()
+{
+    loggedIn = false;
+}
+
 void UserData::wait()
 {
     unique_lock<mutex> lock(m);

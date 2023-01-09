@@ -1,6 +1,7 @@
 #include "ConnectedFrame.h"
 #include "UserData.h"
 
+
 ConnectedFrame::ConnectedFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
     : Frame(command, headers, frameBody)
 {
@@ -9,7 +10,8 @@ ConnectedFrame::ConnectedFrame(StompCommand command, unordered_map<string, strin
 
 
 void ConnectedFrame::execute(ConnectionHandler &connectionHandler) {
-    userData.setLoggedIn(true);
+    
+    UserData::getInstance().setLoggedIn(true);
     cout << "Login successful!" << endl;
 
 }
