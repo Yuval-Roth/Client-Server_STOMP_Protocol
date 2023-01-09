@@ -11,7 +11,7 @@ ConnectedFrame::ConnectedFrame(StompCommand command, unordered_map<string, strin
 
 void ConnectedFrame::execute(ConnectionHandler &connectionHandler) {
     
-    UserData::getInstance().setLoggedIn(true);
+    UserData::getInstance().setConnected(true);
     cout << "Login successful!" << endl;
 
 }
