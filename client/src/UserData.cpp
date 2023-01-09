@@ -5,6 +5,10 @@ mutex& UserData::getLock()
     return m;
 }
 
+UserData::UserData(): shouldTerminateFlag(false), connected(false), handler(nullptr), userName(), frameQueue(), m(), cv()
+{
+}
+
 
 // UserData * UserData::getInstancePtr(){
 //     static UserData instance;
@@ -19,6 +23,11 @@ void UserData::addAction(Frame* frame)
 void UserData::setUserName(string userName)
 {
     this->userName = userName;
+}
+
+void UserData::setPassword(string password)
+{
+    this->password = password;
 }
 
 string& UserData::getUserName()

@@ -15,7 +15,7 @@ private:
     std::vector<std::string> split(std::string str, char delimiter);
 public:
     void parseCommand(string commandToParse);
-    ConnectionHandler* parseLoginCommand(vector<string> commandParameters);
+    void parseLoginCommand(vector<string> commandParameters);
 };
 
 

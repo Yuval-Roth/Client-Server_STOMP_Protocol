@@ -23,12 +23,11 @@ void CommandParser::parseCommand(string commandToParse)
     //vector<string> commandParameters;
 	string command = commandParameters[0];
 	if(command == "login"){
-        ConnectionHandler* connectionHandler = 
-                                        commandParser.parseLoginCommand(commandParameters);
+        commandParser.parseLoginCommand(commandParameters);
     }
 }
 
-ConnectionHandler* CommandParser::parseLoginCommand(vector<string> commandParameters)
+void CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
     if(!commandParameters.size() == 4){
         cout << "Invalid number of parameters" << endl;
@@ -54,8 +53,11 @@ ConnectionHandler* CommandParser::parseLoginCommand(vector<string> commandParame
 
     Frame* frame = new Frame(command, headersMap, frameBody);
     UserData::getInstance().addAction(frame);
+    UserData::getInstance().setHandler(*connectionHandler);
+    UserData::getInstance().setUserName(username);
+    UserData::getInstance().setPassword(password);
+    UserData::getInstance().notifyAll();
 
-    return connectionHandler;
 
 }
 

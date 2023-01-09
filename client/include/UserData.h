@@ -13,11 +13,11 @@ class UserData{
 
     private:
 
-        UserData() {}; // Private constructor. May want to create an actual constructor later. 
-
+        UserData(); // Private constructor. May want to create an actual constructor later. 
         // singleton
         bool connected;
         string userName;
+        string password;
         mutex m;
         queue<Frame*> frameQueue;
         condition_variable cv;
@@ -44,6 +44,8 @@ class UserData{
 
         void setUserName(string userName);
         string& getUserName();
+
+        void setPassword(string password);
 
         void wait();
         void notifyAll();
