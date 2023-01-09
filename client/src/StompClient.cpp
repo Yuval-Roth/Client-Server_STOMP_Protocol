@@ -35,5 +35,8 @@ void ActorThread_run() {
 				cout << "Login failed: "+ loginFrame->getHeaders().at("message") << endl;
 			}
 	}
+	while(userData.shouldTerminate() == false){
+		//TODO main actor thread loop
+	}
 
 }

@@ -38,6 +38,11 @@ queue<Frame> UserData::getActionQueue()
     return queue<Frame>();
 }
 
+bool UserData::shouldTerminate()
+{
+    return shouldTerminateFlag;
+}
+
 bool UserData::isConnected()
 {
     return connected;
@@ -47,3 +52,4 @@ void UserData::setConnected(bool connected)
 {
     this->connected = connected;
 }
+

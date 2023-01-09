@@ -11,7 +11,7 @@ using namespace std;
 class UserData{
 
     private:
-    
+
         UserData(); // Private constructor
 
         // singleton
@@ -21,6 +21,7 @@ class UserData{
         mutex m;
         queue<Frame> actionQueue;
         condition_variable cv;
+        bool shouldTerminateFlag;
 
     public:
 
@@ -41,5 +42,7 @@ class UserData{
 
         void addAction(Frame frame);
         queue<Frame> getActionQueue();
+
+        bool shouldTerminate();
 
 };
