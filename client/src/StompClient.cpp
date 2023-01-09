@@ -21,7 +21,6 @@ void ActorThread_run(ConnectionHandler& handler) {
 		userData.getFrameQueue().pop();
 
 		handler.sendFrameAscii(connectFrame->toString(), '\0');
-		
 		string loginResponse;
 		if(handler.getFrameAscii(loginResponse, '\0')) {
 			Frame* loginFrame = Frame::parse(loginResponse);

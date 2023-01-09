@@ -14,31 +14,49 @@ CommandParser::~CommandParser()
 {
 }
 
-Frame CommandParser::parseCommand(string commandToParse)
+void CommandParser::parseCommand(string commandToParse)
 {
     //TODO
     CommandParser commandParser;
     Frame* frame = new Frame();
-    vector<string> commandParameters = split(commandToParse, ' ');
+    vector<string> commandParameters;
+    // istringstream stream(commandToParse);
+    // getline(stream, ' ', commandParameters);
+    std::getline(commandToParse, ' ', commandParameters);
 	string command = commandParameters[0];
 	if(command == "login"){
-        commandParser.parseLoginCommand(commandParameters);
+        ConnectionHandler* connectionHandler = 
+                                        commandParser.parseLoginCommand(commandParameters);
     }
-    return Frame();
 }
 
-void CommandParser::parseLoginCommand(vector<string> commandParameters)
+ConnectionHandler* CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
-    if(!commandParameters.length() == 4){
+    if(!commandParameters.size() == 4){
         cout << "Invalid number of parameters" << endl;
         cout << "Useage: login {host:port} {username} {password}" << endl;
-        return;
+        throw "Invalid number of parameters";
     }
     string hostPort = commandParameters[1];
     string host = hostPort.substr(0, hostPort.find(':'));
-    int port = stoi(hostPort.substr(hostPort.find(':'), hostPort.length()); //TODO: check if this is correct
+    int port = stoi(hostPort.substr(hostPort.find(':'), hostPort.length())); //TODO: check if this is correct
+
     ConnectionHandler* connectionHandler = new ConnectionHandler(host, port);
+
     string username = commandParameters[2];
     string password = commandParameters[3];
+
+    unordered_map<string, string> headersMap;
+    headersMap["accept-version"] = "1.2";
+    headersMap["host"] = host;
+    headersMap["username"] = username;
+    headersMap["password"] = password;
+    StompCommand command = StompCommand::CONNECT;
+    string frameBody = "";
+
+    Frame* frame = new Frame(command, headersMap, frameBody);
+    UserData::getInstance().addAction(frame);
+
+    return connectionHandler;
 
 }
