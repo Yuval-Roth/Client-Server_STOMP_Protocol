@@ -8,6 +8,8 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
+	ConnectionHandler handler();
+	thread actorThread(ActorThread_run, ref(handler));
 	UserData& userData = UserData::getInstance();
 	return 0;
 }
@@ -32,10 +34,11 @@ void ActorThread_run(ConnectionHandler& handler) {
 			else {
 				cout << "Login failed: "+ loginFrame->getHeaders().at("message") << endl;
 			}
+			delete loginFrame;
 		}
 	}
 	while(userData.shouldTerminate() == false){
-		//TODO main actor thread loop
+
 		string message;
 		if(handler.getFrameAscii(message, '\0')){
 			ExecutableFrame* frame = ExecutableFrame::parse(message);
@@ -49,6 +52,7 @@ void ActorThread_run(ConnectionHandler& handler) {
 				Frame* frame = frameQueue.front();
 				frameQueue.pop();
 				handler.sendFrameAscii(frame->toString(), '\0');
+				delete frame;
 			}
 			lock.unlock();
 		}
