@@ -20,6 +20,7 @@ class UserData{
         bool shouldTerminateFlag;
         bool connected;
         int nextRecieptNumber;
+        int nextSubscriptionNumber;
         string userName;
         mutex m;
         condition_variable cv;
@@ -56,6 +57,7 @@ class UserData{
         ConnectionHandler& getHandler();
         void setHandler(ConnectionHandler& handler);
         int getRecieptID();
+        int generateSubscriptionID(string topic);
 
         bool shouldTerminate();
 

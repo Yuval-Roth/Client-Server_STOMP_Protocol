@@ -98,3 +98,12 @@ UserData::~UserData()
 int UserData::getRecieptID() {
     return nextRecieptNumber++;
 }
+
+int UserData::generateSubscriptionID(string topic) {
+    // TODO: add to topics map
+    return nextSubscriptionNumber++;
+}
+
+
+
+
