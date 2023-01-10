@@ -18,11 +18,6 @@ class Frame {
            
         Frame () = delete;   
         Frame(StompCommand command, unordered_map<string, string> headers, string frameBody);
-        static Frame* parse(string messageToParse);
-        string toString();
-        StompCommand getCommand();
-        unordered_map<string,string> getHeaders();
-        string getFrameBody();
 
     private:
         unordered_map<string, string> headers;
@@ -34,8 +29,13 @@ class Frame {
 
     protected:
         static UserData& userData;
-        
+
     public:
+        static Frame* parse(string messageToParse);
+        string toString();
+        StompCommand getCommand();
+        unordered_map<string,string> getHeaders();
+        string getFrameBody();
         virtual ~Frame() = default;
 };
 

@@ -107,10 +107,15 @@ string Frame::toString() {
 
 StompCommand Frame::getCommand()
 {
-    return StompCommand();
+    return command;
 }
 
 unordered_map<string, string> Frame::getHeaders()
 {
-    return unordered_map<string, string>();
+    return headers;
+}
+
+string Frame::getFrameBody()
+{
+    return frameBody;
 }

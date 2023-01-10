@@ -8,7 +8,7 @@ UserData* UserData::instance;
 
 UserData::UserData()
     : shouldTerminateFlag(false), connected(false), nextRecieptNumber(0),nextSubscriptionNumber(0),
-    userName(), m(), cv(), handler(nullptr), frameQueue(){}
+    userName(), m(), cv(), handler(nullptr), frameQueue(),gameEvents(){}
 
 mutex& UserData::getLock()
 {
