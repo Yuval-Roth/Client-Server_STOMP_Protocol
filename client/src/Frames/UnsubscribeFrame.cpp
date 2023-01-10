@@ -1,11 +1,15 @@
 #include "UnsubscribeFrame.h"
 
-UnsubscribeFrame::UnsubscribeFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
-    : ExecutableFrame(command, headers, frameBody)
-{
-}
+const string ID_HEADER = "id";
+const string DESTINATION_HEADER = "destination";
 
-void UnsubscribeFrame::execute(ConnectionHandler &handler)
+UnsubscribeFrame::UnsubscribeFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
+    : Frame(command, headers, frameBody){}
+
+UnsubscribeFrame *UnsubscribeFrame::get(int subId, string topic)
 {
-    //TODO
+    unordered_map<string, string> headers;
+    headers[ID_HEADER] = to_string(subId);
+    headers[DESTINATION_HEADER] = topic;
+    return new UnsubscribeFrame(UNSUBSCRIBE, headers, "");
 }
