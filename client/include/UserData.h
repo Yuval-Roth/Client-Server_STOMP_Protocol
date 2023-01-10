@@ -11,23 +11,27 @@ class Frame;
 
 class UserData{
 
+    //====================================================================================|
+    //================================ Fields ============================================|
+    //====================================================================================|
+
     private:
 
-        UserData(); // Private constructor. May want to create an actual constructor later. 
-        // singleton
+        static UserData* instance;
+
         bool shouldTerminateFlag;
         bool connected;
         string userName;
-        // string password;
         mutex m;
         condition_variable cv;
         ConnectionHandler* handler;
         queue<Frame*> frameQueue;
 
-        static UserData* instance;
 
-        ~UserData();
-
+    //====================================================================================|
+    //================================ Methods ===========================================|
+    //====================================================================================|
+    
     public:
 
         // we need these to be deleted functions so the comiler would not
@@ -36,18 +40,14 @@ class UserData{
         // so it's necessary to delete these methods.
         UserData(const UserData&) = delete; 
         UserData& operator=(const UserData&) = delete;
-        mutex& getLock();
 
-        static UserData& getInstance();
+        mutex& getLock();
 
         bool isConnected();
         void setConnected(bool connected);
 
         void setUserName(string userName);
         string& getUserName();
-
-        // uneccesary. what purpose does it serve?
-        // void setPassword(string password);
 
         void wait();
         void notifyAll();
@@ -56,8 +56,15 @@ class UserData{
         queue<Frame*>& getFrameQueue();
         ConnectionHandler& getHandler();
         void setHandler(ConnectionHandler& handler);
+
         bool shouldTerminate();
 
+        static UserData& getInstance();
         static void deleteInstance(bool,bool,bool);
+
+    private:
+    
+        UserData(); // Private constructor. May want to create an actual constructor later. 
+        ~UserData();
         
 };
