@@ -7,8 +7,8 @@ using namespace std;
 UserData* UserData::instance;
 
 UserData::UserData()
-    : shouldTerminateFlag(false), connected(false), nextRecieptNumber(0),nextSubscriptionNumber(0),
-    userName(), m(), cv(), handler(nullptr), frameQueue(),gameEvents(),gameNameToSubId(),subIdToGameName() {}
+    : shouldTerminateFlag(false), connected(false), nextReceiptNumber(0), nextSubscriptionNumber(0),
+      userName(), m(), cv(), handler(nullptr), frameQueue(), gameEvents(), gameNameToSubId(), subIdToGameName() {}
 
 mutex& UserData::getLock()
 {
@@ -101,7 +101,7 @@ UserData::~UserData()
 }
 
 int UserData::getReceiptId() {
-    return nextRecieptNumber++;
+    return nextReceiptNumber++;
 }
 
 int UserData::generateSubId(string topic) {

@@ -24,7 +24,7 @@ class UserData{
 
         bool shouldTerminateFlag;
         bool connected;
-        int nextRecieptNumber;
+        int nextReceiptNumber;
         int nextSubscriptionNumber;
         string userName;
         mutex m;
