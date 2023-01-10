@@ -2,11 +2,11 @@
 
 using namespace std;
 
-#include "Frame.h"
 #include <mutex>
 #include <condition_variable>
 #include <queue>
 #include "ConnectionHandler.h"
+
 class Frame;
 
 class UserData{
@@ -28,9 +28,12 @@ class UserData{
 
     public:
 
+        // we need these to be deleted functions so the comiler would not
+        // allow us to use a copy constructor and a copy assignment operator
+        // also it gives warnings because we have pointers and didn't implement these
+        // so it's necessary to delete these methods.
         UserData(const UserData&) = delete; 
         UserData& operator=(const UserData&) = delete;
-        // check if they're needed
         mutex& getLock();
 
         static UserData& getInstance();

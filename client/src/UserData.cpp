@@ -1,4 +1,5 @@
 #include "UserData.h"
+#include "Frame.h"
 
 UserData* UserData::instance;
 
