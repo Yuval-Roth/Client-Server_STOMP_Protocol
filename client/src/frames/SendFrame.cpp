@@ -23,7 +23,7 @@ SendFrame *SendFrame::get(Event& event)
     }
     // copilot generated - seems like an iterator over the map and seems to do the trick. check if this the right output
     headers["game updates"] = gameUpdatesString;
-    headers["description"] = event.get_discription();
+    headers["description"] = event.get_description();
     SendFrame *frame = new SendFrame(StompCommand::SEND, headers, "");
     return frame;
 }
