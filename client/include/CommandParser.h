@@ -21,6 +21,8 @@ public:
     static void parseExitCommand(vector<string> commandParameters);
 
     static void parseReportCommand(vector<string> commandParameters);
+
+    static void parseSummaryCommand(vector<string> vector1);
 };
 
 

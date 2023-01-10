@@ -8,6 +8,7 @@
 #include "UnsubscribeFrame.h"
 #include "event.h"
 #include <sstream>
+#include <fstream>
 #include <iostream>
 #include "SendFrame.h"
 
@@ -30,6 +31,10 @@ void CommandParser::parseCommand(string commandToParse)
 
   else if (command == "report"){
       parseReportCommand(commandParameters);
+  }
+
+  else if (command == "summary"){
+      parseSummaryCommand(commandParameters)
   }
 }
 
@@ -124,6 +129,27 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
     }
     userData.notifyAll();
 
+
+}
+
+void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
+    if(commandParameters.size() != 4){
+        cout << "Invalid number of parameters" << endl;
+        cout << "Usage: summary {game_name} {user} {file}" << endl;
+        return;
+    }
+    string gameName = commandParameters[1];
+    string userName = commandParameters[2];
+    string fileName = commandParameters[3];
+    ofstream summaryFile;
+    summaryFile.open(fileName);
+    string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
+    summaryFile << summaryString << endl;
+    summaryFile.close();
+
+    UserData & userData = UserData::getInstance();
+
+}
 
 }
 
