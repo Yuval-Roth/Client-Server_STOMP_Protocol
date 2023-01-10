@@ -62,6 +62,11 @@ bool UserData::shouldTerminate()
     return shouldTerminateFlag;
 }
 
+void UserData::deleteInstance(bool b1, bool b2, bool b3)
+{
+    if(b1 & b2 & b3) delete this;
+}
+
 UserData::~UserData()
 {
     delete handler;

@@ -26,6 +26,8 @@ class UserData{
 
         static UserData* instance;
 
+        ~UserData();
+
     public:
 
         // we need these to be deleted functions so the comiler would not
@@ -56,5 +58,6 @@ class UserData{
         void setHandler(ConnectionHandler& handler);
         bool shouldTerminate();
 
-        ~UserData();
+        static void deleteInstance(bool,bool,bool);
+        
 };
