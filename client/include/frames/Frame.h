@@ -16,14 +16,13 @@ class Frame {
         static constexpr char NEW_LINE = '\n';
         static constexpr char HEADER_DELIMITER = ':';
 
-           
         Frame () = delete;   
         Frame(StompCommand command, unordered_map<string, string> headers, string frameBody);
 
-    private:
         unordered_map<string, string> headers;
         string frameBody;
         StompCommand command;
+    private:
 
         static StompCommand parseCommand(string command);   
         static Frame* createFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);

@@ -8,17 +8,20 @@
 #include <sstream>
 using json = nlohmann::json;
 
-Event::Event(std::string team_a_name, std::string team_b_name, std::string name, int time,
+Event::Event(string reporter, std::string team_a_name, std::string team_b_name, std::string name, int time,
              std::map<std::string, std::string> game_updates, std::map<std::string, std::string> team_a_updates,
-             std::map<std::string, std::string> team_b_updates, std::string discription)
+             std::map<std::string, std::string> team_b_updates, std::string description)
     : team_a_name(team_a_name), team_b_name(team_b_name), name(name),
       time(time), game_updates(game_updates), team_a_updates(team_a_updates),
-      team_b_updates(team_b_updates), description(discription)
-{
+      team_b_updates(team_b_updates), description(description), reporter(reporter) {
 }
 
 Event::~Event()
 {
+}
+
+const string &Event::get_reporter() const {
+    return reporter;
 }
 
 const std::string &Event::get_team_a_name() const
@@ -61,8 +64,34 @@ const std::string &Event::get_description() const
     return this->description;
 }
 
-Event::Event(const std::string &frame_body) : team_a_name(""), team_b_name(""), name(""), time(0), game_updates(), team_a_updates(), team_b_updates(), description("")
+Event::Event(const std::string &frame_body)
+        : team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
+            team_a_updates(), team_b_updates(), description("")
 {
+    json j = json::parse(frame_body);
+    reporter = j["user"];
+    team_a_name = j["team_a_name"];
+    team_b_name = j["team_b_name"];
+    name = j["name"];
+    time = j["time"];
+    game_updates = j["game_updates"];
+    team_a_updates = j["team_a_updates"];
+    team_b_updates = j["team_b_updates"];
+    description = j["description"];
+}
+
+string Event::toJson() {
+    json j;
+    j["user"] = reporter;
+    j["team_a_name"] = team_a_name;
+    j["team_b_name"] = team_b_name;
+    j["name"] = name;
+    j["time"] = time;
+    j["game_updates"] = game_updates;
+    j["team_a_updates"] = team_a_updates;
+    j["team_b_updates"] = team_b_updates;
+    j["description"] = description;
+    return j.dump();
 }
 
 names_and_events parseEventsFile(std::string json_path)
@@ -107,7 +136,8 @@ names_and_events parseEventsFile(std::string json_path)
                 team_b_updates[update.key()] = update.value().dump();
         }
         
-        events.push_back(Event(team_a_name, team_b_name, name, time, game_updates, team_a_updates, team_b_updates, description));
+        events.push_back(Event(std::string(), team_a_name, team_b_name, name, time, game_updates, team_a_updates,
+                               team_b_updates, description));
     }
     names_and_events events_and_names{team_a_name, team_b_name, events};
 
