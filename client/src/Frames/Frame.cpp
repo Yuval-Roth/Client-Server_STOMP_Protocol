@@ -10,6 +10,7 @@
 #include "ErrorFrame.h"
 #include "UserData.h"
 
+
 UserData& Frame::userData = UserData::getInstance();
 const string Frame::PROTOCOL_VERSION = "1.2";
 

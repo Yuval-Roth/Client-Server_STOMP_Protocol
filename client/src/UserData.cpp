@@ -118,3 +118,11 @@ list<GameEvent *> &UserData::getGameEvents()
 {
     return gameEvents;
 }
+
+int UserData::getSubId(string topic) {
+    return gameNameToSubId[topic];
+}
+
+string UserData::getGameName(int subId) {
+    return subIdToGameName[subId];
+}

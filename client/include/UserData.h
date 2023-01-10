@@ -4,11 +4,14 @@
 #include <condition_variable>
 #include <queue>
 #include <list>
+#include <unordered_map>
+
 
 class ConnectionHandler;
 class Frame;
 class GameEvent;
 
+using namespace std;
 class UserData{
 
     //====================================================================================|
@@ -29,6 +32,9 @@ class UserData{
         ConnectionHandler* handler;
         queue<Frame*> frameQueue;
         list<GameEvent*> gameEvents;
+        unordered_map<string, int> gameNameToSubId;
+        unordered_map<int, string> subIdToGameName;
+
 
 
     //====================================================================================|
@@ -61,6 +67,8 @@ class UserData{
         void setHandler(ConnectionHandler& handler);
         int getReceiptId();
         int generateSubId(string topic);
+        int getSubId(string topic);
+        string getGameName(int subId);
         void addGameEvent(GameEvent* gameEvent);
         list<GameEvent*>& getGameEvents();
 
