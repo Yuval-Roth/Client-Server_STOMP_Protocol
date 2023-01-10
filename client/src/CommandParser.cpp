@@ -5,6 +5,7 @@
 #include "ConnectFrame.h"
 #include "DisconnectFrame.h"
 #include "SubscribeFrame.h"
+#include "UnsubscribeFrame.h"
 
 #include <sstream>
 #include <iostream>
@@ -21,6 +22,9 @@ void CommandParser::parseCommand(string commandToParse)
   }
   else if (command == "join"){
       parseJoinCommand(commandParameters);
+  }
+  else if (command == "exit"){
+      parseExitCommand(commandParameters);
   }
 }
 
@@ -82,6 +86,16 @@ void CommandParser::parseJoinCommand(vector<string> commandParameters) {
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
     ud.notifyAll();
+}
+
+void CommandParser::parseExitCommand(vector<string> commandParameters) {
+    if(commandParameters.size() != 2){
+        cout << "Invalid number of parameters" << endl;
+        cout << "Usage: exit {game_name}" << endl;
+        return;
+    }
+    string gameName = commandParameters[1];
+    UnsubscribeFrame* frame = UnubscribeFrame::get(gameName);
 }
 
 

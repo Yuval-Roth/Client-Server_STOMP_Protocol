@@ -16,7 +16,9 @@ public:
 
     static void parseLogoutCommand();
 
-    static void parseJoinCommand(vector<string> vector1);
+    static void parseJoinCommand(vector<string> commandParameters);
+
+    static void parseExitCommand(vector<string> commandParameters);
 };
 
 
