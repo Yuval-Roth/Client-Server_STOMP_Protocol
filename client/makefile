@@ -42,4 +42,4 @@ all: clean bin/StompWCIClient
 
 # Rule to clean up the build artifacts
 clean:
-	rm -f -r bin/*
+	rm -f -r bin/*.o bin/Frames/*.o bin/StompWCIClient
