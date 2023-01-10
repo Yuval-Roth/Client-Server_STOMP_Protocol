@@ -3,11 +3,11 @@
 using namespace std;
 
 #include "StompCommand.h"
-#include "UserData.h"
 #include <unordered_map>
 #include <string>
 #include <sstream>
-class UserData; // Forward declaration, just to make the compiler happy
+
+class UserData;
 
 class Frame {
     public:
@@ -16,7 +16,7 @@ class Frame {
         static constexpr char NEW_LINE = '\n';
         static constexpr char HEADER_DELIMITER = ':';
            
-        Frame () = default;   
+        Frame () = delete;   
         Frame(StompCommand command, unordered_map<string, string> headers, string frameBody);
         static Frame* parse(string messageToParse);
         string toString();

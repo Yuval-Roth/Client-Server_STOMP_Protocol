@@ -8,6 +8,7 @@
 #include "MessageFrame.h"
 #include "ReceiptFrame.h"
 #include "ErrorFrame.h"
+#include "UserData.h"
 
 UserData& Frame::userData = UserData::getInstance();
 
