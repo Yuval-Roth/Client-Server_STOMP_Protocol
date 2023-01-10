@@ -3,12 +3,10 @@ using namespace std;
 #include "ConnectionHandler.h"
 #include "UserData.h"
 #include "frames/ExecutableFrame.h"
-
 #include <vector>
 
 int main(int argc, char *argv[]) {
 
-	
 	//thread actorThread(actorThread_run); // Understand why it doesn't compile 
 		// note - it didn't compile even before I removed the connectionHandler argument from the function
 	// UserData& userData = UserData::getInstance(); 

@@ -34,7 +34,7 @@ void CommandParser::parseCommand(string commandToParse)
   }
 
   else if (command == "summary"){
-      parseSummaryCommand(commandParameters)
+      parseSummaryCommand(commandParameters);
   }
 }
 
@@ -147,10 +147,11 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
     summaryFile << summaryString << endl;
     summaryFile.close();
 
-    UserData & userData = UserData::getInstance();
+    // what is this variable?
+//    UserData & userData = UserData::getInstance();
 
 }
 
-}
+
 
 

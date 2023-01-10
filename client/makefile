@@ -1,5 +1,3 @@
-
-# Target executable name
 TARGET = bin/StompWCIClient
 
 # Source code files
