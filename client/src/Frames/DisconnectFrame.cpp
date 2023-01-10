@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-auto"
 #include "DisconnectFrame.h"
 #include "UserData.h"
 
@@ -5,4 +7,11 @@ DisconnectFrame::DisconnectFrame(StompCommand command, unordered_map<string, str
     : Frame(command, headers, frameBody){}
 
 
+DisconnectFrame * DisconnectFrame::get()
+{
+    unordered_map<string, string> headersMap;
+    headersMap["receipt"] = "-1";
+    DisconnectFrame *frame = new DisconnectFrame(StompCommand::DISCONNECT, headersMap, "");
+    return frame;
+}
 

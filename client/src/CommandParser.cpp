@@ -14,6 +14,9 @@ void CommandParser::parseCommand(string commandToParse)
   if(command == "login"){
       parseLoginCommand(commandParameters);
   }
+  else if (command == "logout"){
+      parseLogoutCommand()
+  }
 }
 
 void CommandParser::parseLoginCommand(vector<string> commandParameters)
@@ -54,3 +57,13 @@ std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
   tokens.push_back(str.substr(start));
   return tokens;
 }
+
+void CommandParser::parseLogoutCommand() {
+    DisconnectFrame * frame = DisconnectFrame::get();
+      UserData& ud = UserData::getInstance();
+      ud.addAction(frame);
+      ud.setConnected(false);
+      ud.notifyAll();
+}
+
+
