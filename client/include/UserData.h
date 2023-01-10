@@ -3,9 +3,11 @@
 #include <mutex>
 #include <condition_variable>
 #include <queue>
+#include <list>
 
 class ConnectionHandler;
 class Frame;
+class GameEvent;
 
 class UserData{
 
@@ -26,6 +28,7 @@ class UserData{
         condition_variable cv;
         ConnectionHandler* handler;
         queue<Frame*> frameQueue;
+        list<GameEvent*> gameEvents;
 
 
     //====================================================================================|
@@ -58,6 +61,8 @@ class UserData{
         void setHandler(ConnectionHandler& handler);
         int getRecieptID();
         int generateSubscriptionID(string topic);
+        void addGameEvent(GameEvent* gameEvent);
+        list<GameEvent*>& getGameEvents();
 
         bool shouldTerminate();
         void terminate();

@@ -109,6 +109,12 @@ int UserData::generateSubscriptionID(string topic) {
     return nextSubscriptionNumber++;
 }
 
+void UserData::addGameEvent(GameEvent *gameEvent)
+{
+    gameEvents.push_back(gameEvent);
+}
 
-
-
+list<GameEvent *> &UserData::getGameEvents()
+{
+    return gameEvents;
+}
