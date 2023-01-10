@@ -1,6 +1,5 @@
 #pragma once
 #include "Frame.h"
-#include "ConnectionHandler.h"
 
 class ConnectedFrame : public Frame {
     public:

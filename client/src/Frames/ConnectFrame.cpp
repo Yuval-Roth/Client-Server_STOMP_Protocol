@@ -8,7 +8,7 @@ const string HOST_HEADER = "host";
 ConnectFrame::ConnectFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
     : Frame(command, headers, frameBody){}
 
-Frame *ConnectFrame::get(string host, string port, string username, string password)
+Frame *ConnectFrame::get(string host, string username, string password)
 {
     unordered_map<string, string> headersMap;
     headersMap[ACCEPT_VERSION_HEADER] = PROTOCOL_VERSION;

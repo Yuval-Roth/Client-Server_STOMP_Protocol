@@ -41,7 +41,7 @@ void CommandParser::parseLoginCommand(vector<string> commandParameters)
   string username = commandParameters[2];
   string password = commandParameters[3];
 
-  Frame* frame = ConnectFrame::get(host, ""+port, username, password);
+  Frame* frame = ConnectFrame::get(host, username, password);
   UserData& ud = UserData::getInstance();
   ud.addAction(frame);
   ud.setHandler(*connectionHandler);

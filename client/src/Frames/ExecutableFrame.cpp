@@ -7,6 +7,15 @@ ExecutableFrame::ExecutableFrame(StompCommand command, unordered_map<string, str
 
 ExecutableFrame *ExecutableFrame::parse(string messageToParse)
 {
-    //TODO - ExecutableFrame::parse
-    return nullptr;
+    Frame* frame = Frame::parse(messageToParse);
+    if(frame == nullptr){
+        return nullptr;
+    }
+    else if(ExecutableFrame *executableFrame = dynamic_cast<ExecutableFrame*>(frame)){
+        return executableFrame;
+    }
+    else{
+        delete frame;
+        throw std::runtime_error("Error: Frame is not executable, cannot parse");
+    }
 }
