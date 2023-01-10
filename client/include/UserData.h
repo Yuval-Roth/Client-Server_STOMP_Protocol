@@ -9,7 +9,7 @@
 
 class ConnectionHandler;
 class Frame;
-class GameEvent;
+class Event;
 
 using namespace std;
 class UserData{
@@ -31,7 +31,7 @@ class UserData{
         condition_variable cv;
         ConnectionHandler* handler;
         queue<Frame*> frameQueue;
-        list<GameEvent*> gameEvents;
+        list<Event*> gameEvents;
         unordered_map<string, int> gameNameToSubId;
         unordered_map<int, string> subIdToGameName;
 
@@ -43,7 +43,7 @@ class UserData{
     
     public:
 
-        // we need these to be deleted functions so the comiler would not
+        // we need these to be deleted functions so the compiler would not
         // allow us to use a copy constructor and a copy assignment operator
         // also it gives warnings because we have pointers and didn't implement these
         // so it's necessary to delete these methods.
@@ -69,8 +69,8 @@ class UserData{
         int generateSubId(string topic);
         int getSubId(string topic);
         string getGameName(int subId);
-        void addGameEvent(GameEvent* gameEvent);
-        list<GameEvent*>& getGameEvents();
+        void addGameEvent(Event* gameEvent);
+        list<Event*>& getGameEvents();
 
         bool shouldTerminate();
         void terminate();

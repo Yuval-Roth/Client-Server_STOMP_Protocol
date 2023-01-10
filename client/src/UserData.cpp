@@ -109,12 +109,7 @@ int UserData::generateSubId(string topic) {
     return nextSubscriptionNumber++;
 }
 
-void UserData::addGameEvent(GameEvent *gameEvent)
-{
-    gameEvents.push_back(gameEvent);
-}
-
-list<GameEvent *> &UserData::getGameEvents()
+list<Event *> &UserData::getGameEvents()
 {
     return gameEvents;
 }
@@ -125,4 +120,8 @@ int UserData::getSubId(string topic) {
 
 string UserData::getGameName(int subId) {
     return subIdToGameName[subId];
+}
+
+void UserData::addGameEvent(Event *gameEvent) {
+    gameEvents.push_back(gameEvent);
 }
