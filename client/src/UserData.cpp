@@ -4,11 +4,11 @@ using namespace std;
 #include "Frame.h"
 #include "ConnectionHandler.h"
 
-
 UserData* UserData::instance;
 
 UserData::UserData()
-    : shouldTerminateFlag(false), connected(false), userName(), m(),cv(), handler(nullptr), frameQueue(){}
+    : shouldTerminateFlag(false), connected(false), nextRecieptNumber(0),nextSubscriptionNumber(0),
+    userName(), m(), cv(), handler(nullptr), frameQueue(),gameEvents(),gameNameToSubId(),subIdToGameName() {}
 
 mutex& UserData::getLock()
 {
@@ -59,6 +59,11 @@ bool UserData::shouldTerminate()
     return shouldTerminateFlag;
 }
 
+void UserData::terminate()
+{
+    shouldTerminateFlag = true;
+}
+
 bool UserData::isConnected()
 {
     return connected;
@@ -93,4 +98,31 @@ UserData::~UserData()
         delete toDelete;
     }
     delete instance;
+}
+
+int UserData::getReceiptId() {
+    return nextRecieptNumber++;
+}
+
+int UserData::generateSubId(string topic) {
+    // TODO: add to topics map
+    return nextSubscriptionNumber++;
+}
+
+void UserData::addGameEvent(GameEvent *gameEvent)
+{
+    gameEvents.push_back(gameEvent);
+}
+
+list<GameEvent *> &UserData::getGameEvents()
+{
+    return gameEvents;
+}
+
+int UserData::getSubId(string topic) {
+    return gameNameToSubId[topic];
+}
+
+string UserData::getGameName(int subId) {
+    return subIdToGameName[subId];
 }

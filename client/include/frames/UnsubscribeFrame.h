@@ -1,9 +1,11 @@
 #pragma once
 
-#include "ExecutableFrame.h"
+using namespace std;
 
-class UnsubscribeFrame : public ExecutableFrame {
+#include "Frame.h"
+
+class UnsubscribeFrame : public Frame {
     public:
         UnsubscribeFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
-        void execute(ConnectionHandler& handler);
+        static UnsubscribeFrame* get(string topic);
 };

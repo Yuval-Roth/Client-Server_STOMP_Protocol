@@ -10,20 +10,15 @@ using namespace std;
 class UserData;
 
 class Frame {
-    public:
-        static constexpr double PROTOCOL_VERSION = 1.2;
+    protected:
+        static const string PROTOCOL_VERSION;
         static constexpr char END_OF_FRAME = '\0';
         static constexpr char NEW_LINE = '\n';
         static constexpr char HEADER_DELIMITER = ':';
+
            
         Frame () = delete;   
         Frame(StompCommand command, unordered_map<string, string> headers, string frameBody);
-        static Frame* parse(string messageToParse);
-        string toString();
-        StompCommand getCommand();
-        unordered_map<string,string> getHeaders();
-        string getFrameBody();
-        virtual ~Frame() = default;
 
     private:
         unordered_map<string, string> headers;
@@ -32,6 +27,16 @@ class Frame {
 
         static StompCommand parseCommand(string command);   
         static Frame* createFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
+
+    protected:
         static UserData& userData;
+
+    public:
+        static Frame* parse(string messageToParse);
+        string toString();
+        StompCommand getCommand();
+        unordered_map<string,string> getHeaders();
+        string getFrameBody();
+        virtual ~Frame() = default;
 };
 

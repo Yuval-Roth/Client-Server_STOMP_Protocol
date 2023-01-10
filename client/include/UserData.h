@@ -3,10 +3,15 @@
 #include <mutex>
 #include <condition_variable>
 #include <queue>
+#include <list>
+#include <unordered_map>
+
 
 class ConnectionHandler;
 class Frame;
+class GameEvent;
 
+using namespace std;
 class UserData{
 
     //====================================================================================|
@@ -19,11 +24,17 @@ class UserData{
 
         bool shouldTerminateFlag;
         bool connected;
+        int nextRecieptNumber;
+        int nextSubscriptionNumber;
         string userName;
         mutex m;
         condition_variable cv;
         ConnectionHandler* handler;
         queue<Frame*> frameQueue;
+        list<GameEvent*> gameEvents;
+        unordered_map<string, int> gameNameToSubId;
+        unordered_map<int, string> subIdToGameName;
+
 
 
     //====================================================================================|
@@ -54,8 +65,15 @@ class UserData{
         queue<Frame*>& getFrameQueue();
         ConnectionHandler& getHandler();
         void setHandler(ConnectionHandler& handler);
+        int getReceiptId();
+        int generateSubId(string topic);
+        int getSubId(string topic);
+        string getGameName(int subId);
+        void addGameEvent(GameEvent* gameEvent);
+        list<GameEvent*>& getGameEvents();
 
         bool shouldTerminate();
+        void terminate();
 
         static UserData& getInstance();
         static void deleteInstance(bool,bool,bool);

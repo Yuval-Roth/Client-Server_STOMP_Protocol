@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ExecutableFrame.h"
+#include "Frame.h"
 
-class SubscribeFrame : public ExecutableFrame {
+class SubscribeFrame : public Frame{
     public:
+        static SubscribeFrame* get(string gameName);
         SubscribeFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
-        void execute(ConnectionHandler& handler);
 };
