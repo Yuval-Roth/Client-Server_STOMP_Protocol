@@ -4,3 +4,9 @@ ExecutableFrame::ExecutableFrame(StompCommand command, unordered_map<string, str
     : Frame(command, headers, frameBody)
 {
 }
+
+ExecutableFrame *ExecutableFrame::parse(string messageToParse)
+{
+    //TODO - ExecutableFrame::parse
+    return nullptr;
+}

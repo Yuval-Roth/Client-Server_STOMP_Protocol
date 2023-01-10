@@ -8,13 +8,15 @@ using boost::asio::ip::tcp;
 
 class ConnectionHandler {
 private:
-	const std::string host_;
-	const short port_;
+	std::string host_;
+	int port_;
 	boost::asio::io_service io_service_;   // Provides core I/O functionality
 	tcp::socket socket_;
 
 public:
-	ConnectionHandler(std::string host, short port);
+	ConnectionHandler(std::string host, int port);
+	// rule of 3
+	ConnectionHandler(const ConnectionHandler&);
 
 	virtual ~ConnectionHandler();
 
@@ -40,6 +42,9 @@ public:
 	// Get Ascii data from the server until the delimiter character
 	// Returns false in case connection closed before null can be read.
 	bool getFrameAscii(std::string &frame, char delimiter);
+
+	//stop reading/writing from/to socket
+	void interrupt();
 
 	// Send a message to the remote host.
 	// Returns false in case connection is closed before all the data is sent.

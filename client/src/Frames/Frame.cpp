@@ -8,6 +8,9 @@
 #include "MessageFrame.h"
 #include "ReceiptFrame.h"
 #include "ErrorFrame.h"
+#include "UserData.h"
+
+UserData& Frame::userData = UserData::getInstance();
 
 Frame::Frame(StompCommand command, unordered_map<string, string> headers, string frameBody)
     : headers(headers), frameBody(frameBody), command(command) {}
@@ -99,4 +102,14 @@ string Frame::toString() {
     }
     output += END_OF_FRAME;
     return output;
+}
+
+StompCommand Frame::getCommand()
+{
+    return StompCommand();
+}
+
+unordered_map<string, string> Frame::getHeaders()
+{
+    return unordered_map<string, string>();
 }

@@ -18,7 +18,7 @@ public abstract class Frame {
     protected static final ConnectionsManager<String> connectionsManager = StompFacade.getInstance();
 
     protected static final double PROTOCOL_VERSION = 1.2;
-    protected static final String END_OF_FRAME = "^@";
+    protected static final char END_OF_FRAME = '\0';
     protected static final String NEW_LINE = "\n";
     protected static final String HEADER_DELIMITER = ":";
 
@@ -63,7 +63,7 @@ public abstract class Frame {
         frameParametersLine++;
         // parse body
         String frameBody = "";
-        while (!frameParameters[frameParametersLine].trim().equals(END_OF_FRAME))
+        while (frameParameters[frameParametersLine].charAt(0) != END_OF_FRAME)
         {
             frameBody += frameParameters[frameParametersLine]+NEW_LINE;
             frameParametersLine++;

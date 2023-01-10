@@ -8,12 +8,15 @@ using std::cerr;
 using std::endl;
 using std::string;
 
-ConnectionHandler::ConnectionHandler(string host, short port) : host_(host), port_(port), io_service_(),
+ConnectionHandler::ConnectionHandler(string host, int port) : host_(host), port_(port), io_service_(),
                                                                 socket_(io_service_) {}
 
 ConnectionHandler::~ConnectionHandler() {
 	close();
 }
+
+ConnectionHandler::ConnectionHandler(const ConnectionHandler &other) : host_(other.host_), port_(other.port_),
+																	  io_service_(), socket_(io_service_) {}
 
 bool ConnectionHandler::connect() {
 	std::cout << "Starting connect to "
@@ -90,6 +93,11 @@ bool ConnectionHandler::getFrameAscii(std::string &frame, char delimiter) {
 		return false;
 	}
 	return true;
+}
+
+void ConnectionHandler::interrupt()
+{
+	socket_.cancel();
 }
 
 bool ConnectionHandler::sendFrameAscii(const std::string &frame, char delimiter) {
