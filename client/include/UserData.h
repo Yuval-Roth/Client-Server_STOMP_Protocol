@@ -19,6 +19,7 @@ class UserData{
 
         bool shouldTerminateFlag;
         bool connected;
+        int nextRecieptNumber;
         string userName;
         mutex m;
         condition_variable cv;
@@ -54,6 +55,7 @@ class UserData{
         queue<Frame*>& getFrameQueue();
         ConnectionHandler& getHandler();
         void setHandler(ConnectionHandler& handler);
+        int getRecieptID();
 
         bool shouldTerminate();
 

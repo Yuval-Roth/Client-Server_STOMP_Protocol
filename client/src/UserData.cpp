@@ -7,7 +7,8 @@ using namespace std;
 UserData* UserData::instance;
 
 UserData::UserData()
-    : shouldTerminateFlag(false), connected(false), userName(), m(),cv(), handler(nullptr), frameQueue(){}
+    : shouldTerminateFlag(false), connected(false), nextRecieptNumber(0),
+    userName(), m(), cv(), handler(nullptr), frameQueue(){}
 
 mutex& UserData::getLock()
 {
@@ -92,4 +93,8 @@ UserData::~UserData()
         delete toDelete;
     }
     delete instance;
+}
+
+int UserData::getRecieptID() {
+    return nextRecieptNumber++;
 }

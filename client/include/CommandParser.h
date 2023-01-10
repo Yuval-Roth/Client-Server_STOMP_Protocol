@@ -13,6 +13,8 @@ public:
     CommandParser() = delete;
     static void parseCommand(string commandToParse);
     static void parseLoginCommand(vector<string> commandParameters);
+
+    static void parseLogoutCommand();
 };
 
 

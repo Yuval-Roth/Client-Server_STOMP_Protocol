@@ -3,6 +3,7 @@
 #include "UserData.h"
 #include "ConnectionHandler.h"
 #include "ConnectFrame.h"
+#include "DisconnectFrame.h"
 
 #include <sstream>
 #include <iostream>
@@ -13,6 +14,9 @@ void CommandParser::parseCommand(string commandToParse)
   string command = commandParameters[0];
   if(command == "login"){
       parseLoginCommand(commandParameters);
+  }
+  else if (command == "logout"){
+      parseLogoutCommand()
   }
 }
 
@@ -54,3 +58,13 @@ std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
   tokens.push_back(str.substr(start));
   return tokens;
 }
+
+void CommandParser::parseLogoutCommand() {
+    DisconnectFrame * frame = DisconnectFrame::get();
+      UserData& ud = UserData::getInstance();
+      ud.addAction(frame);
+      ud.setConnected(false);
+      ud.notifyAll();
+}
+
+
