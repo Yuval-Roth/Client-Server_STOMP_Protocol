@@ -2,11 +2,9 @@
 
 #include "ExecutableFrame.h"
 
-class ConnectFrame : public ExecutableFrame {
+class ConnectFrame : public Frame {
     private:
         
-        
-
     public:
         ConnectFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
         void execute(ConnectionHandler& handler);
@@ -14,6 +12,6 @@ class ConnectFrame : public ExecutableFrame {
         const string PASSWORD_HEADER = "Password";
         const string ACCEPT_VERSION_HEADER = "accept-version";
         const string HOST_HEADER = "host";
-        const string VERSION = "1.2";
 
+        static Frame* get(string host, string port, string username, string password);
 };

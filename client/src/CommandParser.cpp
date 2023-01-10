@@ -2,16 +2,14 @@
 #include "Frame.h"
 #include "UserData.h"
 #include "ConnectionHandler.h"
+#include "ConnectFrame.h"
 
 #include <sstream>
 #include <iostream>
 
 void CommandParser::parseCommand(string commandToParse)
 {
-  //TODO
-  // Frame* frame = new Frame(); //unused variable
   vector<string> commandParameters = split(commandToParse, ' ');
-  //vector<string> commandParameters;
   string command = commandParameters[0];
   if(command == "login"){
       parseLoginCommand(commandParameters);
@@ -20,11 +18,10 @@ void CommandParser::parseCommand(string commandToParse)
 
 void CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
-  // if(!commandParameters.size() == 4){ //dafuck is that lol
-    if(commandParameters.size() != 4){
+  if(commandParameters.size() != 4){
       cout << "Invalid number of parameters" << endl;
-      cout << "Useage: login {host:port} {username} {password}" << endl;
-      throw "Invalid number of parameters";
+      cout << "Usage: login {host:port} {username} {password}" << endl;
+      return;
   }
   string hostPort = commandParameters[1];
   string host = hostPort.substr(0, hostPort.find(':'));
@@ -35,15 +32,7 @@ void CommandParser::parseLoginCommand(vector<string> commandParameters)
   string username = commandParameters[2];
   string password = commandParameters[3];
 
-  unordered_map<string, string> headersMap;
-  headersMap["accept-version"] = "1.2";
-  headersMap["host"] = host;
-  headersMap["username"] = username;
-  headersMap["password"] = password;
-  StompCommand command = StompCommand::CONNECT;
-  string frameBody = "";
-
-  Frame* frame = new Frame(command, headersMap, frameBody);
+  Frame* frame = ConnectFrame::get(host, ""+port, username, password);
   UserData& ud = UserData::getInstance();
   ud.addAction(frame);
   ud.setHandler(*connectionHandler);
