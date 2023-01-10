@@ -11,6 +11,7 @@
 #include "UserData.h"
 
 UserData& Frame::userData = UserData::getInstance();
+const string Frame::PROTOCOL_VERSION = "1.2";
 
 Frame::Frame(StompCommand command, unordered_map<string, string> headers, string frameBody)
     : headers(headers), frameBody(frameBody), command(command) {}

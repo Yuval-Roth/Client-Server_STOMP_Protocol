@@ -11,7 +11,7 @@ class UserData;
 
 class Frame {
     public:
-        static constexpr double PROTOCOL_VERSION = 1.2;
+        static const string PROTOCOL_VERSION;
         static constexpr char END_OF_FRAME = '\0';
         static constexpr char NEW_LINE = '\n';
         static constexpr char HEADER_DELIMITER = ':';

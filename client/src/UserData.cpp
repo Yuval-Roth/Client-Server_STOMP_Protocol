@@ -4,7 +4,6 @@ using namespace std;
 #include "Frame.h"
 #include "ConnectionHandler.h"
 
-
 UserData* UserData::instance;
 
 UserData::UserData()

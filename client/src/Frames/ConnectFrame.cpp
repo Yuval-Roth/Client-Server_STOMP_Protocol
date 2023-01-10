@@ -1,21 +1,22 @@
 #include "ConnectFrame.h"
 
+const string USERNAME_HEADER = "username";
+const string PASSWORD_HEADER = "password";
+const string ACCEPT_VERSION_HEADER = "accept-version";
+const string HOST_HEADER = "host";
+
 ConnectFrame::ConnectFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
     : Frame(command, headers, frameBody){}
-
-
-void ConnectFrame::execute(ConnectionHandler &handler)
-{
-}
 
 Frame *ConnectFrame::get(string host, string port, string username, string password)
 {
     unordered_map<string, string> headersMap;
-    headersMap["accept-version"] = "1.2";
-    headersMap["host"] = host;
-    headersMap["username"] = username;
-    headersMap["password"] = password;
+    headersMap[ACCEPT_VERSION_HEADER] = PROTOCOL_VERSION;
+    headersMap[HOST_HEADER] = host;
+    headersMap[USERNAME_HEADER] = username;
+    headersMap[PASSWORD_HEADER] = password;
     StompCommand command = StompCommand::CONNECT;
     string frameBody = "";
+    return new ConnectFrame(command, headersMap, frameBody);
 }
 
