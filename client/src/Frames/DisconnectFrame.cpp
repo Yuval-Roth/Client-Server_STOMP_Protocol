@@ -10,7 +10,7 @@ DisconnectFrame::DisconnectFrame(StompCommand command, unordered_map<string, str
 DisconnectFrame * DisconnectFrame::get()
 {
     unordered_map<string, string> headersMap;
-    headersMap["receipt"] = "-1";
+    headersMap["receipt"] = to_string(UserData::getInstance().getRecieptID());
     DisconnectFrame *frame = new DisconnectFrame(StompCommand::DISCONNECT, headersMap, "");
     return frame;
 }
