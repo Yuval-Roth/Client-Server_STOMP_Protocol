@@ -26,6 +26,10 @@ void CommandParser::parseCommand(string commandToParse)
   else if (command == "exit"){
       parseExitCommand(commandParameters);
   }
+
+  else if (command == "report"){
+      parseReportCommand(commandParameters)
+  }
 }
 
 void CommandParser::parseLoginCommand(vector<string> commandParameters)
@@ -95,7 +99,21 @@ void CommandParser::parseExitCommand(vector<string> commandParameters) {
         return;
     }
     string gameName = commandParameters[1];
-    UnsubscribeFrame* frame = UnubscribeFrame::get(gameName);
+    UnsubscribeFrame* frame = UnsubscribeFrame::get(gameName);
+    UserData& ud = UserData::getInstance();
+    ud.addAction(frame);
+    ud.notifyAll();
+}
+
+void CommandParser::parseReportCommand(vector<string> commandParameters) {
+    if(commandParameters.size() != 2){
+        cout << "Invalid number of parameters" << endl;
+        cout << "Usage: report {file}" << endl;
+        return;
+    }
+    string gameName = commandParameters[1];
+    // TODO: Read JSON file, create game event, create SEND frame
+
 }
 
 

@@ -19,6 +19,8 @@ public:
     static void parseJoinCommand(vector<string> commandParameters);
 
     static void parseExitCommand(vector<string> commandParameters);
+
+    static void parseReportCommand(vector<string> commandParameters);
 };
 
 
