@@ -8,9 +8,9 @@ SubscribeFrame::SubscribeFrame(StompCommand command, unordered_map<string, strin
 SubscribeFrame *SubscribeFrame::get(string gameName) {
     unordered_map<string, string> headers;
     headers["destination"] = "/" + gameName;
-    headers["id"] = to_string(UserData::getInstance().generateSubscriptionID(gameName));
+    headers["id"] = to_string(UserData::getInstance().generateSubId(gameName));
     // TODO: check if this is the right way to do it
-    headers["receipt"] = to_string(UserData::getInstance().getRecieptID());
+    headers["receipt"] = to_string(UserData::getInstance().getReceiptId());
     SubscribeFrame *frame = new SubscribeFrame(StompCommand::SUBSCRIBE, headers, "");
     return frame;
 }

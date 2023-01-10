@@ -59,8 +59,8 @@ class UserData{
         queue<Frame*>& getFrameQueue();
         ConnectionHandler& getHandler();
         void setHandler(ConnectionHandler& handler);
-        int getRecieptID();
-        int generateSubscriptionID(string topic);
+        int getReceiptId();
+        int generateSubId(string topic);
         void addGameEvent(GameEvent* gameEvent);
         list<GameEvent*>& getGameEvents();
 

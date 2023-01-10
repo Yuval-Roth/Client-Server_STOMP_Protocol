@@ -100,11 +100,11 @@ UserData::~UserData()
     delete instance;
 }
 
-int UserData::getRecieptID() {
+int UserData::getReceiptId() {
     return nextRecieptNumber++;
 }
 
-int UserData::generateSubscriptionID(string topic) {
+int UserData::generateSubId(string topic) {
     // TODO: add to topics map
     return nextSubscriptionNumber++;
 }
