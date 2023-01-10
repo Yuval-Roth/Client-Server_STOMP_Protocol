@@ -1,5 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "modernize-use-auto"
 #include "DisconnectFrame.h"
 #include "UserData.h"
 
