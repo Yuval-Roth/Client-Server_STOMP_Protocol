@@ -28,7 +28,7 @@ void CommandParser::parseCommand(string commandToParse)
   }
 
   else if (command == "report"){
-      parseReportCommand(commandParameters)
+      parseReportCommand(commandParameters);
   }
 }
 
@@ -57,7 +57,7 @@ void CommandParser::parseLoginCommand(vector<string> commandParameters)
 
 }
 
-std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
+std::vector<std::string> Comman3ser::split(std::string str, char delimiter) {
   std::vector<std::string> tokens;
   std::string token;
   size_t start = 0;
