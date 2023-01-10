@@ -1,8 +1,11 @@
 #include "CommandParser.h"
 #include "Frame.h"
-#include <string>
-#include <vector>
+#include "UserData.h"
+#include "ConnectionHandler.h"
+
 #include <sstream>
+#include <iostream>
+
 using namespace std;
 
 void CommandParser::parseCommand(string commandToParse)
@@ -47,11 +50,7 @@ void CommandParser::parseLoginCommand(vector<string> commandParameters)
   ud.addAction(frame);
   ud.setHandler(*connectionHandler);
   ud.setUserName(username);
-  // ud.setPassword(password);
   ud.notifyAll();
-  // TODO: make this a factory?
-
-
 }
 
 std::vector<std::string> CommandParser::split(std::string str, char delimiter) {

@@ -5,8 +5,8 @@ using namespace std;
 #include <mutex>
 #include <condition_variable>
 #include <queue>
-#include "ConnectionHandler.h"
 
+class ConnectionHandler;
 class Frame;
 
 class UserData{

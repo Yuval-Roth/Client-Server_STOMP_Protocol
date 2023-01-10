@@ -1,7 +1,11 @@
 #include "UserData.h"
 #include "Frame.h"
+#include "ConnectionHandler.h"
 
 UserData* UserData::instance;
+
+UserData::UserData()
+    : shouldTerminateFlag(false), connected(false), userName(), m(),cv(), handler(nullptr), frameQueue(){}
 
 mutex& UserData::getLock()
 {
@@ -16,11 +20,6 @@ UserData &UserData::getInstance()
     return *instance;
 }
 
-UserData::UserData()
-    : shouldTerminateFlag(false), connected(false), userName(), m(),cv(), handler(nullptr), frameQueue()
-{
-}
-
 void UserData::addAction(Frame* frame)
 {
     frameQueue.push(frame);
@@ -30,11 +29,6 @@ void UserData::setUserName(string userName)
 {
     this->userName = userName;
 }
-
-// void UserData::setPassword(string password)
-// {
-//     this->password = password;
-// }
 
 string& UserData::getUserName()
 {
@@ -62,22 +56,6 @@ bool UserData::shouldTerminate()
     return shouldTerminateFlag;
 }
 
-void UserData::deleteInstance(bool b1, bool b2, bool b3)
-{
-    if(b1 & b2 & b3) delete this;
-}
-
-UserData::~UserData()
-{
-    delete handler;
-    while(frameQueue.empty() == false){
-        Frame* toDelete = frameQueue.front();
-        frameQueue.pop();
-        delete toDelete;
-    }
-    delete instance;
-}
-
 bool UserData::isConnected()
 {
     return connected;
@@ -96,4 +74,20 @@ void UserData::setHandler(ConnectionHandler& handler)
 ConnectionHandler& UserData::getHandler()
 {
     return *handler;
+}
+
+void UserData::deleteInstance(bool b1, bool b2, bool b3)
+{
+    if(b1 & b2 & b3) delete instance;
+}
+
+UserData::~UserData()
+{
+    delete handler;
+    while(frameQueue.empty() == false){
+        Frame* toDelete = frameQueue.front();
+        frameQueue.pop();
+        delete toDelete;
+    }
+    delete instance;
 }
