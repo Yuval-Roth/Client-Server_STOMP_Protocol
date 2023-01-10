@@ -58,7 +58,7 @@ void CommandParser::parseLoginCommand(vector<string> commandParameters)
 
 }
 
-std::vector<std::string> Comman3ser::split(std::string str, char delimiter) {
+std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
   std::vector<std::string> tokens;
   std::string token;
   size_t start = 0;
@@ -112,8 +112,8 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
         cout << "Usage: report {file}" << endl;
         return;
     }
-    UserData & userData = UserData::getInstance();
 
+    UserData & userData = UserData::getInstance();
     string fileName = commandParameters[1];
     names_and_events namesAndEvents = parseEventsFile(fileName);
     vector<Event> gameEvents = namesAndEvents.events;

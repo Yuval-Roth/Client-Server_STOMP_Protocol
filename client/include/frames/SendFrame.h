@@ -1,10 +1,7 @@
 #pragma once
-
 #include "Frame.h"
-#include "event.h"
 
-class GameEvent;
-
+class Event;
 class SendFrame : public Frame {
     public:
         SendFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
