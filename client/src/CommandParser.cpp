@@ -16,7 +16,7 @@ void CommandParser::parseCommand(string commandToParse)
       parseLoginCommand(commandParameters);
   }
   else if (command == "logout"){
-      parseLogoutCommand()
+      parseLogoutCommand();
   }
 }
 
