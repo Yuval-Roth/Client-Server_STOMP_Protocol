@@ -17,9 +17,10 @@ struct gameEvent {
                 : time(time), name(name), description(description) {}
 };
 class Summary {
-
+// TODO: Override team stats
     private:
         string userName;
+        string gameName;
         // name of team a
         string team_a_name;
         // name of team b
@@ -37,7 +38,7 @@ class Summary {
 
 
     public:
-        Summary(string userName);
+        Summary(string userName, string gameName) : userName(userName), gameName(gameName) {};
         void addEvent(Event& event);
         void printSummary();
         ~Summary();

@@ -1,7 +1,8 @@
 using namespace std;
 
 #include "UserData.h"
-#include "Frame.h"
+#include "../include/frames/Frame.h"
+#include "../include/event.h"
 #include "ConnectionHandler.h"
 
 UserData* UserData::instance;
@@ -109,10 +110,6 @@ int UserData::generateSubId(string topic) {
     return nextSubscriptionNumber++;
 }
 
-list<Event *> &UserData::getGameEvents()
-{
-    return gameEvents;
-}
 
 int UserData::getSubId(string topic) {
     return gameNameToSubId[topic];
@@ -123,5 +120,5 @@ string UserData::getGameName(int subId) {
 }
 
 void UserData::addGameEvent(Event *gameEvent) {
-    gameEvents.push_back(gameEvent);
+
 }

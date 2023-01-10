@@ -143,6 +143,7 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
     string fileName = commandParameters[3];
     ofstream summaryFile;
     summaryFile.open(fileName);
+
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
     summaryFile << summaryString << endl;
     summaryFile.close();

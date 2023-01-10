@@ -1,8 +1,6 @@
 #include "../include/Summary.h"
 #include "../include/event.h"
 
-Summary::Summary(string userName) : userName(userName) {}
-
 void Summary::addEvent(Event &event) {
         gameEvent gameEvent(event.get_time(), event.get_name(), event.get_description());
         if (event.get_game_updates().at("before halftime") == "true") {
@@ -16,6 +14,7 @@ void Summary::printSummary() {
         string summary = team_a_name + " vs " + team_b_name + "\n";
         summary += "Game Stats:\n";
         summary += "General Stats:\n";
+        // Probably sorted alphabetically - need to make sure
         for (auto &general_stat : general_stats) {
                 summary += general_stat.first + ": " + general_stat.second + "\n";
         }
