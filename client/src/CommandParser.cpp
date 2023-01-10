@@ -22,7 +22,6 @@ void CommandParser::parseCommand(string commandToParse)
   else if (command == "join"){
       parseJoinCommand(commandParameters);
   }
-
 }
 
 void CommandParser::parseLoginCommand(vector<string> commandParameters)
@@ -83,7 +82,6 @@ void CommandParser::parseJoinCommand(vector<string> commandParameters) {
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
     ud.notifyAll();
-
 }
 
 

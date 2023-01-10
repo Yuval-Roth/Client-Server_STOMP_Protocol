@@ -10,7 +10,7 @@ using namespace std;
 class UserData;
 
 class Frame {
-    public:
+    protected:
         static const string PROTOCOL_VERSION;
         static constexpr char END_OF_FRAME = '\0';
         static constexpr char NEW_LINE = '\n';
@@ -23,7 +23,6 @@ class Frame {
         StompCommand getCommand();
         unordered_map<string,string> getHeaders();
         string getFrameBody();
-        virtual ~Frame() = default;
 
     private:
         unordered_map<string, string> headers;
@@ -32,6 +31,11 @@ class Frame {
 
         static StompCommand parseCommand(string command);   
         static Frame* createFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
+
+    protected:
         static UserData& userData;
+        
+    public:
+        virtual ~Frame() = default;
 };
 

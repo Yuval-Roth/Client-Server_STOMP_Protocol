@@ -59,6 +59,11 @@ bool UserData::shouldTerminate()
     return shouldTerminateFlag;
 }
 
+void UserData::terminate()
+{
+    shouldTerminateFlag = true;
+}
+
 bool UserData::isConnected()
 {
     return connected;

@@ -60,6 +60,7 @@ class UserData{
         int generateSubscriptionID(string topic);
 
         bool shouldTerminate();
+        void terminate();
 
         static UserData& getInstance();
         static void deleteInstance(bool,bool,bool);
