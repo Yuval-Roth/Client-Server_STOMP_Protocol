@@ -1,12 +1,13 @@
 #pragma once
 
-#include <vector>
+using namespace std;
 
+#include <vector>
 
 class CommandParser
 {
 private:
-    static std::vector<std::string> split(std::string str, char delimiter);
+    static vector<string> split(string str, char delimiter);
 public:
     CommandParser() = delete;
     static void parseCommand(string commandToParse);

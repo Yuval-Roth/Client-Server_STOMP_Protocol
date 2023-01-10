@@ -1,6 +1,9 @@
+using namespace std;
+
 #include "UserData.h"
 #include "Frame.h"
 #include "ConnectionHandler.h"
+
 
 UserData* UserData::instance;
 

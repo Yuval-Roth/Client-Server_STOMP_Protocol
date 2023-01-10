@@ -6,8 +6,6 @@
 #include <sstream>
 #include <iostream>
 
-using namespace std;
-
 void CommandParser::parseCommand(string commandToParse)
 {
   //TODO
@@ -51,6 +49,7 @@ void CommandParser::parseLoginCommand(vector<string> commandParameters)
   ud.setHandler(*connectionHandler);
   ud.setUserName(username);
   ud.notifyAll();
+
 }
 
 std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
