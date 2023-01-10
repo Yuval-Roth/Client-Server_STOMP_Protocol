@@ -8,7 +8,14 @@ using namespace std;
 #include <list>
 
 class Event;
+struct gameEvent {
+        int time;
+        string name;
+        string description;
 
+        gameEvent(int time, string name, string description)
+                : time(time), name(name), description(description) {}
+};
 class Summary {
 
     private:
@@ -24,7 +31,9 @@ class Summary {
         // map of all team b updates
         map<string, string> team_b_stats;
         // description of the event
-        list<string> gameEvents;
+        list<gameEvent> firstHalfEvents;
+        list<gameEvent> secondHalfEvents;
+
 
 
     public:
@@ -33,6 +42,8 @@ class Summary {
         void printSummary();
         ~Summary();
 };
+
+
 
 
 #endif //CLIENT_SUMMARY_H
