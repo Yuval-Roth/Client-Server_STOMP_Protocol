@@ -1,9 +1,8 @@
 #pragma once
 
-#include "ExecutableFrame.h"
+#include "Frame.h"
 
-class UnsubscribeFrame : public ExecutableFrame {
+class UnsubscribeFrame : public Frame {
     public:
         UnsubscribeFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
-        void execute(ConnectionHandler& handler);
 };

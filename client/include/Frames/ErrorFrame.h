@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Frame.h"
+#include "ExecutableFrame.h"
 
-class ErrorFrame : public Frame {
+class ErrorFrame : public ExecutableFrame {
     public:
         ErrorFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
+        void execute();
 };

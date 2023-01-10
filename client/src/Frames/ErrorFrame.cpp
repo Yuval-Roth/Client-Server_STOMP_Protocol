@@ -1,6 +1,8 @@
 #include "ErrorFrame.h"
 
 ErrorFrame::ErrorFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
-    : Frame(command, headers, frameBody)
+    : ExecutableFrame(command, headers, frameBody){}
+
+void ErrorFrame::execute()
 {
 }

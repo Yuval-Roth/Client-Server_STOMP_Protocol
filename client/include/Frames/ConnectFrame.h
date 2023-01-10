@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ExecutableFrame.h"
+#include "Frame.h"
 
 class ConnectFrame : public Frame {
     private:
