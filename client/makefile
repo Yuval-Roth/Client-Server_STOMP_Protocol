@@ -13,7 +13,7 @@ OBJECTS = $(SOURCES:src/%.cpp=bin/%.o)
 CXX = g++
 
 # C++ compiler flags
-CXXFLAGS = -g -Wall -Weffc++ -std=c++11 -Iinclude -Iinclude/Frames
+CXXFLAGS = -g -Wall -Weffc++ -std=c++11 -Iinclude -Iinclude/frames
 
 # Libraries to link to
 LIBS = -lboost_system -lpthread
@@ -28,11 +28,13 @@ $(TARGET): $(OBJECTS)
 bin/%.o: src/%.cpp #createBin
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+default: createBin $(TARGET)
+
 createBin:
 	mkdir -p bin
-	mkdir -p bin/Frames
+	mkdir -p bin/frames
 
-all: clean bin/StompWCIClient
+all: clean $(TARGET)
 
 # delta: bin/%.cpp
 # 	binDelta/%.o
@@ -42,4 +44,4 @@ all: clean bin/StompWCIClient
 
 # Rule to clean up the build artifacts
 clean:
-	rm -f -r bin/*.o bin/Frames/*.o bin/StompWCIClient
+	rm -f -r bin/*.o bin/frames/*.o bin/StompWCIClient
