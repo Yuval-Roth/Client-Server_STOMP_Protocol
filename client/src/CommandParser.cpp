@@ -6,9 +6,10 @@
 #include "DisconnectFrame.h"
 #include "SubscribeFrame.h"
 #include "UnsubscribeFrame.h"
-
+#include "event.h"
 #include <sstream>
 #include <iostream>
+#include "SendFrame.h"
 
 void CommandParser::parseCommand(string commandToParse)
 {
@@ -28,7 +29,7 @@ void CommandParser::parseCommand(string commandToParse)
   }
 
   else if (command == "report"){
-      parseReportCommand(commandParameters)
+      parseReportCommand(commandParameters);
   }
 }
 
@@ -111,8 +112,18 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
         cout << "Usage: report {file}" << endl;
         return;
     }
-    string gameName = commandParameters[1];
-    // TODO: Read JSON file, create game event, create SEND frame
+    UserData & userData = UserData::getInstance();
+
+    string fileName = commandParameters[1];
+    names_and_events namesAndEvents = parseEventsFile(fileName);
+    vector<Event> gameEvents = namesAndEvents.events;
+    // for each
+    for (Event event : gameEvents) {
+        SendFrame* sendFrame = SendFrame::get(event);
+        userData.addAction(sendFrame);
+    }
+    userData.notifyAll();
+
 
 }
 
