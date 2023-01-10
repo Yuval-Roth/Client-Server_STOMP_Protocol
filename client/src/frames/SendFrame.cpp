@@ -7,7 +7,7 @@ SendFrame::SendFrame(StompCommand command, unordered_map<string, string> headers
     : Frame(command, headers, frameBody){}
 
 
-SendFrame *SendFrame::get(Event event)
+SendFrame *SendFrame::get(Event& event)
 {
     UserData &userData = UserData::getInstance();
     unordered_map<string, string> headers;

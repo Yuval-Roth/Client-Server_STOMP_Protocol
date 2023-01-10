@@ -121,9 +121,9 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
     UserData & userData = UserData::getInstance();
     string fileName = commandParameters[1];
     names_and_events namesAndEvents = parseEventsFile(fileName);
-    vector<Event> gameEvents = namesAndEvents.events;
+    vector<Event>& gameEvents = namesAndEvents.events;
     // for each
-    for (Event event : gameEvents) {
+    for (Event& event : gameEvents) {
         SendFrame* sendFrame = SendFrame::get(event);
         userData.addAction(sendFrame);
     }
