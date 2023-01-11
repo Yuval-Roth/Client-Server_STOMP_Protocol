@@ -11,12 +11,26 @@ class ConnectionHandler;
 class Frame;
 class Event;
 class Summary;
+
+
+
+
 struct GameReport{
-        string reporter;
-        string gameName;
-        GameReport(string reporter, string gameName) : reporter(reporter), gameName(gameName) {}
+    string reporter;
+    string gameName;
+    GameReport(string reporter, string gameName) : reporter(reporter), gameName(gameName) {}
+    unordered_map<string,string> map;
 };
-using namespace std;
+
+namespace std {
+#include <functional>
+    template<> struct hash<GameReport> {
+        size_t operator()(const GameReport& t) const {
+            hash<int> h;
+            return h(t.reporter) ^ h(t.gameName);
+        }
+    };
+}
 
 class UserData{
 
