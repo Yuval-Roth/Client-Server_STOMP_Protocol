@@ -8,7 +8,15 @@ void Summary::addEvent(Event &event) {
         } else {
                 secondHalfEvents.push_back(gameEvent);
         }
-}
+        general_stats["active"] = event.get_game_updates().at("active");;
+        general_stats["before halftime"] = event.get_game_updates().at("before halftime");
+        /* TODO - check if this is correct - might not work as this could be a dictionary inside a dictionary
+         * I hope they mad it as simple as this*/
+
+        team_a_stats = event.get_team_a_updates(); // Override team stats - probably correct
+        team_b_stats = event.get_team_b_updates();
+        // potential but - what if they didn't report on every previously reported team stat?
+        // The info would be overwritten and lost
 
 void Summary::printSummary() {
         string summary = team_a_name + " vs " + team_b_name + "\n";
