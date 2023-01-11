@@ -42,6 +42,9 @@ class Summary {
         void addEvent(Event& event);
         void printSummary();
         ~Summary();
+
+    private:
+        static void sortedEventInsert(list<gameEvent> eventList, gameEvent event);
 };
 
 
