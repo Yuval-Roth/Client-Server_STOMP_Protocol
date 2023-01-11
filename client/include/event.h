@@ -6,6 +6,7 @@ using namespace std;
 #include <iostream>
 #include <map>
 #include <vector>
+#include <sstream>
 
 class Event
 {
