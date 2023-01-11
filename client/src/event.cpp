@@ -143,6 +143,7 @@ Event::Event(const std::string &frame_body)
         }
     }
 
+    //description
     if (line.find("description:") != string::npos)
     {
         getline(iss, line,'\0');
