@@ -60,9 +60,11 @@ int main() {
     cout << "Welcome to STOMP. Please enter a login command:" << endl;
     cin >> userInput;
 
-    bool loggedIn = false;
+    bool loggedIn = CommandParser::parseCommand(userInput);
     while (!loggedIn) {
-        loggedIn = CommandParser::parseCommand(userInput);
+		cout << "Please enter a login command:" << endl;
+        cin >> userInput;
+		loggedIn = CommandParser::parseCommand(userInput);
     }
 
     UserData& userData = UserData::getInstance();

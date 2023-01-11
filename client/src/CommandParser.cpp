@@ -40,7 +40,7 @@ bool CommandParser::parseCommand(string commandToParse)
 
 bool CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
-  if(commandParameters.size() != 4){
+  if(commandParameters.size() != 3){
       cout << "Invalid number of parameters" << endl;
       cout << "Usage: login {host:port} {username} {password}" << endl;
       return false;
