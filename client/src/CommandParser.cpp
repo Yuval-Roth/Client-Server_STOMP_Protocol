@@ -7,7 +7,6 @@
 #include "SubscribeFrame.h"
 #include "UnsubscribeFrame.h"
 #include "event.h"
-#include <sstream>
 #include <fstream>
 #include <iostream>
 #include "SendFrame.h"
@@ -120,7 +119,7 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
 
     UserData & userData = UserData::getInstance();
     string fileName = commandParameters[1];
-    names_and_events namesAndEvents = parseEventsFile(fileName);
+    names_and_events namesAndEvents = parseEventsFile("../data/" +fileName);
     vector<Event>& gameEvents = namesAndEvents.events;
     // for each
     for (Event& event : gameEvents) {

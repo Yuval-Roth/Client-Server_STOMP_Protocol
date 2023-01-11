@@ -104,7 +104,7 @@ string Event::extractFrameBody() {
     for (auto & teamBUpdate : team_b_updates) {
         output += teamBUpdate.first + ":" + teamBUpdate.second + ",\n";
     }
-    output += "description: \n" = event.get_description();
+    output += "description: \n" + description;
 }
 
 names_and_events parseEventsFile(std::string json_path)
