@@ -68,16 +68,7 @@ Event::Event(const std::string &frame_body)
         : team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
             team_a_updates(), team_b_updates(), description("")
 {
-    json j = json::parse(frame_body);
-    reporter = j["user"];
-    team_a_name = j["team_a_name"];
-    team_b_name = j["team_b_name"];
-    name = j["name"];
-    time = j["time"];
-    game_updates = j["game_updates"];
-    team_a_updates = j["team_a_updates"];
-    team_b_updates = j["team_b_updates"];
-    description = j["description"];
+    //TODO parse frame body
 }
 
 string Event::toJson() {
@@ -92,6 +83,28 @@ string Event::toJson() {
     j["team_b_updates"] = team_b_updates;
     j["description"] = description;
     return j.dump();
+}
+
+string Event::extractFrameBody() {
+    string output = "";
+    output += "user: " + reporter+"\n";
+    output += "team_a_name: " + team_a_name+"\n";
+    output += "team_b_name: " + team_b_name+"\n";
+    output += "event name: " + name+"\n";
+    output += "time:" + to_string(time)+"\n";
+    output += "general game updates: \n";
+    for (auto & gameUpdate : game_updates) {
+        output += gameUpdate.first + ":" + gameUpdate.second + ",\n";
+    }
+    output += "team a updates: \n";
+    for (auto & teamAUpdate : team_a_updates) {
+        output += teamAUpdate.first + ":" + teamAUpdate.second + ",\n";
+    }
+    output += "team b updates: \n";
+    for (auto & teamBUpdate : team_b_updates) {
+        output += teamBUpdate.first + ":" + teamBUpdate.second + ",\n";
+    }
+    output += "description: \n" = event.get_description();
 }
 
 names_and_events parseEventsFile(std::string json_path)

@@ -43,6 +43,7 @@ class Event
         const map<string, string> &get_team_a_updates() const;
         const map<string, string> &get_team_b_updates() const;
         const string &get_description() const;
+        string extractFrameBody();
 
         string toJson();
 };
