@@ -184,6 +184,10 @@ string Event::extractFrameBody() {
     return output;
 }
 
+const string Event::get_game_name() const {
+        return get_team_a_name() + "_" + get_team_b_name();
+}
+
 names_and_events parseEventsFile(std::string json_path)
 {
     std::ifstream f(json_path);

@@ -39,6 +39,7 @@ class Event
         const string &get_team_a_name() const;
         const string &get_team_b_name() const;
         const string &get_name() const;
+        const string get_game_name() const;
         int get_time() const;
         const map<string, string> &get_game_updates() const;
         const map<string, string> &get_team_a_updates() const;

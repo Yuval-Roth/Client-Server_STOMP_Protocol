@@ -16,7 +16,6 @@ struct GameReport{
     string reporter;
     string gameName;
     GameReport(string reporter, string gameName) : reporter(reporter), gameName(gameName) {}
-    unordered_map<string,string> map;
 
     bool operator==(const GameReport& other) const {
         return reporter == other.reporter && gameName == other.gameName;
@@ -55,10 +54,9 @@ class UserData{
         condition_variable cv;
         ConnectionHandler* handler;
         queue<Frame*> frameQueue;
-        list<Event*> gameEvents;
         unordered_map<string, int> gameNameToSubId;
         unordered_map<int, string> subIdToGameName;
-        //unordered_map<GameReport, Summary> gameSummaries;
+        unordered_map<GameReport*, Summary*> gameSummaries;
 
 
 
