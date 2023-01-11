@@ -12,6 +12,7 @@ SendFrame *SendFrame::get(Event& event)
     UserData &userData = UserData::getInstance();
     unordered_map<string, string> headers;
     headers["destination"] = "/" + event.get_team_a_name() + "_" + event.get_team_b_name();
+    string body = event.extractFrameBody();
     SendFrame *frame = new SendFrame(StompCommand::SEND, headers, body);
     return frame;
 }
