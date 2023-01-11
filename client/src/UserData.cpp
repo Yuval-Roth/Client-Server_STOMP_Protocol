@@ -10,7 +10,7 @@ UserData* UserData::instance;
 
 UserData::UserData()
     : shouldTerminateFlag(false), connected(false), nextReceiptNumber(0), nextSubscriptionNumber(0),
-      userName(), m(), cv(), handler(nullptr), frameQueue(), gameEvents(), gameNameToSubId(), subIdToGameName() {}
+      userName(), m(), cv(), handler(nullptr), frameQueue(), gameNameToSubId(), subIdToGameName(), gameSummaries() {}
 
 mutex& UserData::getLock()
 {
@@ -19,7 +19,7 @@ mutex& UserData::getLock()
 
 UserData &UserData::getInstance()
 {
-    if(instance == NULL){
+    if(instance == NULL){ // why not nullptr?
         instance = new UserData();
     }
     return *instance;
