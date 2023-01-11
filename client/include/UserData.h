@@ -10,8 +10,14 @@
 class ConnectionHandler;
 class Frame;
 class Event;
-
+class Summary;
+struct GameReport{
+        string reporter;
+        string gameName;
+        GameReport(string reporter, string gameName) : reporter(reporter), gameName(gameName) {}
+};
 using namespace std;
+
 class UserData{
 
     //====================================================================================|
@@ -34,6 +40,9 @@ class UserData{
         list<Event*> gameEvents;
         unordered_map<string, int> gameNameToSubId;
         unordered_map<int, string> subIdToGameName;
+        //unordered_map<GameReport, Summary> gameSummaries;
+
+
 
 
 
@@ -70,7 +79,7 @@ class UserData{
         int getSubId(string topic);
         string getGameName(int subId);
         void addGameEvent(Event* gameEvent);
-        list<Event*>& getGameEvents();
+
 
         bool shouldTerminate();
         void terminate();
