@@ -40,7 +40,7 @@ void actorThread_run() {
 	while(userData.shouldTerminate() == false){
 
 		string message;
-		if(handler.getFrameAscii(message, '\0') & (userData.getFrameQueue().empty() == false)){
+		if((userData.getFrameQueue().empty() == false) && handler.getFrameAscii(message, '\0')){
 			ExecutableFrame* frame = ExecutableFrame::parse(message);
 			frame->execute();
 		}
