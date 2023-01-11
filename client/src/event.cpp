@@ -80,21 +80,21 @@ Event::Event(const std::string &frame_body)
 
     //team_a_name
     getline(iss, line);
-    if (line.find("team_a_name:") != string::npos)
+    if (line.find("team a name:") != string::npos)
     {
         team_a_name = line.substr(line.find(":") + 1);
     }
 
     //team_b_name
     getline(iss, line);
-    if (line.find("team_b_name:") != string::npos)
+    if (line.find("team b name:") != string::npos)
     {
         team_b_name = line.substr(line.find(":") + 1);
     }
 
     //name
     getline(iss, line);
-    if (line.find("name:") != string::npos)
+    if (line.find("event name:") != string::npos)
     {
         name = line.substr(line.find(":") + 1);
     }
@@ -108,9 +108,9 @@ Event::Event(const std::string &frame_body)
 
     //general updates
     getline(iss, line);
-    if (line.find("game_updates:") != string::npos)
+    if (line.find("general game updates:") != string::npos)
     {
-        while (getline(iss, line) && line.find("team_a_updates:") == string::npos)
+        while (getline(iss, line) && line.find("team a updates:") == string::npos)
         {
             int delimiter = line.find(":");
             string key = line.substr(0, delimiter);
@@ -120,9 +120,9 @@ Event::Event(const std::string &frame_body)
     }
 
     //team_a_updates
-    if (line.find("team_a_updates:") != string::npos)
+    if (line.find("team a updates:") != string::npos)
     {
-        while (getline(iss, line) && line.find("team_b_updates:") == string::npos)
+        while (getline(iss, line) && line.find("team b updates:") == string::npos)
         {
             int delimiter = line.find(":");
             string key = line.substr(0, delimiter);
@@ -132,9 +132,9 @@ Event::Event(const std::string &frame_body)
     }
 
     //team_b_updates
-    if (line.find("team_b_updates:") != string::npos)
+    if (line.find("team b updates:") != string::npos)
     {
-        while (getline(iss, line) && line.find("description:") == string::npos)
+        while (getline(iss, line) && line.find("description: ") == string::npos)
         {
             int delimiter = line.find(":");
             string key = line.substr(0, delimiter);
@@ -144,7 +144,7 @@ Event::Event(const std::string &frame_body)
     }
 
     //description
-    if (line.find("description:") != string::npos)
+    if (line.find("description: ") != string::npos)
     {
         getline(iss, line,'\0');
         description = line;

@@ -17,31 +17,33 @@ void Summary::addEvent(Event &event) {
         team_b_stats = event.get_team_b_updates();
         // potential but - what if they didn't report on every previously reported team stat?
         // The info would be overwritten and lost
-
-void Summary::printSummary() {
-        string summary = team_a_name + " vs " + team_b_name + "\n";
-        summary += "Game Stats:\n";
-        summary += "General Stats:\n";
-        // Probably sorted alphabetically - need to make sure
-        for (auto &general_stat : general_stats) {
-                summary += general_stat.first + ": " + general_stat.second + "\n";
-        }
-        summary += "Team A Stats:\n";
-        for (auto &team_a_stat : team_a_stats) {
-                summary += team_a_stat.first + ": " + team_a_stat.second + "\n";
-        }
-        summary += "Team B Stats:\n";
-        for (auto &team_b_stat : team_b_stats) {
-                summary += team_b_stat.first + ": " + team_b_stat.second + "\n";
-        }
-        summary += "Game Events:\n";
-        firstHalfEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
-        secondHalfEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
-        for (auto &firstHalfEvent : firstHalfEvents) {
-                summary += firstHalfEvent.name + " " + to_string(firstHalfEvent.time) + " " + firstHalfEvent.description + "\n";
-        }
-        for (auto &secondHalfEvent : secondHalfEvents) {
-                summary += secondHalfEvent.name + " " + to_string(secondHalfEvent.time) + " " + secondHalfEvent.description + "\n";
-        }
 }
+        void Summary::printSummary() {
+                string summary = team_a_name + " vs " + team_b_name + "\n";
+                summary += "Game Stats:\n";
+                summary += "General Stats:\n";
+                // Probably sorted alphabetically - need to make sure
+                for (auto &general_stat: general_stats) {
+                        summary += general_stat.first + ": " + general_stat.second + "\n";
+                }
+                summary += "Team A Stats:\n";
+                for (auto &team_a_stat: team_a_stats) {
+                        summary += team_a_stat.first + ": " + team_a_stat.second + "\n";
+                }
+                summary += "Team B Stats:\n";
+                for (auto &team_b_stat: team_b_stats) {
+                        summary += team_b_stat.first + ": " + team_b_stat.second + "\n";
+                }
+                summary += "Game Events:\n";
+                firstHalfEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
+                secondHalfEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
+                for (auto &firstHalfEvent: firstHalfEvents) {
+                        summary += firstHalfEvent.name + " " + to_string(firstHalfEvent.time) + " " +
+                                   firstHalfEvent.description + "\n";
+                }
+                for (auto &secondHalfEvent: secondHalfEvents) {
+                        summary += secondHalfEvent.name + " " + to_string(secondHalfEvent.time) + " " +
+                                   secondHalfEvent.description + "\n";
+                }
+        }
 
