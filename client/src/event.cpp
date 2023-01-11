@@ -73,7 +73,7 @@ Event::Event(const std::string &frame_body)
 
     //reporter
     getline(iss, line);
-    if (line.find("reporter:") != string::npos)
+    if (line.find("user:") != string::npos)
     {
         reporter = line.substr(line.find(":") + 1);
     }
