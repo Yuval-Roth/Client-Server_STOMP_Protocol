@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-ConnectedFrame::ConnectedFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
-    : ExecutableFrame(command, headers, frameBody){}
+ConnectedFrame::ConnectedFrame(unordered_map<string, string> headers, string frameBody)
+    : ExecutableFrame(StompCommand::CONNECTED, headers, frameBody){}
 
 
 void ConnectedFrame::execute()

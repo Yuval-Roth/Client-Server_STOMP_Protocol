@@ -2,8 +2,8 @@
 #include "UserData.h"
 #include "../include/event.h"
 
-MessageFrame::MessageFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
-    : ExecutableFrame(command, headers, frameBody){}
+MessageFrame::MessageFrame(unordered_map<string, string> headers, string frameBody)
+    : ExecutableFrame(StompCommand::MESSAGE, headers, frameBody){}
 
 void MessageFrame::execute()
 {

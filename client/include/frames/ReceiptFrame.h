@@ -4,5 +4,5 @@
 
 class ReceiptFrame : public Frame {
     public:
-        ReceiptFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
+        ReceiptFrame(unordered_map<string, string> headers, string frameBody);
 };

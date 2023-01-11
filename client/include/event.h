@@ -34,7 +34,7 @@ class Event
               std::map<std::string, std::string> game_updates, std::map<std::string, std::string> team_a_updates,
               std::map<std::string, std::string> team_b_updates, std::string description);
         Event(const string & frame_body);
-        virtual ~Event();
+        virtual ~Event() = default;
         const string & get_reporter() const;
         const string &get_team_a_name() const;
         const string &get_team_b_name() const;

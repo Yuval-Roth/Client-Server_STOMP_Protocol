@@ -11,14 +11,9 @@ using json = nlohmann::json;
 Event::Event(string reporter, std::string team_a_name, std::string team_b_name, std::string name, int time,
              std::map<std::string, std::string> game_updates, std::map<std::string, std::string> team_a_updates,
              std::map<std::string, std::string> team_b_updates, std::string description)
-    : team_a_name(team_a_name), team_b_name(team_b_name), name(name),
+    : reporter(reporter), team_a_name(team_a_name), team_b_name(team_b_name), name(name),
       time(time), game_updates(game_updates), team_a_updates(team_a_updates),
-      team_b_updates(team_b_updates), description(description), reporter(reporter) {
-}
-
-Event::~Event()
-{
-}
+      team_b_updates(team_b_updates), description(description){}
 
 const string &Event::get_reporter() const {
     return reporter;
@@ -65,7 +60,7 @@ const std::string &Event::get_description() const
 }
 
 Event::Event(const std::string &frame_body)
-        : team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
+        : reporter(""), team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
             team_a_updates(), team_b_updates(), description("")
 {
     istringstream iss(frame_body);

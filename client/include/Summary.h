@@ -38,7 +38,7 @@ class Summary {
 
 
     public:
-        Summary(string userName, string gameName) : userName(userName), gameName(gameName) {};
+        Summary(string userName, string gameName);
         void addEvent(Event& event);
         void printSummary();
         ~Summary();

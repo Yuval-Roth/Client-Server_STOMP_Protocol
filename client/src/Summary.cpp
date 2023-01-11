@@ -1,6 +1,11 @@
 #include "../include/Summary.h"
 #include "../include/event.h"
 
+Summary::Summary(string userName, string gameName)
+        : userName(userName), gameName(gameName), team_a_name(),team_b_name(),general_stats(),
+        team_a_stats(),team_b_stats(),firstHalfEvents(),secondHalfEvents(){}
+
+
 void Summary::addEvent(Event &event)
 {
 
@@ -123,4 +128,6 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
     }
     */
 }
+
+
 

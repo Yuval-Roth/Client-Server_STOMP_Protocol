@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
 	//thread actorThread(actorThread_run); // Understand why it doesn't compile 
-		// note - it didn't compile even before I removed the connectionHandler argument from the function
+    // note - it didn't compile even before I removed the connectionHandler argument from the function
 	// UserData& userData = UserData::getInstance(); 
 	return 0;
 }
