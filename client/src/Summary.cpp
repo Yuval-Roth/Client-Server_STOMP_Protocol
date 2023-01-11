@@ -76,6 +76,8 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
         // optimization for deciding whether to start from the start or end
         // based on the average time value
         int avgTime = (eventList.front().time + eventList.back().time)/2;
+
+        // start from the beginning
         if(event.time <= avgTime)
         {
             for(auto it = eventList.begin(); it != eventList.end(); ++it) {
@@ -85,6 +87,8 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
                 }
             }
         }
+
+        // start from the end
         else{
             for(auto it = eventList.rbegin(); it != eventList.rend(); ++it) {
                 if (it->time < event.time) {
