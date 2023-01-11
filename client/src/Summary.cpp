@@ -82,7 +82,13 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
         {
             for(auto it = eventList.begin(); it != eventList.end(); ++it) {
                 if (it->time > event.time) {
-                    eventList.insert(it, event);
+                    it++;
+                    if(it != eventList.end()){
+                        eventList.insert(it, event);
+                    }
+                    else{
+                        eventList.push_back(event);
+                    }
                     return;
                 }
             }
@@ -92,7 +98,12 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
         else{
             for(auto it = eventList.rbegin(); it != eventList.rend(); ++it) {
                 if (it->time < event.time) {
-                    eventList.insert(it.base(), event);
+                    if(it != eventList.rend()){
+                        eventList.insert(it.base(), event);
+                    }
+                    else{
+                        eventList.push_front(event);
+                    }
                     return;
                 }
             }
