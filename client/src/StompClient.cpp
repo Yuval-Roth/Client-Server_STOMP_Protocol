@@ -3,16 +3,16 @@ using namespace std;
 #include "ConnectionHandler.h"
 #include "UserData.h"
 #include "frames/ExecutableFrame.h"
-
+#include "CommandParser.h"
+#include <iostream>
 #include <vector>
 #include <thread>
 
 void actorThread_run() {
 	UserData& userData = UserData::getInstance();
-	ConnectionHandler& handler = userData.getHandler();
 	Frame* connectFrame = userData.getFrameQueue().front();
 	userData.getFrameQueue().pop();
-
+    ConnectionHandler& handler = userData.getHandler();
 	handler.sendFrameAscii(connectFrame->toString(), '\0');
 
 	string loginResponse;
@@ -56,10 +56,25 @@ void actorThread_run() {
 
 int main() {
 
+    string userInput;
+    cout << "Welcome to STOMP. Please enter a login command:" << endl;
+    cin >> userInput;
 
+    bool loggedIn = false;
+    while (!loggedIn) {
+        loggedIn = CommandParser::parseCommand(userInput);
+    }
 
-
+    UserData& userData = UserData::getInstance();
+    ConnectionHandler& handler = userData.getHandler();
     thread actorThread(actorThread_run);
+
+    while (!userData.shouldTerminate()) {
+        cin >> userInput;
+        CommandParser::parseCommand(userInput);
+        handler.interrupt();
+    }
+
     actorThread.join();
     return 0;
 }

@@ -11,12 +11,12 @@
 #include <iostream>
 #include "SendFrame.h"
 
-void CommandParser::parseCommand(string commandToParse)
+bool CommandParser::parseCommand(string commandToParse)
 {
   vector<string> commandParameters = split(commandToParse, ' ');
   string command = commandParameters[0];
   if(command == "login"){
-      parseLoginCommand(commandParameters);
+      return parseLoginCommand(commandParameters);
   }
   else if (command == "logout"){
       parseLogoutCommand();
@@ -35,14 +35,15 @@ void CommandParser::parseCommand(string commandToParse)
   else if (command == "summary"){
       parseSummaryCommand(commandParameters);
   }
+    return false;
 }
 
-void CommandParser::parseLoginCommand(vector<string> commandParameters)
+bool CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
   if(commandParameters.size() != 4){
       cout << "Invalid number of parameters" << endl;
       cout << "Usage: login {host:port} {username} {password}" << endl;
-      return;
+      return false;
   }
   string hostPort = commandParameters[1];
   string host = hostPort.substr(0, hostPort.find(':'));
@@ -59,6 +60,7 @@ void CommandParser::parseLoginCommand(vector<string> commandParameters)
   ud.setHandler(*connectionHandler);
   ud.setUserName(username);
   ud.notifyAll();
+  return true;
 
 }
 
