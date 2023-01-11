@@ -99,10 +99,6 @@ UserData::~UserData()
         frameQueue.pop();
         delete toDelete;
     }
-    for(auto it = gameSummaries.begin(); it != gameSummaries.end(); it++){
-        delete it->first;
-        delete it->second;
-    }
     delete instance; // delete here?
 }
 
@@ -127,7 +123,7 @@ string UserData::getGameName(int subId) {
 void UserData::addGameEvent(Event *gameEvent) {
     string reporter = gameEvent->get_reporter();
     string gameName = gameEvent->get_game_name();
-    GameReport* gameReport = new GameReport(reporter, gameName);
-    Summary *summary = new Summary(reporter, gameName);
+    GameReport gameReport(reporter, gameName);
+    Summary* summary = new Summary(reporter, gameName);
     gameSummaries[gameReport] = summary;
 }

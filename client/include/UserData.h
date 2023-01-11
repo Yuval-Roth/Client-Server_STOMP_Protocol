@@ -56,7 +56,8 @@ class UserData{
         queue<Frame*> frameQueue;
         unordered_map<string, int> gameNameToSubId;
         unordered_map<int, string> subIdToGameName;
-        unordered_map<GameReport*, Summary*> gameSummaries;
+        unordered_map<GameReport, Summary*> gameSummaries;
+
 
 
 
