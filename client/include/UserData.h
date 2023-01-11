@@ -14,7 +14,6 @@ class Summary;
 
 
 
-
 struct GameReport{
     string reporter;
     string gameName;
@@ -23,11 +22,9 @@ struct GameReport{
 };
 
 namespace std {
-#include <functional>
-    template<> struct hash<GameReport> {
-        size_t operator()(const GameReport& t) const {
-            hash<int> h;
-            return h(t.reporter) ^ h(t.gameName);
+    template <> struct hash<GameReport> {
+        size_t operator()(const GameReport& s) const {
+            return hash<int>()(s.reporter) ^ hash<int>()(s.gameName);
         }
     };
 }
@@ -51,10 +48,9 @@ class UserData{
         condition_variable cv;
         ConnectionHandler* handler;
         queue<Frame*> frameQueue;
-        list<Event*> gameEvents;
         unordered_map<string, int> gameNameToSubId;
         unordered_map<int, string> subIdToGameName;
-        //unordered_map<GameReport, Summary> gameSummaries;
+        unordered_map<GameReport*, Summary*> gameSummaries;
 
 
 
