@@ -68,7 +68,86 @@ Event::Event(const std::string &frame_body)
         : team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
             team_a_updates(), team_b_updates(), description("")
 {
-    //TODO parse frame body
+    istringstream iss(frame_body);
+    string line;
+
+    //reporter
+    getline(iss, line);
+    if (line.find("reporter:") != string::npos)
+    {
+        reporter = line.substr(line.find(":") + 1);
+    }
+
+    //team_a_name
+    getline(iss, line);
+    if (line.find("team_a_name:") != string::npos)
+    {
+        team_a_name = line.substr(line.find(":") + 1);
+    }
+
+    //team_b_name
+    getline(iss, line);
+    if (line.find("team_b_name:") != string::npos)
+    {
+        team_b_name = line.substr(line.find(":") + 1);
+    }
+
+    //name
+    getline(iss, line);
+    if (line.find("name:") != string::npos)
+    {
+        name = line.substr(line.find(":") + 1);
+    }
+
+    //time
+    getline(iss, line);
+    if (line.find("time:") != string::npos)
+    {
+        time = stoi(line.substr(line.find(":") + 1));
+    }
+
+    //general updates
+    getline(iss, line);
+    if (line.find("game_updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("team_a_updates:") == string::npos)
+        {
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 1);
+            game_updates[key] = value;
+        }
+    }
+
+    //team_a_updates
+    if (line.find("team_a_updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("team_b_updates:") == string::npos)
+        {
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 1);
+            team_a_updates[key] = value;
+        }
+    }
+
+    //team_b_updates
+    if (line.find("team_b_updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("description:") == string::npos)
+        {
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 1);
+            team_b_updates[key] = value;
+        }
+    }
+
+    if (line.find("description:") != string::npos)
+    {
+        getline(iss, line,'\0');
+        description = line;
+    }
 
 }
 
