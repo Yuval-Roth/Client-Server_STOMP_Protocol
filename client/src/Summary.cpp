@@ -72,6 +72,11 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
         eventList.push_back(event);
     }
 
+    // optimization for first item
+    else if (eventList.front().time > event.time){
+        eventList.push_front(event);
+    }
+
     else{
         // optimization for deciding whether to start from the start or end
         // based on the average time value
@@ -81,14 +86,8 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
         if(event.time <= avgTime)
         {
             for(auto it = eventList.begin(); it != eventList.end(); ++it) {
-                if (it->time > event.time) {
-                    it++;
-                    if(it != eventList.end()){
-                        eventList.insert(it, event);
-                    }
-                    else{
-                        eventList.push_back(event);
-                    }
+                if (it->time >= event.time) {
+                    eventList.insert(it, event);
                     return;
                 }
             }
@@ -97,13 +96,9 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
         // start from the end
         else{
             for(auto it = eventList.rbegin(); it != eventList.rend(); ++it) {
-                if (it->time < event.time) {
-                    if(it != eventList.rend()){
-                        eventList.insert(it.base(), event);
-                    }
-                    else{
-                        eventList.push_front(event);
-                    }
+                if (it->time <= event.time) {
+                    it--;
+                    eventList.insert(it.base(), event);
                     return;
                 }
             }
