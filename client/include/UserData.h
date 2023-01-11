@@ -12,25 +12,29 @@ class Frame;
 class Event;
 class Summary;
 
-
-
-
 struct GameReport{
     string reporter;
     string gameName;
     GameReport(string reporter, string gameName) : reporter(reporter), gameName(gameName) {}
     unordered_map<string,string> map;
+
+    bool operator==(const GameReport& other) const {
+        return reporter == other.reporter && gameName == other.gameName;
+    }
 };
 
 namespace std {
-#include <functional>
-    template<> struct hash<GameReport> {
-        size_t operator()(const GameReport& t) const {
-            hash<int> h;
-            return h(t.reporter) ^ h(t.gameName);
+    template <> struct hash<GameReport> {
+        size_t operator()(const GameReport& s) const {
+            int prime = 31;
+            int result = 1;
+            result = prime * result + hash<string>()(s.reporter);
+            result = prime * result + hash<string>()(s.gameName);
+            return result;
         }
     };
 }
+
 
 class UserData{
 
