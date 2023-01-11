@@ -44,7 +44,6 @@ class Event
         const map<string, string> &get_team_b_updates() const;
         const string &get_description() const;
         string extractFrameBody();
-
         string toJson();
 };
 

@@ -69,6 +69,7 @@ Event::Event(const std::string &frame_body)
             team_a_updates(), team_b_updates(), description("")
 {
     //TODO parse frame body
+
 }
 
 string Event::toJson() {
@@ -105,6 +106,7 @@ string Event::extractFrameBody() {
         output += teamBUpdate.first + ":" + teamBUpdate.second + ",\n";
     }
     output += "description: \n" + description;
+    return output;
 }
 
 names_and_events parseEventsFile(std::string json_path)
