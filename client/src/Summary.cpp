@@ -62,6 +62,23 @@ void Summary::printSummary() {
 
 void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
 
+    if(eventList.empty() || eventList.back().time < event.time) {
+        eventList.push_back(event);
+    }
+    else {
+        for (auto it = eventList.begin(); it != eventList.end(); it++) {
+            if (it->time >= event.time) {
+                eventList.insert(it, event);
+                break;
+            }
+        }
+    }
+
+    /*
+     * this is an optimized insertion sort algorithm, but it's more complex and
+     * I figured it's not worth the hassle for this assignment, so I commented it out
+     * and left a less efficient but simpler implementation.
+
     // first item inserted
     if(eventList.empty()){
         eventList.push_back(event);
@@ -104,5 +121,6 @@ void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
             }
         }
     }
+    */
 }
 
