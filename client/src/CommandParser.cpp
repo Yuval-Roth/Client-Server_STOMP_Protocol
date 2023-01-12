@@ -16,12 +16,12 @@ bool CommandParser::parseCommand(string commandToParse)
 {
     istringstream pa(commandToParse);
     string parameter;
-    getline(pa, parameter, ' ');
+    string command;
+    getline(pa, command, ' ');
     vector<string> commandParameters;
-    while(getline(pa, parameter, ' ') && parameter != ""){
+    while(getline(pa, parameter, ' ')){
         commandParameters.push_back(parameter);
     }
-  string command = commandParameters[0];
   if(command == "login"){
       return parseLoginCommand(commandParameters);
   }
@@ -47,27 +47,28 @@ bool CommandParser::parseCommand(string commandToParse)
 
 bool CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
-  if(commandParameters.size() != 3){
-      cout << "Invalid number of parameters" << endl;
-      cout << "Usage: login {host:port} {username} {password}" << endl;
-      return false;
-  }
-  string hostPort = commandParameters[1];
-  string host = hostPort.substr(0, hostPort.find(':'));
-  int port = stoi(hostPort.substr(hostPort.find(':'), hostPort.length())); //TODO: check if this is correct
+    if(commandParameters.size() != 3){
+        cout << "Invalid number of parameters" << endl;
+        cout << "Usage: login {host:port} {username} {password}" << endl;
+        return false;
+    }
+    string hostPort = commandParameters[0];
+    string host = hostPort.substr(0, hostPort.find(':'));
+    string _port = hostPort.substr(hostPort.find(':') + 1);
+    int port = stoi(_port); //TODO: check if this is correct
 
-  ConnectionHandler* connectionHandler = new ConnectionHandler(host, port);
+    ConnectionHandler* connectionHandler = new ConnectionHandler(host, port);
 
-  string username = commandParameters[2];
-  string password = commandParameters[3];
+    string username = commandParameters[1];
+    string password = commandParameters[2];
 
-  Frame* frame = ConnectFrame::get(host, username, password);
-  UserData& ud = UserData::getInstance();
-  ud.addAction(frame);
-  ud.setHandler(*connectionHandler);
-  ud.setUserName(username);
-  ud.notifyAll();
-  return true;
+    Frame* frame = ConnectFrame::get(host, username, password);
+    UserData& ud = UserData::getInstance();
+    ud.addAction(frame);
+    ud.setHandler(*connectionHandler);
+    ud.setUserName(username);
+    ud.notifyAll();
+    return true;
 
 }
 

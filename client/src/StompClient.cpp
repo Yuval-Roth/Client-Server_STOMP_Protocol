@@ -58,12 +58,12 @@ int main() {
 
     string userInput;
     cout << "Welcome to STOMP. Please enter a login command:" << endl;
-    cin >> userInput;
+    getline(cin, userInput);
 
     bool loggedIn = CommandParser::parseCommand(userInput);
     while (!loggedIn) {
 		cout << "Please enter a login command:" << endl;
-        cin >> userInput;
+        getline(cin, userInput);
 		loggedIn = CommandParser::parseCommand(userInput);
     }
 
