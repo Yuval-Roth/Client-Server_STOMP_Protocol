@@ -129,3 +129,7 @@ void ConnectionHandler::close() {
 		std::cout << "closing failed: connection already closed" << std::endl;
 	}
 }
+
+bool ConnectionHandler::socket_is_open() {
+    return socket_.release();
+}

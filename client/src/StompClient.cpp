@@ -10,6 +10,21 @@ using namespace std;
 
 void connect();
 
+void handleFrameQueue() {
+    UserData& userData = UserData::getInstance();
+    ConnectionHandler& handler = userData.getHandler();
+    queue<Frame*>& frameQueue = userData.getFrameQueue();
+    mutex& m = userData.getLock();
+    unique_lock<mutex> lock(m);
+    while(frameQueue.empty() == false){
+        Frame* frame = frameQueue.front();
+        frameQueue.pop();
+        handler.sendFrameAscii(frame->toString(), '\0');
+        delete frame;
+    }
+    lock.unlock();
+}
+
 void actorThread_run() {
 	UserData& userData = UserData::getInstance();
     ConnectionHandler& handler = userData.getHandler();
@@ -27,17 +42,8 @@ void actorThread_run() {
 			frame->execute();
 		}
 		else{
-			queue<Frame*>& frameQueue = userData.getFrameQueue();
-			mutex& m = userData.getLock();
-			unique_lock<mutex> lock(m);
-			while(frameQueue.empty() == false){
-				Frame* frame = frameQueue.front();
-				frameQueue.pop();
-				handler.sendFrameAscii(frame->toString(), '\0');
-				delete frame;
-			}
-			lock.unlock();
-		}
+            handleFrameQueue();
+        }
 
 	}
 }
@@ -49,7 +55,7 @@ void connect() {
         cout<<"Please enter a login command:"<<endl;
         UserData& userData = UserData::getInstance();
         getline(cin, userInput);
-        loggedIn = CommandParser::parseCommand(userInput);
+        CommandParser::parseCommand(userInput);
         ConnectionHandler& handler = userData.getHandler();
 
         if(handler.connect() == false) continue;
@@ -63,13 +69,13 @@ void connect() {
             if(responseFrame->getCommand() == CONNECTED) {
                 responseFrame->execute();
                 userData.setConnected(true);
+                loggedIn = true;
             }
             else {
                 cout << "Login failed: "+ responseFrame->getHeaders().at("message") << endl;
             }
             delete responseFrame;
             if(userData.isConnected() == false){
-                handler.close();
                 UserData::deleteInstance(true,true,true);
                 continue;	// Login failed
             }
@@ -78,23 +84,25 @@ void connect() {
 }
 
 int main() {
+    while(true){
 
-    cout << "Welcome to STOMP." << endl;
+        cout << "Welcome to STOMP." << endl;
 
-    connect();
+        connect();
 
-    thread actorThread(actorThread_run);
+        thread actorThread(actorThread_run);
 
-    string userInput;
-    UserData& userData = UserData::getInstance();
-    ConnectionHandler& handler = userData.getHandler();
-    while (!userData.shouldTerminate()) {
-        getline(cin, userInput);
-        CommandParser::parseCommand(userInput);
-        handler.interrupt();
+        string userInput;
+        UserData& userData = UserData::getInstance();
+        ConnectionHandler& handler = userData.getHandler();
+        while (!userData.shouldTerminate()) {
+            getline(cin, userInput);
+            CommandParser::parseCommand(userInput);
+            handleFrameQueue();
+        }
+        actorThread.join();
+        UserData::deleteInstance(true,true,true);
     }
-
-    actorThread.join();
     return 0;
 }
 

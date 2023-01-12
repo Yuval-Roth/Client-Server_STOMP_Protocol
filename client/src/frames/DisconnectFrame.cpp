@@ -10,6 +10,7 @@ DisconnectFrame * DisconnectFrame::get()
     unordered_map<string, string> headersMap;
     headersMap["receipt"] = to_string(UserData::getInstance().getReceiptId());
     DisconnectFrame *frame = new DisconnectFrame(headersMap, "");
+    userData.terminate();
     return frame;
 }
 

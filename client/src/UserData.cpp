@@ -89,17 +89,18 @@ ConnectionHandler& UserData::getHandler()
 void UserData::deleteInstance(bool b1, bool b2, bool b3)
 {
     if(b1 & b2 & b3) delete instance;
+    instance = NULL;
 }
 
 UserData::~UserData()
 {
     delete handler;
-    while(frameQueue.empty() == false){
-        Frame* toDelete = frameQueue.front();
-        frameQueue.pop();
-        delete toDelete;
-    }
-    delete instance; // delete here?
+
+//    while(frameQueue.empty() == false){
+//        Frame* toDelete = frameQueue.front();
+//        frameQueue.pop();
+//        delete toDelete;
+//    }
 }
 
 int UserData::getReceiptId() {

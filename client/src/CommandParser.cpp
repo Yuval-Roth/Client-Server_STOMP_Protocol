@@ -89,7 +89,6 @@ void CommandParser::parseLogoutCommand() {
     DisconnectFrame * frame = DisconnectFrame::get();
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
-    ud.setConnected(false);
 }
 
 void CommandParser::parseJoinCommand(vector<string> commandParameters) {

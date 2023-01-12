@@ -1,6 +1,10 @@
 #include "ReceiptFrame.h"
 
 ReceiptFrame::ReceiptFrame(unordered_map<string, string> headers, string frameBody)
-    : Frame(StompCommand::RECEIPT, headers, frameBody)
+    : ExecutableFrame(StompCommand::RECEIPT, headers, frameBody)
 {
+}
+
+void ReceiptFrame::execute() {
+    cout << "success"<< endl;
 }
