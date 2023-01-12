@@ -8,17 +8,15 @@
 #include <sstream>
 using json = nlohmann::json;
 
-Event::Event(std::string team_a_name, std::string team_b_name, std::string name, int time,
+Event::Event(string reporter, std::string team_a_name, std::string team_b_name, std::string name, int time,
              std::map<std::string, std::string> game_updates, std::map<std::string, std::string> team_a_updates,
-             std::map<std::string, std::string> team_b_updates, std::string discription)
-    : team_a_name(team_a_name), team_b_name(team_b_name), name(name),
+             std::map<std::string, std::string> team_b_updates, std::string description)
+    : reporter(reporter), team_a_name(team_a_name), team_b_name(team_b_name), name(name),
       time(time), game_updates(game_updates), team_a_updates(team_a_updates),
-      team_b_updates(team_b_updates), description(discription)
-{
-}
+      team_b_updates(team_b_updates), description(description){}
 
-Event::~Event()
-{
+const string &Event::get_reporter() const {
+    return reporter;
 }
 
 const std::string &Event::get_team_a_name() const
@@ -56,13 +54,138 @@ const std::map<std::string, std::string> &Event::get_team_b_updates() const
     return this->team_b_updates;
 }
 
-const std::string &Event::get_discription() const
+const std::string &Event::get_description() const
 {
     return this->description;
 }
 
-Event::Event(const std::string &frame_body) : team_a_name(""), team_b_name(""), name(""), time(0), game_updates(), team_a_updates(), team_b_updates(), description("")
+Event::Event(const std::string &frame_body)
+        : reporter(""), team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
+            team_a_updates(), team_b_updates(), description("")
 {
+    istringstream iss(frame_body);
+    string line;
+
+    //reporter
+    getline(iss, line);
+    if (line.find("user:") != string::npos)
+    {
+        reporter = line.substr(line.find(":") + 1);
+    }
+
+    //team_a_name
+    getline(iss, line);
+    if (line.find("team a name:") != string::npos)
+    {
+        team_a_name = line.substr(line.find(":") + 1);
+    }
+
+    //team_b_name
+    getline(iss, line);
+    if (line.find("team b name:") != string::npos)
+    {
+        team_b_name = line.substr(line.find(":") + 1);
+    }
+
+    //name
+    getline(iss, line);
+    if (line.find("event name:") != string::npos)
+    {
+        name = line.substr(line.find(":") + 1);
+    }
+
+    //time
+    getline(iss, line);
+    if (line.find("time:") != string::npos)
+    {
+        time = stoi(line.substr(line.find(":") + 1));
+    }
+
+    //general updates
+    getline(iss, line);
+    if (line.find("general game updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("team a updates:") == string::npos)
+        {
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 1);
+            game_updates[key] = value;
+        }
+    }
+
+    //team_a_updates
+    if (line.find("team a updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("team b updates:") == string::npos)
+        {
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 1);
+            team_a_updates[key] = value;
+        }
+    }
+
+    //team_b_updates
+    if (line.find("team b updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("description: ") == string::npos)
+        {
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 1);
+            team_b_updates[key] = value;
+        }
+    }
+
+    //description
+    if (line.find("description: ") != string::npos)
+    {
+        getline(iss, line,'\0');
+        description = line;
+    }
+
+}
+
+string Event::toJson() {
+    json j;
+    j["user"] = reporter;
+    j["team_a_name"] = team_a_name;
+    j["team_b_name"] = team_b_name;
+    j["name"] = name;
+    j["time"] = time;
+    j["game_updates"] = game_updates;
+    j["team_a_updates"] = team_a_updates;
+    j["team_b_updates"] = team_b_updates;
+    j["description"] = description;
+    return j.dump();
+}
+
+string Event::extractFrameBody() {
+    string output = "";
+    output += "user: " + reporter+"\n";
+    output += "team_a_name: " + team_a_name+"\n";
+    output += "team_b_name: " + team_b_name+"\n";
+    output += "event name: " + name+"\n";
+    output += "time:" + to_string(time)+"\n";
+    output += "general game updates: \n";
+    for (auto & gameUpdate : game_updates) {
+        output += gameUpdate.first + ":" + gameUpdate.second + ",\n";
+    }
+    output += "team a updates: \n";
+    for (auto & teamAUpdate : team_a_updates) {
+        output += teamAUpdate.first + ":" + teamAUpdate.second + ",\n";
+    }
+    output += "team b updates: \n";
+    for (auto & teamBUpdate : team_b_updates) {
+        output += teamBUpdate.first + ":" + teamBUpdate.second + ",\n";
+    }
+    output += "description: \n" + description;
+    return output;
+}
+
+const string Event::get_game_name() const {
+        return get_team_a_name() + "_" + get_team_b_name();
 }
 
 names_and_events parseEventsFile(std::string json_path)
@@ -107,7 +230,8 @@ names_and_events parseEventsFile(std::string json_path)
                 team_b_updates[update.key()] = update.value().dump();
         }
         
-        events.push_back(Event(team_a_name, team_b_name, name, time, game_updates, team_a_updates, team_b_updates, description));
+        events.push_back(Event(std::string(), team_a_name, team_b_name, name, time, game_updates, team_a_updates,
+                               team_b_updates, description));
     }
     names_and_events events_and_names{team_a_name, team_b_name, events};
 

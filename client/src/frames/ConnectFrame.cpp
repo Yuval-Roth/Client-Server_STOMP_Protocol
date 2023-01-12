@@ -5,8 +5,8 @@ const string PASSWORD_HEADER = "password";
 const string ACCEPT_VERSION_HEADER = "accept-version";
 const string HOST_HEADER = "host";
 
-ConnectFrame::ConnectFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
-    : Frame(command, headers, frameBody){}
+ConnectFrame::ConnectFrame(unordered_map<string, string> headers, string frameBody)
+    : Frame(StompCommand::CONNECT, headers, frameBody){}
 
 Frame *ConnectFrame::get(string host, string username, string password)
 {
@@ -15,8 +15,6 @@ Frame *ConnectFrame::get(string host, string username, string password)
     headersMap[HOST_HEADER] = host;
     headersMap[USERNAME_HEADER] = username;
     headersMap[PASSWORD_HEADER] = password;
-    StompCommand command = StompCommand::CONNECT;
-    string frameBody = "";
-    return new ConnectFrame(command, headersMap, frameBody);
+    return new ConnectFrame(headersMap, "");
 }
 

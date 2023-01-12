@@ -7,17 +7,23 @@
 #include "SubscribeFrame.h"
 #include "UnsubscribeFrame.h"
 #include "event.h"
-#include <sstream>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include "SendFrame.h"
 
-void CommandParser::parseCommand(string commandToParse)
+bool CommandParser::parseCommand(string commandToParse)
 {
-  vector<string> commandParameters = split(commandToParse, ' ');
-  string command = commandParameters[0];
+    istringstream pa(commandToParse);
+    string parameter;
+    string command;
+    getline(pa, command, ' ');
+    vector<string> commandParameters;
+    while(getline(pa, parameter, ' ')){
+        commandParameters.push_back(parameter);
+    }
   if(command == "login"){
-      parseLoginCommand(commandParameters);
+      return parseLoginCommand(commandParameters);
   }
   else if (command == "logout"){
       parseLogoutCommand();
@@ -36,30 +42,33 @@ void CommandParser::parseCommand(string commandToParse)
   else if (command == "summary"){
       parseSummaryCommand(commandParameters);
   }
+    return false;
 }
 
-void CommandParser::parseLoginCommand(vector<string> commandParameters)
+bool CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
-  if(commandParameters.size() != 4){
-      cout << "Invalid number of parameters" << endl;
-      cout << "Usage: login {host:port} {username} {password}" << endl;
-      return;
-  }
-  string hostPort = commandParameters[1];
-  string host = hostPort.substr(0, hostPort.find(':'));
-  int port = stoi(hostPort.substr(hostPort.find(':'), hostPort.length())); //TODO: check if this is correct
+    if(commandParameters.size() != 3){
+        cout << "Invalid number of parameters" << endl;
+        cout << "Usage: login {host:port} {username} {password}" << endl;
+        return false;
+    }
+    string hostPort = commandParameters[0];
+    string host = hostPort.substr(0, hostPort.find(':'));
+    string _port = hostPort.substr(hostPort.find(':') + 1);
+    int port = stoi(_port); //TODO: check if this is correct
 
-  ConnectionHandler* connectionHandler = new ConnectionHandler(host, port);
+    ConnectionHandler* connectionHandler = new ConnectionHandler(host, port);
 
-  string username = commandParameters[2];
-  string password = commandParameters[3];
+    string username = commandParameters[1];
+    string password = commandParameters[2];
 
-  Frame* frame = ConnectFrame::get(host, username, password);
-  UserData& ud = UserData::getInstance();
-  ud.addAction(frame);
-  ud.setHandler(*connectionHandler);
-  ud.setUserName(username);
-  ud.notifyAll();
+    Frame* frame = ConnectFrame::get(host, username, password);
+    UserData& ud = UserData::getInstance();
+    ud.addAction(frame);
+    ud.setHandler(*connectionHandler);
+    ud.setUserName(username);
+    ud.notifyAll();
+    return true;
 
 }
 
@@ -120,10 +129,10 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
 
     UserData & userData = UserData::getInstance();
     string fileName = commandParameters[1];
-    names_and_events namesAndEvents = parseEventsFile(fileName);
-    vector<Event> gameEvents = namesAndEvents.events;
+    names_and_events namesAndEvents = parseEventsFile("../data/" +fileName);
+    vector<Event>& gameEvents = namesAndEvents.events;
     // for each
-    for (Event event : gameEvents) {
+    for (Event& event : gameEvents) {
         SendFrame* sendFrame = SendFrame::get(event);
         userData.addAction(sendFrame);
     }
@@ -143,6 +152,7 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
     string fileName = commandParameters[3];
     ofstream summaryFile;
     summaryFile.open(fileName);
+
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
     summaryFile << summaryString << endl;
     summaryFile.close();

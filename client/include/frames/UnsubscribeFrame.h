@@ -6,6 +6,6 @@ using namespace std;
 
 class UnsubscribeFrame : public Frame {
     public:
-        UnsubscribeFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
+        UnsubscribeFrame(unordered_map<string, string> headers, string frameBody);
         static UnsubscribeFrame* get(string topic);
 };

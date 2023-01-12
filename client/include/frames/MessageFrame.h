@@ -4,6 +4,6 @@
 
 class MessageFrame : public ExecutableFrame {
     public:
-        MessageFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
+        MessageFrame(unordered_map<string, string> headers, string frameBody);
         void execute();
 };

@@ -71,23 +71,23 @@ Frame* Frame::createFrame(StompCommand command, unordered_map<string, string> he
 
     switch (command) {
         case CONNECT:
-            return new ConnectFrame(command, headers, frameBody);
+            return new ConnectFrame(headers, frameBody);
         case CONNECTED:
-            return new ConnectedFrame(command, headers, frameBody);
+            return new ConnectedFrame(headers, frameBody);
         case SEND:
-            return new SendFrame(command, headers, frameBody);
+            return new SendFrame(headers, frameBody);
         case SUBSCRIBE:
-            return new SubscribeFrame(command, headers, frameBody);
+            return new SubscribeFrame(headers, frameBody);
         case UNSUBSCRIBE:
-            return new UnsubscribeFrame(command, headers, frameBody);
+            return new UnsubscribeFrame(headers, frameBody);
         case DISCONNECT:
-            return new DisconnectFrame(command, headers, frameBody);
+            return new DisconnectFrame(headers, frameBody);
         case MESSAGE:
-            return new MessageFrame(command, headers, frameBody);
+            return new MessageFrame(headers, frameBody);
         case RECEIPT:
-            return new ReceiptFrame(command, headers, frameBody);
+            return new ReceiptFrame(headers, frameBody);
         case ERROR:
-            return new ErrorFrame(command, headers, frameBody);
+            return new ErrorFrame(headers, frameBody);
         default: return nullptr;
     }
 }

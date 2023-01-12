@@ -4,6 +4,6 @@
 
 class ConnectFrame : public Frame { 
     public:
-        ConnectFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
+        ConnectFrame(unordered_map<string, string> headers, string frameBody);
         static Frame* get(string host, string username, string password);
 };

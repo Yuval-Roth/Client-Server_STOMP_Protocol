@@ -1,8 +1,8 @@
 #include "ErrorFrame.h"
 #include "UserData.h"
 
-ErrorFrame::ErrorFrame(StompCommand command, unordered_map<string, string> headers, string frameBody)
-    : ExecutableFrame(command, headers, frameBody){}
+ErrorFrame::ErrorFrame(unordered_map<string, string> headers, string frameBody)
+    : ExecutableFrame(StompCommand::ERROR, headers, frameBody){}
 
 void ErrorFrame::execute()
 {

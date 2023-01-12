@@ -10,8 +10,31 @@
 class ConnectionHandler;
 class Frame;
 class Event;
+class Summary;
 
-using namespace std;
+struct GameReport{
+    string reporter;
+    string gameName;
+    GameReport(string reporter, string gameName) : reporter(reporter), gameName(gameName) {}
+
+    bool operator==(const GameReport& other) const {
+        return reporter == other.reporter && gameName == other.gameName;
+    }
+};
+
+namespace std {
+    template <> struct hash<GameReport> {
+        size_t operator()(const GameReport& s) const {
+            int prime = 31;
+            int result = 1;
+            result = prime * result + hash<string>()(s.reporter);
+            result = prime * result + hash<string>()(s.gameName);
+            return result;
+        }
+    };
+}
+
+
 class UserData{
 
     //====================================================================================|
@@ -31,9 +54,12 @@ class UserData{
         condition_variable cv;
         ConnectionHandler* handler;
         queue<Frame*> frameQueue;
-        list<Event*> gameEvents;
         unordered_map<string, int> gameNameToSubId;
         unordered_map<int, string> subIdToGameName;
+        unordered_map<GameReport, Summary*> gameSummaries;
+
+
+
 
 
 
@@ -70,7 +96,7 @@ class UserData{
         int getSubId(string topic);
         string getGameName(int subId);
         void addGameEvent(Event* gameEvent);
-        list<Event*>& getGameEvents();
+
 
         bool shouldTerminate();
         void terminate();
