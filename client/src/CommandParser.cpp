@@ -14,6 +14,7 @@
 
 bool CommandParser::parseCommand(string commandToParse)
 {
+    if(commandToParse == "") return false;
     istringstream pa(commandToParse);
     string parameter;
     string command;
@@ -22,26 +23,26 @@ bool CommandParser::parseCommand(string commandToParse)
     while(getline(pa, parameter, ' ')){
         commandParameters.push_back(parameter);
     }
-  if(command == "login"){
+    if(command == "login"){
       return parseLoginCommand(commandParameters);
-  }
-  else if (command == "logout"){
+    }
+    else if (command == "logout"){
       parseLogoutCommand();
-  }
-  else if (command == "join"){
+    }
+    else if (command == "join"){
       parseJoinCommand(commandParameters);
-  }
-  else if (command == "exit"){
+    }
+    else if (command == "exit"){
       parseExitCommand(commandParameters);
-  }
+    }
 
-  else if (command == "report"){
+    else if (command == "report"){
       parseReportCommand(commandParameters);
-  }
+    }
 
-  else if (command == "summary"){
+    else if (command == "summary"){
       parseSummaryCommand(commandParameters);
-  }
+    }
     return false;
 }
 
@@ -64,12 +65,10 @@ bool CommandParser::parseLoginCommand(vector<string> commandParameters)
 
     Frame* frame = ConnectFrame::get(host, username, password);
     UserData& ud = UserData::getInstance();
-    ud.addAction(frame);
     ud.setHandler(*connectionHandler);
+    ud.addAction(frame);
     ud.setUserName(username);
-    ud.notifyAll();
     return true;
-
 }
 
 std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
@@ -88,10 +87,9 @@ std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
 
 void CommandParser::parseLogoutCommand() {
     DisconnectFrame * frame = DisconnectFrame::get();
-      UserData& ud = UserData::getInstance();
-      ud.addAction(frame);
-      ud.setConnected(false);
-      ud.notifyAll();
+    UserData& ud = UserData::getInstance();
+    ud.addAction(frame);
+    ud.setConnected(false);
 }
 
 void CommandParser::parseJoinCommand(vector<string> commandParameters) {
@@ -104,7 +102,6 @@ void CommandParser::parseJoinCommand(vector<string> commandParameters) {
     SubscribeFrame* frame = SubscribeFrame::get(gameName);
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
-    ud.notifyAll();
 }
 
 void CommandParser::parseExitCommand(vector<string> commandParameters) {
@@ -117,7 +114,6 @@ void CommandParser::parseExitCommand(vector<string> commandParameters) {
     UnsubscribeFrame* frame = UnsubscribeFrame::get(gameName);
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
-    ud.notifyAll();
 }
 
 void CommandParser::parseReportCommand(vector<string> commandParameters) {
@@ -136,9 +132,6 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
         SendFrame* sendFrame = SendFrame::get(event);
         userData.addAction(sendFrame);
     }
-    userData.notifyAll();
-
-
 }
 
 void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
@@ -156,10 +149,6 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
     summaryFile << summaryString << endl;
     summaryFile.close();
-
-    // what is this variable?
-//    UserData & userData = UserData::getInstance();
-
 }
 
 

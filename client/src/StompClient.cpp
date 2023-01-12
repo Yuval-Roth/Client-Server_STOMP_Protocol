@@ -8,29 +8,11 @@ using namespace std;
 #include <vector>
 #include <thread>
 
+void connect();
+
 void actorThread_run() {
 	UserData& userData = UserData::getInstance();
-	Frame* connectFrame = userData.getFrameQueue().front();
-	userData.getFrameQueue().pop();
     ConnectionHandler& handler = userData.getHandler();
-    if(handler.connect() == false) return;
-    handler.sendFrameAscii(connectFrame->toString(), '\0');
-
-	string loginResponse;
-	if(handler.getFrameAscii(loginResponse, '\0') && loginResponse != "") {
-		ExecutableFrame* responseFrame = ExecutableFrame::parse(loginResponse);
-		if(responseFrame->getCommand() == StompCommand::CONNECTED) {
-			responseFrame->execute();
-			userData.setConnected(true);
-		}
-		else {
-			cout << "Login failed: "+ responseFrame->getHeaders().at("message") << endl;
-		}
-		delete responseFrame;
-		if(userData.isConnected() == false){
-			return;	// Login failed, terminate thread
-		}
-	}
 
 	while(userData.shouldTerminate() == false){
 
@@ -60,25 +42,54 @@ void actorThread_run() {
 	}
 }
 
+void connect() {
+    string userInput;
+    bool loggedIn = false;
+    while (!loggedIn) {
+        cout<<"Please enter a login command:"<<endl;
+        UserData& userData = UserData::getInstance();
+        getline(cin, userInput);
+        loggedIn = CommandParser::parseCommand(userInput);
+        ConnectionHandler& handler = userData.getHandler();
+
+        if(handler.connect() == false) continue;
+        Frame* connectFrame = userData.getFrameQueue().front();
+        userData.getFrameQueue().pop();
+        handler.sendFrameAscii(connectFrame->toString(), '\0');
+
+        string loginResponse;
+        if(handler.getFrameAscii(loginResponse, '\0') && loginResponse.empty() == false) {
+            ExecutableFrame* responseFrame = ExecutableFrame::parse(loginResponse);
+            if(responseFrame->getCommand() == CONNECTED) {
+                responseFrame->execute();
+                userData.setConnected(true);
+            }
+            else {
+                cout << "Login failed: "+ responseFrame->getHeaders().at("message") << endl;
+            }
+            delete responseFrame;
+            if(userData.isConnected() == false){
+                handler.close();
+                UserData::deleteInstance(true,true,true);
+                continue;	// Login failed
+            }
+        }
+    }
+}
+
 int main() {
 
-    string userInput;
-    cout << "Welcome to STOMP. Please enter a login command:" << endl;
-    getline(cin, userInput);
+    cout << "Welcome to STOMP." << endl;
 
-    bool loggedIn = CommandParser::parseCommand(userInput);
-    while (!loggedIn) {
-		cout << "Please enter a login command:" << endl;
-        getline(cin, userInput);
-		loggedIn = CommandParser::parseCommand(userInput);
-    }
+    connect();
 
-    UserData& userData = UserData::getInstance();
-    ConnectionHandler& handler = userData.getHandler();
     thread actorThread(actorThread_run);
 
+    string userInput;
+    UserData& userData = UserData::getInstance();
+    ConnectionHandler& handler = userData.getHandler();
     while (!userData.shouldTerminate()) {
-        cin >> userInput;
+        getline(cin, userInput);
         CommandParser::parseCommand(userInput);
         handler.interrupt();
     }
@@ -86,3 +97,4 @@ int main() {
     actorThread.join();
     return 0;
 }
+

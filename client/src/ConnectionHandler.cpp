@@ -111,7 +111,8 @@ bool ConnectionHandler::getFrameAscii(std::string &frame, char delimiter) {
 
 void ConnectionHandler::interrupt()
 {
-	socket_.cancel();
+    io_service_.stop();
+    io_service_.reset();
 }
 
 bool ConnectionHandler::sendFrameAscii(const std::string &frame, char delimiter) {
