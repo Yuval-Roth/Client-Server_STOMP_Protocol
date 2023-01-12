@@ -92,6 +92,7 @@ void CommandParser::parseLogoutCommand() {
 }
 
 void CommandParser::parseJoinCommand(vector<string> commandParameters) {
+
     if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: join {game_name}" << endl;
@@ -104,6 +105,7 @@ void CommandParser::parseJoinCommand(vector<string> commandParameters) {
 }
 
 void CommandParser::parseExitCommand(vector<string> commandParameters) {
+
     if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: exit {game_name}" << endl;
@@ -116,6 +118,7 @@ void CommandParser::parseExitCommand(vector<string> commandParameters) {
 }
 
 void CommandParser::parseReportCommand(vector<string> commandParameters) {
+
     if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: report {file}" << endl;
@@ -134,6 +137,9 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
 }
 
 void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
+
+    //TODO this doesn't work
+
     if(commandParameters.size() != 3){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: summary {game_name} {user} {file}" << endl;
