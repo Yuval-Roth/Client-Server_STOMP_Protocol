@@ -8,12 +8,19 @@
 #include "UnsubscribeFrame.h"
 #include "event.h"
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include "SendFrame.h"
 
 bool CommandParser::parseCommand(string commandToParse)
 {
-  vector<string> commandParameters = split(commandToParse, ' ');
+    istringstream pa(commandToParse);
+    string parameter;
+    getline(pa, parameter, ' ');
+    vector<string> commandParameters;
+    while(getline(pa, parameter, ' ') && parameter != ""){
+        commandParameters.push_back(parameter);
+    }
   string command = commandParameters[0];
   if(command == "login"){
       return parseLoginCommand(commandParameters);
