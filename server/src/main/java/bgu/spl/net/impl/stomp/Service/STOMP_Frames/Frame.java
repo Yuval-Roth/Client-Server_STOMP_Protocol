@@ -51,14 +51,17 @@ public abstract class Frame {
 
         String _parameters = messageToParse.split(NEW_LINE+""+NEW_LINE)[0];
         String[] frameParameters = _parameters.split(NEW_LINE);
-        String frameBody = messageToParse.split(NEW_LINE+""+NEW_LINE)[1];
-        StompCommand command = StompCommand.valueOf(frameParameters[0]); // parse command
+        StompCommand command = StompCommand.valueOf(frameParameters[0]);
+        String frameBody = "";
+        try{
+            frameBody = messageToParse.split(NEW_LINE+""+NEW_LINE)[1];
+        }catch(IndexOutOfBoundsException ignored){}
 
         // parse headers
         HashMap<String,String> headers = new HashMap<String,String>();
-        for (String param : frameParameters)
+        for (int i = 1; i< frameParameters.length;i++)
         {
-            String[] header = param.split(HEADER_DELIMITER);
+            String[] header = frameParameters[i].split(HEADER_DELIMITER);
             headers.put(header[0], header[1]);
         }
         return createFrame(command, headers, frameBody);

@@ -34,12 +34,12 @@ void actorThread_run() {
 
 	while(userData.shouldTerminate() == false){
 
-        if(handler.getFrameAscii(loginResponse, '\0') && loginResponse != "") {
-            ExecutableFrame* responseFrame = ExecutableFrame::parse(loginResponse);
+        string message;
+        if(handler.getFrameAscii(message, '\0') && message != "") {
+            ExecutableFrame* responseFrame = ExecutableFrame::parse(message);
             responseFrame->execute();
         }
 
-		string message;
 		if((userData.getFrameQueue().empty() == false) && handler.getFrameAscii(message, '\0')){
 			ExecutableFrame* frame = ExecutableFrame::parse(message);
 			frame->execute();
