@@ -95,12 +95,12 @@ void CommandParser::parseLogoutCommand() {
 }
 
 void CommandParser::parseJoinCommand(vector<string> commandParameters) {
-    if(commandParameters.size() != 2){
+    if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: join {game_name}" << endl;
         return;
     }
-    string gameName = commandParameters[1];
+    string gameName = commandParameters[0];
     SubscribeFrame* frame = SubscribeFrame::get(gameName);
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
@@ -108,12 +108,12 @@ void CommandParser::parseJoinCommand(vector<string> commandParameters) {
 }
 
 void CommandParser::parseExitCommand(vector<string> commandParameters) {
-    if(commandParameters.size() != 2){
+    if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: exit {game_name}" << endl;
         return;
     }
-    string gameName = commandParameters[1];
+    string gameName = commandParameters[0];
     UnsubscribeFrame* frame = UnsubscribeFrame::get(gameName);
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
@@ -121,14 +121,14 @@ void CommandParser::parseExitCommand(vector<string> commandParameters) {
 }
 
 void CommandParser::parseReportCommand(vector<string> commandParameters) {
-    if(commandParameters.size() != 2){
+    if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: report {file}" << endl;
         return;
     }
 
     UserData & userData = UserData::getInstance();
-    string fileName = commandParameters[1];
+    string fileName = commandParameters[0];
     names_and_events namesAndEvents = parseEventsFile("../data/" +fileName);
     vector<Event>& gameEvents = namesAndEvents.events;
     // for each
@@ -142,14 +142,14 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
 }
 
 void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
-    if(commandParameters.size() != 4){
+    if(commandParameters.size() != 3){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: summary {game_name} {user} {file}" << endl;
         return;
     }
-    string gameName = commandParameters[1];
-    string userName = commandParameters[2];
-    string fileName = commandParameters[3];
+    string gameName = commandParameters[0];
+    string userName = commandParameters[1];
+    string fileName = commandParameters[2];
     ofstream summaryFile;
     summaryFile.open(fileName);
 
