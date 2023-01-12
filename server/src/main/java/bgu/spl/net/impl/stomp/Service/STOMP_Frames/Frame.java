@@ -48,31 +48,19 @@ public abstract class Frame {
      * @param messageToParse - the string to parse
      */
     public static Frame parse(String messageToParse){
-        String[] frameParameters = messageToParse.split(NEW_LINE); // split by new line
+
+        String _parameters = messageToParse.split(NEW_LINE+""+NEW_LINE)[0];
+        String[] frameParameters = _parameters.split(NEW_LINE);
+        String frameBody = messageToParse.split(NEW_LINE+""+NEW_LINE)[1];
         StompCommand command = StompCommand.valueOf(frameParameters[0]); // parse command
 
         // parse headers
         HashMap<String,String> headers = new HashMap<String,String>();
-        int frameParametersLine = 1;
-        while (!frameParameters[frameParametersLine].trim().equals(""))
+        for (String param : frameParameters)
         {
-            String[] header = frameParameters[frameParametersLine].split(HEADER_DELIMITER);
+            String[] header = param.split(HEADER_DELIMITER);
             headers.put(header[0], header[1]);
-            frameParametersLine++;
         }
-        frameParametersLine++;
-        // parse body
-        String frameBody = "";
-        while (frameParameters[frameParametersLine].charAt(0) != END_OF_FRAME)
-        {
-            frameBody += frameParameters[frameParametersLine]+NEW_LINE;
-            frameParametersLine++;
-        }
-
-        if (frameBody.equals("")) {
-            frameBody = null;
-        }
-
         return createFrame(command, headers, frameBody);
     }
 
@@ -87,7 +75,7 @@ public abstract class Frame {
             output += headerName + HEADER_DELIMITER + headerValue + NEW_LINE;
         }
         output += NEW_LINE;
-        if (frameBody != null){
+        if (frameBody != ""){
             output += frameBody;
         }
         output += END_OF_FRAME;
