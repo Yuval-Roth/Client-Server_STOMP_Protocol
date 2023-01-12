@@ -13,10 +13,13 @@ void actorThread_run() {
 	Frame* connectFrame = userData.getFrameQueue().front();
 	userData.getFrameQueue().pop();
     ConnectionHandler& handler = userData.getHandler();
-	handler.sendFrameAscii(connectFrame->toString(), '\0');
+
+    if(handler.connect() == false) return;
+
+    handler.sendFrameAscii(connectFrame->toString(), '\0');
 
 	string loginResponse;
-	if(handler.getFrameAscii(loginResponse, '\0')) {
+	if(handler.getFrameAscii(loginResponse, '\0') && loginResponse != "") {
 		ExecutableFrame* responseFrame = ExecutableFrame::parse(loginResponse);
 		if(responseFrame->getCommand() == StompCommand::CONNECTED) {
 			responseFrame->execute();
@@ -32,6 +35,11 @@ void actorThread_run() {
 	}
 
 	while(userData.shouldTerminate() == false){
+
+        if(handler.getFrameAscii(loginResponse, '\0') && loginResponse != "") {
+            ExecutableFrame* responseFrame = ExecutableFrame::parse(loginResponse);
+            responseFrame->execute();
+        }
 
 		string message;
 		if((userData.getFrameQueue().empty() == false) && handler.getFrameAscii(message, '\0')){
