@@ -103,7 +103,8 @@ string Frame::toString() {
     if (!frameBody.empty()) {
         output += frameBody;
     }
-    output += END_OF_FRAME;
+//    output += END_OF_FRAME;
+    output.push_back(END_OF_FRAME);
     return output;
 }
 

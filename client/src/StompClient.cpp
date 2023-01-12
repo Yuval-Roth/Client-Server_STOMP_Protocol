@@ -13,9 +13,7 @@ void actorThread_run() {
 	Frame* connectFrame = userData.getFrameQueue().front();
 	userData.getFrameQueue().pop();
     ConnectionHandler& handler = userData.getHandler();
-
     if(handler.connect() == false) return;
-
     handler.sendFrameAscii(connectFrame->toString(), '\0');
 
 	string loginResponse;
