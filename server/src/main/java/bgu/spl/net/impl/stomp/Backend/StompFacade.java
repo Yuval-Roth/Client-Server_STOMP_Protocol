@@ -63,8 +63,8 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
                 throw new ConnectionException("Error while disconnecting");
             }
         }
-        sc.closeSession(handler);
         uc.logout(username);
+        sc.closeSession(handler);
     }
 
     //===============================================================================================|

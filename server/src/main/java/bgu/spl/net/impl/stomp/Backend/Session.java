@@ -42,7 +42,7 @@ public class Session implements Closeable {
 
     @Override
     public void close() throws IOException {
-        handler.close();  
+        // handler.close();  
     }
 
     @Override
