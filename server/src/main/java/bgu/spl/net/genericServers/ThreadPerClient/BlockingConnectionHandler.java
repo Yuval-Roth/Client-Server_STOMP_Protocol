@@ -11,6 +11,8 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javax.lang.model.util.ElementScanner6;
+
 public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler<T> {
 
     private final MessagingProtocol<T> protocol;
@@ -39,8 +41,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
             
             while (!protocol.shouldTerminate() && connected) {
 
-                if((read = in.read()) > 0){
-                    System.out.println("read: " + read);
+                if((read = in.read()) >= 0){
                     T nextMessage = encdec.decodeNextByte((byte) read);
                     if (nextMessage != null) {
                         System.out.println(nextMessage.toString());
