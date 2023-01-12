@@ -11,8 +11,6 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import javax.lang.model.util.ElementScanner6;
-
 public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler<T> {
 
     private final MessagingProtocol<T> protocol;
