@@ -8,8 +8,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.NoSuchElementException;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler<T> {
 
@@ -20,13 +18,10 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     private BufferedOutputStream out;
     private volatile boolean connected = true;
 
-    private volatile ConcurrentLinkedQueue<T> messagesToSend;
-
     public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, MessagingProtocol<T> protocol) {
         this.sock = sock;
         this.encdec = reader;
         this.protocol = protocol;
-        this.messagesToSend = new ConcurrentLinkedQueue<>();
     }
 
     @Override
@@ -50,31 +45,22 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
                         }
                     }
                 }
-                try{
-                    while(true){
-                        T msg = messagesToSend.remove();
-                        out.write(encdec.encode(msg));
-                        out.flush();
-                    }
-                }catch(NoSuchElementException e){
-                    //no more messages to send
-                }
             }
-        } catch (IOException ex) {
-            // ex.printStackTrace();
-        }
+        } catch (IOException ex) {}
     }
 
     @Override
     public void close() throws IOException {
         connected = false;
-        synchronized(in){in.notifyAll();}
         sock.close();
     }
 
     @Override
     public void send(T msg) {
-        messagesToSend.add(msg);
-        synchronized(in){in.notifyAll();}
+        try {
+            out = new BufferedOutputStream(sock.getOutputStream());
+            out.write(encdec.encode(msg));
+            out.flush();
+        } catch (IOException e) {}
     }
 }
