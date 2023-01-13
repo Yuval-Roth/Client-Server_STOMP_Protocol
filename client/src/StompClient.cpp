@@ -33,7 +33,7 @@ void connect() {
         getline(cin, userInput);
 
         vector<Frame*> frames = CommandParser::parseCommand(userInput);
-        if (userData.isConnected() == false) continue;
+//        if (userData.isConnected() == false) continue;
         ConnectionHandler& handler = userData.getHandler();
 
         if(handler.connect() == false) continue;

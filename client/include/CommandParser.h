@@ -16,17 +16,17 @@ public:
 
     static vector<Frame*> parseCommand(string commandToParse);
 
-    static vector<Frame*> parseLoginCommand(vector<string> commandParameters);
+    static vector<Frame*> parseLoginCommand(vector<string>& commandParameters);
 
     static vector<Frame*> parseLogoutCommand();
 
-    static vector<Frame*> parseJoinCommand(vector<string> commandParameters);
+    static vector<Frame*> parseJoinCommand(vector<string>& commandParameters);
 
-    static vector<Frame*> parseExitCommand(vector<string> commandParameters);
+    static vector<Frame*> parseExitCommand(vector<string>& commandParameters);
 
-    static vector<Frame*> parseReportCommand(vector<string> commandParameters);
+    static vector<Frame*> parseReportCommand(vector<string>& commandParameters);
 
-    static void parseSummaryCommand(vector<string> vector1);
+    static void parseSummaryCommand(vector<string>& vector1);
 };
 
 

@@ -61,7 +61,7 @@ vector<Frame*> CommandParser::parseCommand(string commandToParse)
     return vector<Frame*>();
 }
 
-vector<Frame*> CommandParser::parseLoginCommand(vector<string> commandParameters)
+vector<Frame*> CommandParser::parseLoginCommand(vector<string>& commandParameters)
 {
     vector<Frame*> output;
 
@@ -117,7 +117,7 @@ vector<Frame*> CommandParser::parseLogoutCommand() {
     return output;
 }
 
-vector<Frame*> CommandParser::parseJoinCommand(vector<string> commandParameters) {
+vector<Frame*> CommandParser::parseJoinCommand(vector<string>& commandParameters) {
 
     vector<Frame*> output;
 
@@ -133,7 +133,7 @@ vector<Frame*> CommandParser::parseJoinCommand(vector<string> commandParameters)
     return output;
 }
 
-vector<Frame*> CommandParser::parseExitCommand(vector<string> commandParameters) {
+vector<Frame*> CommandParser::parseExitCommand(vector<string>& commandParameters) {
 
     vector<Frame*> output;
 
@@ -149,7 +149,7 @@ vector<Frame*> CommandParser::parseExitCommand(vector<string> commandParameters)
     return output;
 }
 
-vector<Frame*> CommandParser::parseReportCommand(vector<string> commandParameters) {
+vector<Frame*> CommandParser::parseReportCommand(vector<string>& commandParameters) {
 
     vector<Frame*> output;
 
@@ -183,7 +183,7 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string> commandParameter
     return output;
 }
 
-void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
+void CommandParser::parseSummaryCommand(vector<string>& commandParameters) {
 
     //TODO this doesn't work
 
