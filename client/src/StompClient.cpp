@@ -19,6 +19,7 @@ void actorThread_run() {
         if(handler.getFrameAscii(message, '\0') && message.empty() == false) {
             ExecutableFrame* responseFrame = ExecutableFrame::parse(message);
             responseFrame->execute();
+            delete responseFrame;
         }
 	}
 }

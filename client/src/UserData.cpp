@@ -13,25 +13,15 @@ UserData *UserData::instance;
 
 UserData::UserData()
     : shouldTerminateFlag(false), connected(false), nextReceiptNumber(0), nextSubscriptionNumber(0),
-      userName(), m(), cv(), handler(nullptr), frameQueue(), gameNameToSubId(), subIdToGameName(), gameSummaries() {}
-
-mutex &UserData::getLock()
-{
-    return m;
-}
+      userName(), m(), cv(), handler(nullptr), gameNameToSubId(), subIdToGameName(), gameSummaries() {}
 
 UserData &UserData::getInstance()
 {
-    if (instance == NULL)
-    { // why not nullptr?
+    if (instance == nullptr)
+    {
         instance = new UserData();
     }
     return *instance;
-}
-
-void UserData::addAction(Frame *frame)
-{
-    frameQueue.push(frame);
 }
 
 void UserData::setUserName(string userName)
@@ -78,13 +68,16 @@ void UserData::deleteInstance(bool b1, bool b2, bool b3)
 {
     if (b1 & b2 & b3)
         delete instance;
-    instance = NULL;
+    instance = nullptr;
 }
 
 UserData::~UserData()
 {
     delete handler;
-    // TODO: delete event and summary pointers
+    for (auto &pair : gameSummaries)
+    {
+        delete pair.second;
+    }
 }
 
 int UserData::getReceiptId()
@@ -94,7 +87,6 @@ int UserData::getReceiptId()
 
 int UserData::generateSubId(string topic)
 {
-    // TODO: add to topics map
     return nextSubscriptionNumber++;
 }
 
@@ -103,14 +95,9 @@ int UserData::getSubId(string topic)
     return gameNameToSubId[topic];
 }
 
-string UserData::getGameName(int subId)
-{
-    return subIdToGameName[subId];
-}
-
-void UserData::addGameEvent(Event *gameEvent) {
-    string reporter = gameEvent->get_reporter();
-    string gameName = gameEvent->get_game_name();
+void UserData::addGameEvent(Event &gameEvent) {
+    string reporter = gameEvent.get_reporter();
+    string gameName = gameEvent.get_game_name();
     GameReport gameReport(reporter, gameName);
     auto it = gameSummaries.find(gameReport);
     Summary* summary;
@@ -120,9 +107,8 @@ void UserData::addGameEvent(Event *gameEvent) {
         summary = new Summary(reporter, gameName);
         gameSummaries[gameReport] = summary;
     }
-    summary->addEvent(*gameEvent);
+    summary->addEvent(gameEvent);
 }
-
 
 string UserData::getSummary(string reporter, string gameName) const
 {

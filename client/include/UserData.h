@@ -58,7 +58,6 @@ class UserData{
         mutex m;
         condition_variable cv;
         ConnectionHandler* handler;
-        queue<Frame*> frameQueue;
         unordered_map<string, int> gameNameToSubId;
         unordered_map<int, string> subIdToGameName;
         unordered_map<GameReport, Summary*> gameSummaries;
@@ -77,22 +76,18 @@ class UserData{
         UserData(const UserData&) = delete; 
         UserData& operator=(const UserData&) = delete;
 
-        mutex& getLock();
-
         bool isConnected();
         void setConnected(bool connected);
 
         void setUserName(string userName);
         string& getUserName();
 
-        void addAction(Frame* frame);
         ConnectionHandler& getHandler();
         void setHandler(ConnectionHandler& handler);
         int getReceiptId();
         int generateSubId(string topic);
         int getSubId(string topic);
-        string getGameName(int subId);
-        void addGameEvent(Event* gameEvent);
+        void addGameEvent(Event& gameEvent);
         string getSummary(string reporter, string gameName) const;
 
         bool shouldTerminate();
