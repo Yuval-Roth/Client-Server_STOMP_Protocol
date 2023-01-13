@@ -1,0 +1,13 @@
+Germany vs Japan
+Game Stats:
+General Stats:
+active: false
+before halftime: false
+Team A Stats:
+goals: 1
+possession: 51%
+Team B Stats:
+goals: 2
+possession: 49%
+Game Events:
+

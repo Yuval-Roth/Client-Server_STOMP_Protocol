@@ -1,27 +1,17 @@
 #include "../include/Summary.h"
 #include "../include/event.h"
 
-Summary::Summary(string userName, string gameName)
-        : userName(userName), gameName(gameName), team_a_name(), team_b_name(), general_stats(),
+Summary::Summary(string userName, const string& gameName)
+        : userName(userName), team_a_name(gameName.substr(0,gameName.find('_')))
+        , team_b_name(gameName.substr(gameName.find('_')+1)), general_stats(),
           team_a_stats(), team_b_stats(), gameEvents(){}
 
 
 void Summary::addEvent(Event &event)
 {
-
     gameEvent gameEvent(event.get_time(), event.get_name(), event.get_description());
-//     add the gameEvent to the correct list
-//    if (event.get_game_updates().at("before halftime") == "true")
-//    {
-//        sortedEventInsert(gameEvents, gameEvent);
-//    }
-//    else
-//    {
-//        sortedEventInsert(secondHalfEvents, gameEvent);
-//    }
 
-
-    gameEvents.push_back(gameEvent);
+    sortedEventInsert(gameEvents, gameEvent);
 
     // update general stats
     for (auto &update : event.get_game_updates()) {
@@ -39,11 +29,8 @@ void Summary::addEvent(Event &event)
     }
 }
 
-
-
 string Summary::printSummary() {
         string summary = team_a_name + " vs " + team_b_name + "\n";
-        summary += gameName + "\n";
         summary += "Game Stats:\n";
         summary += "General Stats:\n";
         // Probably sorted alphabetically - need to make sure
@@ -59,10 +46,9 @@ string Summary::printSummary() {
                 summary += team_b_stat.first + ": " + team_b_stat.second + "\n";
         }
         summary += "Game Events:\n";
-        gameEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
-        for (auto &firstHalfEvent: gameEvents) {
-                summary += firstHalfEvent.name + " " + to_string(firstHalfEvent.time) + " " +
-                           firstHalfEvent.description + "\n";
+        for (auto &gameEvent: gameEvents) {
+                summary += gameEvent.name + " " + to_string(gameEvent.time) + " " +
+                           gameEvent.description + "\n";
         }
         return summary;
 }
