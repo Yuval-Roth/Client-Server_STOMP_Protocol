@@ -97,6 +97,8 @@ class UserData{
         string getGameName(int subId);
         void addGameEvent(Event* gameEvent);
 
+        const string& getSummary(string reporter, string gameName) const;
+
 
         bool shouldTerminate();
         void terminate();

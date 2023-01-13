@@ -48,31 +48,22 @@ public abstract class Frame {
      * @param messageToParse - the string to parse
      */
     public static Frame parse(String messageToParse){
-        String[] frameParameters = messageToParse.split(NEW_LINE); // split by new line
-        StompCommand command = StompCommand.valueOf(frameParameters[0]); // parse command
+
+        String _parameters = messageToParse.split(NEW_LINE+""+NEW_LINE)[0];
+        String[] frameParameters = _parameters.split(NEW_LINE);
+        StompCommand command = StompCommand.valueOf(frameParameters[0]);
+        String frameBody = "";
+        try{
+            frameBody = messageToParse.split(NEW_LINE+""+NEW_LINE)[1];
+        }catch(IndexOutOfBoundsException ignored){}
 
         // parse headers
         HashMap<String,String> headers = new HashMap<String,String>();
-        int frameParametersLine = 1;
-        while (!frameParameters[frameParametersLine].trim().equals(""))
+        for (int i = 1; i< frameParameters.length;i++)
         {
-            String[] header = frameParameters[frameParametersLine].split(HEADER_DELIMITER);
+            String[] header = frameParameters[i].split(HEADER_DELIMITER);
             headers.put(header[0], header[1]);
-            frameParametersLine++;
         }
-        frameParametersLine++;
-        // parse body
-        String frameBody = "";
-        while (frameParameters[frameParametersLine].charAt(0) != END_OF_FRAME)
-        {
-            frameBody += frameParameters[frameParametersLine]+NEW_LINE;
-            frameParametersLine++;
-        }
-
-        if (frameBody.equals("")) {
-            frameBody = null;
-        }
-
         return createFrame(command, headers, frameBody);
     }
 
@@ -87,7 +78,7 @@ public abstract class Frame {
             output += headerName + HEADER_DELIMITER + headerValue + NEW_LINE;
         }
         output += NEW_LINE;
-        if (frameBody != null){
+        if (frameBody != ""){
             output += frameBody;
         }
         output += END_OF_FRAME;

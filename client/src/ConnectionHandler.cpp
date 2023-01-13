@@ -52,6 +52,20 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
 }
 
 bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
+
+//    //TODO
+//
+//    for(int i =0 ;i<bytesToWrite;i++){
+//        cout<<bytes[i];
+//        if(bytes[i]=='\0'){
+//            cout<<"null"<< endl;
+//        }
+//    }
+//
+//
+//    //TODO
+//
+
 	int tmp = 0;
 	boost::system::error_code error;
 	try {
@@ -97,7 +111,8 @@ bool ConnectionHandler::getFrameAscii(std::string &frame, char delimiter) {
 
 void ConnectionHandler::interrupt()
 {
-	socket_.cancel();
+    io_service_.stop();
+    io_service_.reset();
 }
 
 bool ConnectionHandler::sendFrameAscii(const std::string &frame, char delimiter) {
@@ -113,4 +128,8 @@ void ConnectionHandler::close() {
 	} catch (...) {
 		std::cout << "closing failed: connection already closed" << std::endl;
 	}
+}
+
+bool ConnectionHandler::socket_is_open() {
+    return socket_.release();
 }

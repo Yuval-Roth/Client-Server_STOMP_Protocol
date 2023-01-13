@@ -24,18 +24,19 @@ class Frame {
         StompCommand command;
     private:
 
-        static StompCommand parseCommand(string command);   
+        static StompCommand parseCommand(string command);
         static Frame* createFrame(StompCommand command, unordered_map<string, string> headers, string frameBody);
+        string commandString(StompCommand command);
+protected:
 
-    protected:
         static UserData& userData;
+public:
+    static Frame* parse(string messageToParse);
+    string toString();
+    StompCommand getCommand();
+    unordered_map<string,string> getHeaders();
+    string getFrameBody();
 
-    public:
-        static Frame* parse(string messageToParse);
-        string toString();
-        StompCommand getCommand();
-        unordered_map<string,string> getHeaders();
-        string getFrameBody();
         virtual ~Frame() = default;
 };
 

@@ -26,6 +26,9 @@ public class SubscribeFrame extends ExecutableFrame{
             channelsManager.subscribe(handler, id,topic);
             return ReceiptFrame.get(receipt).toString();
         }catch (IOException e){
+            try{
+                connectionsManager.disconnect(handler);
+            }catch(IOException e2){}
             return ErrorFrame.get(e.getMessage()).toString();
         }
     }

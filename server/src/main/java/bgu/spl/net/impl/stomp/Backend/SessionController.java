@@ -58,10 +58,8 @@ public class SessionController {
     }
 
     private void closeSession(Session session) {
-        try {
-            session.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        connectionIdToHashCode.remove(session.getConnectionId());
+        usernameToHashCode.remove(session.getUsername());
+        hashCodeToSession.remove(session.hashCode());
     }
 }

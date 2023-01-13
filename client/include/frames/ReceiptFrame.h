@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Frame.h"
+#include "ExecutableFrame.h"
 
-class ReceiptFrame : public Frame {
+class ReceiptFrame : public ExecutableFrame {
     public:
         ReceiptFrame(unordered_map<string, string> headers, string frameBody);
+        void execute();
 };

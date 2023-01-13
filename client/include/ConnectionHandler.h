@@ -53,4 +53,5 @@ public:
 	// Close down the connection properly.
 	void close();
 
+        bool socket_is_open();
 }; //class ConnectionHandler

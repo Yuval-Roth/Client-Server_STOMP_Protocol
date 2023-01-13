@@ -20,6 +20,9 @@ public class SendFrame extends ExecutableFrame {
             channelsManager.broadcast(handler,headers.get(DESTINATION_FIELD), frameBody);
             return ""; //this frame has no response - not sure if this will work
         } catch (IOException e) {
+            try{
+                connectionsManager.disconnect(handler);
+            }catch(IOException e2){}
             return ErrorFrame.get(e.getMessage()).toString();
         }
     }

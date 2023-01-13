@@ -20,6 +20,8 @@ void Summary::addEvent(Event &event)
         sortedEventInsert(secondHalfEvents, gameEvent);
     }
 
+
+
     // update general stats
     for (auto &update : event.get_game_updates()) {
         general_stats[update.first] = update.second;
@@ -36,7 +38,7 @@ void Summary::addEvent(Event &event)
     }
 }
 
-void Summary::printSummary() {
+string Summary::printSummary() {
         string summary = team_a_name + " vs " + team_b_name + "\n";
         summary += "Game Stats:\n";
         summary += "General Stats:\n";
@@ -63,6 +65,7 @@ void Summary::printSummary() {
                 summary += secondHalfEvent.name + " " + to_string(secondHalfEvent.time) + " " +
                            secondHalfEvent.description + "\n";
         }
+        return summary;
 }
 
 void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {

@@ -32,7 +32,7 @@ Frame* Frame::parse(string messageToParse) {
     }
 
     string frameBody;
-    while (getline(stream, line) && line != string(1, END_OF_FRAME)) {
+    while (getline(stream, line) && line != "") {
         frameBody += line + NEW_LINE;
     }
 
@@ -94,7 +94,7 @@ Frame* Frame::createFrame(StompCommand command, unordered_map<string, string> he
 
 string Frame::toString() {
     string output = "";
-    output += command + NEW_LINE;
+    output +=  commandString(command) + NEW_LINE;
     for (const auto& header : headers) {
         output += header.first + HEADER_DELIMITER + header.second + NEW_LINE;
     }
@@ -102,7 +102,6 @@ string Frame::toString() {
     if (!frameBody.empty()) {
         output += frameBody;
     }
-    output += END_OF_FRAME;
     return output;
 }
 
@@ -119,4 +118,28 @@ unordered_map<string, string> Frame::getHeaders()
 string Frame::getFrameBody()
 {
     return frameBody;
+}
+
+string Frame::commandString(StompCommand command) {
+    if(command == CONNECT) {
+        return "CONNECT";
+    } else if(command == CONNECTED) {
+        return "CONNECTED";
+    } else if(command == SEND) {
+        return "SEND";
+    } else if(command == SUBSCRIBE) {
+        return "SUBSCRIBE";
+    } else if(command == UNSUBSCRIBE) {
+        return "UNSUBSCRIBE";
+    } else if(command == DISCONNECT) {
+        return "DISCONNECT";
+    } else if(command == MESSAGE) {
+        return "MESSAGE";
+    } else if(command == RECEIPT) {
+        return "RECEIPT";
+    } else if(command == ERROR) {
+        return "ERROR";
+    } else {
+        return "";
+    }
 }

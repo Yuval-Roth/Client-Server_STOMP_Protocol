@@ -14,6 +14,7 @@
 
 bool CommandParser::parseCommand(string commandToParse)
 {
+    if(commandToParse == "") return false;
     istringstream pa(commandToParse);
     string parameter;
     string command;
@@ -22,31 +23,37 @@ bool CommandParser::parseCommand(string commandToParse)
     while(getline(pa, parameter, ' ')){
         commandParameters.push_back(parameter);
     }
-  if(command == "login"){
+    if(command == "login"){
       return parseLoginCommand(commandParameters);
-  }
-  else if (command == "logout"){
+    }
+    else if (command == "logout"){
       parseLogoutCommand();
-  }
-  else if (command == "join"){
+    }
+    else if (command == "join"){
       parseJoinCommand(commandParameters);
-  }
-  else if (command == "exit"){
+    }
+    else if (command == "exit"){
       parseExitCommand(commandParameters);
-  }
+    }
 
-  else if (command == "report"){
+    else if (command == "report"){
       parseReportCommand(commandParameters);
-  }
+    }
 
-  else if (command == "summary"){
+    else if (command == "summary"){
       parseSummaryCommand(commandParameters);
-  }
+    }
     return false;
 }
 
 bool CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
+    UserData& ud = UserData::getInstance();
+    if(ud.isConnected()){
+        cout<<"You are already logged in as \" "+ud.getUserName() +" \""  <<endl;
+        return false;
+    }
+
     if(commandParameters.size() != 3){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: login {host:port} {username} {password}" << endl;
@@ -63,13 +70,10 @@ bool CommandParser::parseLoginCommand(vector<string> commandParameters)
     string password = commandParameters[2];
 
     Frame* frame = ConnectFrame::get(host, username, password);
-    UserData& ud = UserData::getInstance();
-    ud.addAction(frame);
     ud.setHandler(*connectionHandler);
+    ud.addAction(frame);
     ud.setUserName(username);
-    ud.notifyAll();
     return true;
-
 }
 
 std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
@@ -88,78 +92,76 @@ std::vector<std::string> CommandParser::split(std::string str, char delimiter) {
 
 void CommandParser::parseLogoutCommand() {
     DisconnectFrame * frame = DisconnectFrame::get();
-      UserData& ud = UserData::getInstance();
-      ud.addAction(frame);
-      ud.setConnected(false);
-      ud.notifyAll();
+    UserData& ud = UserData::getInstance();
+    ud.addAction(frame);
 }
 
 void CommandParser::parseJoinCommand(vector<string> commandParameters) {
-    if(commandParameters.size() != 2){
+
+    if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: join {game_name}" << endl;
         return;
     }
-    string gameName = commandParameters[1];
+    string gameName = commandParameters[0];
     SubscribeFrame* frame = SubscribeFrame::get(gameName);
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
-    ud.notifyAll();
 }
 
 void CommandParser::parseExitCommand(vector<string> commandParameters) {
-    if(commandParameters.size() != 2){
+
+    if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: exit {game_name}" << endl;
         return;
     }
-    string gameName = commandParameters[1];
+    string gameName = commandParameters[0];
     UnsubscribeFrame* frame = UnsubscribeFrame::get(gameName);
     UserData& ud = UserData::getInstance();
     ud.addAction(frame);
-    ud.notifyAll();
 }
 
 void CommandParser::parseReportCommand(vector<string> commandParameters) {
-    if(commandParameters.size() != 2){
+
+    if(commandParameters.size() != 1){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: report {file}" << endl;
         return;
     }
 
     UserData & userData = UserData::getInstance();
-    string fileName = commandParameters[1];
-    names_and_events namesAndEvents = parseEventsFile("../data/" +fileName);
+    string fileName = commandParameters[0];
+    names_and_events namesAndEvents = parseEventsFile(fileName);
     vector<Event>& gameEvents = namesAndEvents.events;
     // for each
     for (Event& event : gameEvents) {
         SendFrame* sendFrame = SendFrame::get(event);
         userData.addAction(sendFrame);
     }
-    userData.notifyAll();
-
-
 }
 
 void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
-    if(commandParameters.size() != 4){
+
+    //TODO this doesn't work
+
+    if(commandParameters.size() != 3){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: summary {game_name} {user} {file}" << endl;
         return;
     }
-    string gameName = commandParameters[1];
-    string userName = commandParameters[2];
-    string fileName = commandParameters[3];
+    string gameName = commandParameters[0];
+    string userName = commandParameters[1];
+    string fileName = commandParameters[2];
     ofstream summaryFile;
     summaryFile.open(fileName);
 
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
+    UserData & userData = UserData::getInstance();
+    summaryString += userData.getSummary(userName, gameName);
+
     summaryFile << summaryString << endl;
     summaryFile.close();
-
-    // what is this variable?
-//    UserData & userData = UserData::getInstance();
-
 }
 
 

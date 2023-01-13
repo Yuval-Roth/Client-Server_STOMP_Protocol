@@ -1,12 +1,9 @@
 package bgu.spl.net.impl.stomp.Backend;
-
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.HashMap;
 
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 
-public class Session implements Closeable {
+public class Session{
 
     private final String username;
     private final ConnectionHandler<String> handler;
@@ -38,11 +35,6 @@ public class Session implements Closeable {
      */
     public HashMap<SubscriberId,String> getSubscriptions() {
         return subscriptions;
-    }
-
-    @Override
-    public void close() throws IOException {
-        handler.close();  
     }
 
     @Override

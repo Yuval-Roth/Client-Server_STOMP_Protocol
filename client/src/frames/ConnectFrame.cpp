@@ -1,7 +1,7 @@
 #include "ConnectFrame.h"
 
-const string USERNAME_HEADER = "username";
-const string PASSWORD_HEADER = "password";
+const string USERNAME_HEADER = "login";
+const string PASSWORD_HEADER = "passcode";
 const string ACCEPT_VERSION_HEADER = "accept-version";
 const string HOST_HEADER = "host";
 
