@@ -66,6 +66,7 @@ Event::Event(string gameName, const std::string &frame_body) {
 
     //team_b_name
     team_b_name = gameName.substr(gameName.find("_") + 1);
+    description = "";
     stringstream ss(frame_body);
     string line;
     while (getline(ss, line)) {
@@ -105,94 +106,6 @@ Event::Event(string gameName, const std::string &frame_body) {
     }
 }
 
-
-/*
-Event::Event(string gameName, const std::string &frame_body)
-        : reporter(""), team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
-          team_a_updates(), team_b_updates(), description("")
-{
-
-    istringstream iss(frame_body);
-    string line;
-
-    //reporter
-    getline(iss, line);
-    if (line.find("user:") != string::npos)
-    {
-        reporter = line.substr(line.find(":") + 2);
-    }
-
-
-    //team_a_name
-    team_a_name = gameName.substr(0,gameName.find("_"));
-
-    //team_b_name
-    team_b_name = gameName.substr(gameName.find("_") + 1);
-    getline(iss, line);
-    getline(iss, line); // Remove the two lines containing the team names - they seem to put us off by 2 lines
-    //name
-    getline(iss, line);
-    if (line.find("event name:") != string::npos)
-    {
-        name = line.substr(line.find(":") + 2);
-    }
-
-    //time
-    getline(iss, line);
-    if (line.find("time:") != string::npos)
-    {
-        try {
-            time = stoi(line.substr(line.find(":") + 2));
-        } catch (exception e) {
-            time = 0;
-        }
-    }
-
-    //general updates
-    getline(iss, line);
-    if (line.find("general game updates:") != string::npos)
-    {
-        while (getline(iss, line) && line.find("team a updates:") == string::npos)
-        {
-            int delimiter = line.find(":");
-            string key = line.substr(0, delimiter);
-            string value = line.substr(delimiter + 2);
-            game_updates[key] = value;
-        }
-    }
-
-    //team_a_updates
-    if (line.find("team a updates:") != string::npos)
-    {
-        while (getline(iss, line) && line.find("team b updates:") == string::npos)
-        {
-            int delimiter = line.find(":");
-            string key = line.substr(0, delimiter);
-            string value = line.substr(delimiter + 2);
-            team_a_updates[key] = value;
-        }
-    }
-
-    //team_b_updates
-    if (line.find("team b updates:") != string::npos)
-    {
-        while (getline(iss, line) && line.find("description:") == string::npos)
-        {
-            int delimiter = line.find(":");
-            string key = line.substr(0, delimiter);
-            string value = line.substr(delimiter + 2);
-            team_b_updates[key] = value;
-        }
-    }
-
-    //description
-    if (line.find("description:") != string::npos)
-    {
-        getline(iss, line,'\0');
-        description = line;
-    }
-}
- */
 
 string Event::toJson() {
     json j;
