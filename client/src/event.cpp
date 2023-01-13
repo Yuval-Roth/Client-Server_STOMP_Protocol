@@ -60,6 +60,53 @@ const std::string &Event::get_description() const
     return this->description;
 }
 
+Event::Event(string gameName, const std::string &frame_body) {
+    //team_a_name
+    team_a_name = gameName.substr(0,gameName.find("_"));
+
+    //team_b_name
+    team_b_name = gameName.substr(gameName.find("_") + 1);
+    stringstream ss(frame_body);
+    string line;
+    while (getline(ss, line)) {
+        if (line.find("user:") != string::npos) {
+            reporter = line.substr(line.find(":") + 2);
+        } else if (line.find("team a:") != string::npos) {
+            team_a_name = line.substr(line.find(":") + 1);
+        } else if (line.find("team b:") != string::npos) {
+            team_b_name = line.substr(line.find(":") + 1);
+        } else if (line.find("event name:") != string::npos) {
+            name = line.substr(line.find(":") + 2);
+        } else if (line.find("time:") != string::npos) {
+            time = stoi(line.substr(line.find(":") + 1));
+        } else if (line.find("general game updates:") != string::npos) {
+            while (getline(ss, line) && line.find("team a updates:") == string::npos) {
+                string key = line.substr(0, line.find(":"));
+                string value = line.substr(line.find(":") + 1);
+                game_updates[key] = value;
+            }
+        } else if (line.find("team a updates:") != string::npos) {
+            while (getline(ss, line) && line.find("team b updates:") == string::npos) {
+                string key = line.substr(0, line.find(":"));
+                string value = line.substr(line.find(":") + 2);
+                team_a_updates[key] = value;
+            }
+        } else if (line.find("team b updates:") != string::npos) {
+            while (getline(ss, line) && line.find("description:") == string::npos) {
+                string key = line.substr(0, line.find(":"));
+                string value = line.substr(line.find(":") + 2);
+                team_b_updates[key] = value;
+            }
+        } else if (line.find("description:") != string::npos) {
+            while (getline(ss, line)) {
+                description += line + '\n';
+            }
+        }
+    }
+}
+
+
+/*
 Event::Event(string gameName, const std::string &frame_body)
         : reporter(""), team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
           team_a_updates(), team_b_updates(), description("")
@@ -145,6 +192,7 @@ Event::Event(string gameName, const std::string &frame_body)
         description = line;
     }
 }
+ */
 
 string Event::toJson() {
     json j;

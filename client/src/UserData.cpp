@@ -108,15 +108,21 @@ string UserData::getGameName(int subId)
     return subIdToGameName[subId];
 }
 
-void UserData::addGameEvent(Event *gameEvent)
-{
+void UserData::addGameEvent(Event *gameEvent) {
     string reporter = gameEvent->get_reporter();
     string gameName = gameEvent->get_game_name();
     GameReport gameReport(reporter, gameName);
-    Summary *summary = new Summary(reporter, gameName);
+    auto it = gameSummaries.find(gameReport);
+    Summary* summary;
+    if (it != gameSummaries.end()) {
+        summary = it->second;
+    } else {
+        summary = new Summary(reporter, gameName);
+        gameSummaries[gameReport] = summary;
+    }
     summary->addEvent(*gameEvent);
-    gameSummaries[gameReport] = summary;
 }
+
 
 string UserData::getSummary(string reporter, string gameName) const
 {
@@ -127,6 +133,6 @@ string UserData::getSummary(string reporter, string gameName) const
     } catch (const std::out_of_range& ignored) {
         throw std::ios_base::failure("No such game, or no such reporter");
     }
-    string summaryString = summary->printSummary(); // warning: reference to local variable ‘summaryString’ returned
+    string summaryString = summary->printSummary();
     return summaryString;
 }

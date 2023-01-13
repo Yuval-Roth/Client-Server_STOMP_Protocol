@@ -39,8 +39,11 @@ void Summary::addEvent(Event &event)
     }
 }
 
+
+
 string Summary::printSummary() {
         string summary = team_a_name + " vs " + team_b_name + "\n";
+        summary += gameName + "\n";
         summary += "Game Stats:\n";
         summary += "General Stats:\n";
         // Probably sorted alphabetically - need to make sure

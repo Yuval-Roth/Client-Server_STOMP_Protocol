@@ -162,13 +162,16 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string> commandParameter
             getcwd(cwd, sizeof(cwd));
             string path(cwd, sizeof(cwd));
             path = path.substr(0, path.find("/client/")+8) + "data/" + fileName + ".json";
-
-            names_and_events namesAndEvents = parseEventsFile(path);
-            vector<Event>& gameEvents = namesAndEvents.events;
-            // for each
-            for (Event& event : gameEvents) {
-                SendFrame* sendFrame = SendFrame::get(event);
-                output.push_back(sendFrame);
+            try {
+                names_and_events namesAndEvents = parseEventsFile(path);
+                vector<Event>& gameEvents = namesAndEvents.events;
+                for (Event& event : gameEvents) {
+                    SendFrame* sendFrame = SendFrame::get(event);
+                    output.push_back(sendFrame);
+                }
+            }
+            catch (const std::exception& e) {
+                cout << "Error in report: " << e.what() << " Probably file does not exist " << endl;
             }
         }
     }
@@ -202,6 +205,7 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
     string summaryString;
     try{
         summaryString = userData.getSummary(userName, gameName);
+        cout << summaryString << endl;
     }catch(ios_base::failure& e){
         cout << "summary error: " << e.what() << endl;
         return;
