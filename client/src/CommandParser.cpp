@@ -132,7 +132,7 @@ void CommandParser::parseReportCommand(vector<string> commandParameters) {
 
     UserData & userData = UserData::getInstance();
     string fileName = commandParameters[0];
-    names_and_events namesAndEvents = parseEventsFile("../data/" +fileName);
+    names_and_events namesAndEvents = parseEventsFile(fileName);
     vector<Event>& gameEvents = namesAndEvents.events;
     // for each
     for (Event& event : gameEvents) {
@@ -157,6 +157,9 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
     summaryFile.open(fileName);
 
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
+    UserData & userData = UserData::getInstance();
+    summaryString += userData.getSummary(userName, gameName);
+
     summaryFile << summaryString << endl;
     summaryFile.close();
 }
