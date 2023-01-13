@@ -192,14 +192,11 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
         cout << "summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
         return;
     }
-    ofstream summaryFile;
 
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
     string path(cwd, sizeof(cwd));
     path = path.substr(0, path.find("/client/")+8) + "data/" + fileName + ".json";
-
-    summaryFile.open(path);
 
     UserData & userData = UserData::getInstance();
     string summaryString;
@@ -210,6 +207,8 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
         return;
     }
 
+    ofstream summaryFile;
+    summaryFile.open(path);
     summaryFile << summaryString << endl;
     summaryFile.close();
 }
