@@ -15,10 +15,14 @@ class Summary;
 struct GameReport{
     string reporter;
     string gameName;
-    GameReport(string reporter, string gameName) : reporter(reporter), gameName(gameName) {}
+    GameReport(string reporter, string GameName) : reporter(reporter), gameName(GameName) {
+        if (GameName.find("/") != string::npos){
+            throw "Game name cannot contain '/', error occurred";
+        }
+    }
 
     bool operator==(const GameReport& other) const {
-        return reporter == other.reporter && gameName == other.gameName;
+        return reporter.trim() == other.reporter.trim() && gameName.trim() == other.gameName.trim();
     }
 };
 

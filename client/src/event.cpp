@@ -74,7 +74,7 @@ Event::Event(string gameName, const std::string &frame_body)
     getline(iss, line);
     if (line.find("user:") != string::npos)
     {
-        reporter = line.substr(line.find(":") + 1);
+        reporter = line.substr(line.find(": ") + 1);
     }
 
     //team_a_name
@@ -92,7 +92,7 @@ Event::Event(string gameName, const std::string &frame_body)
 
     //time
     getline(iss, line);
-    if (line.find("time:") != string::npos)
+    if (line.find("time: ") != string::npos)
     {
         time = stoi(line.substr(line.find(":") + 1));
     }
