@@ -3,24 +3,25 @@
 
 using namespace std;
 
+#include "json.hpp"
+
 #include <string>
 #include <map>
 #include <list>
 
 class Event;
 struct gameEvent {
+
         int time;
         string name;
         string description;
 
-        gameEvent(int time, string name, string description)
-                : time(time), name(name), description(description) {}
+        gameEvent(int time, string name, string description) : time(time), name(name), description(description) {}
 };
 class Summary {
 // TODO: Override team stats
     private:
         string userName;
-        string gameName;
         // name of team a
         string team_a_name;
         // name of team b
@@ -32,19 +33,19 @@ class Summary {
         // map of all team b updates
         map<string, string> team_b_stats;
         // description of the event
-        list<gameEvent> firstHalfEvents;
-        list<gameEvent> secondHalfEvents;
+        list<gameEvent> gameEvents;
+
 
 
 
     public:
-        Summary(string userName, string gameName);
+        Summary(string userName,const string& gameName);
         void addEvent(Event& event);
         string printSummary();
-        ~Summary();
+        ~Summary() = default;
 
     private:
-        static void sortedEventInsert(list<gameEvent> eventList, gameEvent event);
+        static void sortedEventInsert(list<gameEvent>& eventList, gameEvent& event);
 };
 
 

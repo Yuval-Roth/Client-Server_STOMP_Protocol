@@ -1,33 +1,27 @@
 using namespace std;
 
-#include "UserData.h"
 #include "../include/frames/Frame.h"
 #include "../include/event.h"
+#include "UserData.h"
 #include "ConnectionHandler.h"
 #include "Summary.h"
 
-UserData* UserData::instance;
+#include <ios>
+
+
+UserData *UserData::instance;
 
 UserData::UserData()
     : shouldTerminateFlag(false), connected(false), nextReceiptNumber(0), nextSubscriptionNumber(0),
-      userName(), m(), cv(), handler(nullptr), frameQueue(), gameNameToSubId(), subIdToGameName(), gameSummaries() {}
-
-mutex& UserData::getLock()
-{
-    return m;
-}
+      userName(), m(), cv(), handler(nullptr), gameNameToSubId(), subIdToGameName(), gameSummaries() {}
 
 UserData &UserData::getInstance()
 {
-    if(instance == NULL){ // why not nullptr?
+    if (instance == nullptr)
+    {
         instance = new UserData();
     }
     return *instance;
-}
-
-void UserData::addAction(Frame* frame)
-{
-    frameQueue.push(frame);
 }
 
 void UserData::setUserName(string userName)
@@ -35,25 +29,9 @@ void UserData::setUserName(string userName)
     this->userName = userName;
 }
 
-string& UserData::getUserName()
+string &UserData::getUserName()
 {
     return userName;
-}
-void UserData::wait()
-{
-    unique_lock<mutex> lock(m);
-    cv.wait(lock);
-    lock.unlock();
-}
-
-void UserData::notifyAll()
-{
-    cv.notify_all();
-}
-
-queue<Frame*>& UserData::getFrameQueue()
-{
-    return frameQueue;
 }
 
 bool UserData::shouldTerminate()
@@ -76,63 +54,71 @@ void UserData::setConnected(bool connected)
     this->connected = connected;
 }
 
-void UserData::setHandler(ConnectionHandler& handler)
+void UserData::setHandler(ConnectionHandler &handler)
 {
     this->handler = &handler;
 }
 
-ConnectionHandler& UserData::getHandler()
+ConnectionHandler &UserData::getHandler()
 {
     return *handler;
 }
 
 void UserData::deleteInstance(bool b1, bool b2, bool b3)
 {
-    if(b1 & b2 & b3) delete instance;
-    instance = NULL;
+    if (b1 & b2 & b3)
+        delete instance;
+    instance = nullptr;
 }
 
 UserData::~UserData()
 {
     delete handler;
-
-//    while(frameQueue.empty() == false){
-//        Frame* toDelete = frameQueue.front();
-//        frameQueue.pop();
-//        delete toDelete;
-//    }
+    for (auto &pair : gameSummaries)
+    {
+        delete pair.second;
+    }
 }
 
-int UserData::getReceiptId() {
+int UserData::getReceiptId()
+{
     return nextReceiptNumber++;
 }
 
-int UserData::generateSubId(string topic) {
-    // TODO: add to topics map
+int UserData::generateSubId(string topic)
+{
     return nextSubscriptionNumber++;
 }
 
-
-int UserData::getSubId(string topic) {
+int UserData::getSubId(string topic)
+{
     return gameNameToSubId[topic];
 }
 
-string UserData::getGameName(int subId) {
-    return subIdToGameName[subId];
-}
-
-void UserData::addGameEvent(Event *gameEvent) {
-    string reporter = gameEvent->get_reporter();
-    string gameName = gameEvent->get_game_name();
+void UserData::addGameEvent(Event &gameEvent) {
+    string reporter = gameEvent.get_reporter();
+    string gameName = gameEvent.get_game_name();
     GameReport gameReport(reporter, gameName);
-    Summary* summary = new Summary(reporter, gameName);
-    gameSummaries[gameReport] = summary;
+    auto it = gameSummaries.find(gameReport);
+    Summary* summary;
+    if (it != gameSummaries.end()) {
+        summary = it->second;
+    } else {
+        summary = new Summary(reporter, gameName);
+        gameSummaries[gameReport] = summary;
+    }
+    summary->addEvent(gameEvent);
 }
 
-const string &UserData::getSummary (string reporter, string gameName) const
+string UserData::getSummary(string reporter, string gameName) const
 {
     GameReport gameReport(reporter, gameName);
-    Summary * summary = gameSummaries.at(gameReport);
-    string& summaryString = summary->printSummary();
-    return summaryString; 
+    Summary *summary = nullptr;
+    try {
+        summary = gameSummaries.at(gameReport);
+    } catch (const std::out_of_range& ignored) {
+        throw std::ios_base::failure("No such game, or no such reporter");
+    }
+    string summaryString = summary->printSummary();
+    return summaryString;
 }

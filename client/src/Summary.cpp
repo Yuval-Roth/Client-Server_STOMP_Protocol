@@ -1,26 +1,17 @@
 #include "../include/Summary.h"
 #include "../include/event.h"
 
-Summary::Summary(string userName, string gameName)
-        : userName(userName), gameName(gameName), team_a_name(),team_b_name(),general_stats(),
-        team_a_stats(),team_b_stats(),firstHalfEvents(),secondHalfEvents(){}
+Summary::Summary(string userName, const string& gameName)
+        : userName(userName), team_a_name(gameName.substr(0,gameName.find('_')))
+        , team_b_name(gameName.substr(gameName.find('_')+1)), general_stats(),
+          team_a_stats(), team_b_stats(), gameEvents(){}
 
 
 void Summary::addEvent(Event &event)
 {
-
     gameEvent gameEvent(event.get_time(), event.get_name(), event.get_description());
-    // add the gameEvent to the correct list
-    if (event.get_game_updates().at("before halftime") == "true")
-    {
-        sortedEventInsert(firstHalfEvents, gameEvent);
-    }
-    else
-    {
-        sortedEventInsert(secondHalfEvents, gameEvent);
-    }
 
-
+    sortedEventInsert(gameEvents, gameEvent);
 
     // update general stats
     for (auto &update : event.get_game_updates()) {
@@ -55,20 +46,14 @@ string Summary::printSummary() {
                 summary += team_b_stat.first + ": " + team_b_stat.second + "\n";
         }
         summary += "Game Events:\n";
-        firstHalfEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
-        secondHalfEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
-        for (auto &firstHalfEvent: firstHalfEvents) {
-                summary += firstHalfEvent.name + " " + to_string(firstHalfEvent.time) + " " +
-                           firstHalfEvent.description + "\n";
-        }
-        for (auto &secondHalfEvent: secondHalfEvents) {
-                summary += secondHalfEvent.name + " " + to_string(secondHalfEvent.time) + " " +
-                           secondHalfEvent.description + "\n";
+        for (auto &gameEvent: gameEvents) {
+                summary += to_string(gameEvent.time) + " - " + gameEvent.name + "\n" +
+                           gameEvent.description + "\n";
         }
         return summary;
 }
 
-void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
+void Summary::sortedEventInsert(list<gameEvent>& eventList, gameEvent& event) {
 
     if(eventList.empty() || eventList.back().time < event.time) {
         eventList.push_back(event);

@@ -2,10 +2,12 @@ package bgu.spl.net.impl.stomp.Service;
 
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
+import bgu.spl.net.impl.stomp.Backend.StompFacade;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.DisconnectFrame;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.ErrorFrame;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.ExecutableFrame;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.Frame;
+import bgu.spl.net.impl.stomp.StompExceptions.ConnectionException;
 
 public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
 
@@ -37,6 +39,13 @@ public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
     @Override
     public boolean shouldTerminate() {
         return shouldTerminate;
+    }
+
+    @Override
+    public void terminatedCallback(ConnectionHandler<String> handler) {
+        try {
+            StompFacade.getInstance().disconnect(handler);
+        } catch (ConnectionException ignored) {}
     }
 
 

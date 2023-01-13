@@ -15,7 +15,12 @@ class Summary;
 struct GameReport{
     string reporter;
     string gameName;
-    GameReport(string reporter, string gameName) : reporter(reporter), gameName(gameName) {}
+
+    GameReport(string reporter, string GameName) : reporter(reporter), gameName(GameName) {
+        // if (GameName.find("/") != string::npos){
+        //     throw "Game name cannot contain '/', error occurred";
+        // } // TODO: add it back later
+    }
 
     bool operator==(const GameReport& other) const {
         return reporter == other.reporter && gameName == other.gameName;
@@ -53,14 +58,9 @@ class UserData{
         mutex m;
         condition_variable cv;
         ConnectionHandler* handler;
-        queue<Frame*> frameQueue;
         unordered_map<string, int> gameNameToSubId;
         unordered_map<int, string> subIdToGameName;
         unordered_map<GameReport, Summary*> gameSummaries;
-
-
-
-
 
 
     //====================================================================================|
@@ -76,29 +76,19 @@ class UserData{
         UserData(const UserData&) = delete; 
         UserData& operator=(const UserData&) = delete;
 
-        mutex& getLock();
-
         bool isConnected();
         void setConnected(bool connected);
 
         void setUserName(string userName);
         string& getUserName();
 
-        void wait();
-        void notifyAll();
-
-        void addAction(Frame* frame);
-        queue<Frame*>& getFrameQueue();
         ConnectionHandler& getHandler();
         void setHandler(ConnectionHandler& handler);
         int getReceiptId();
         int generateSubId(string topic);
         int getSubId(string topic);
-        string getGameName(int subId);
-        void addGameEvent(Event* gameEvent);
-
-        const string& getSummary(string reporter, string gameName) const;
-
+        void addGameEvent(Event& gameEvent);
+        string getSummary(string reporter, string gameName) const;
 
         bool shouldTerminate();
         void terminate();

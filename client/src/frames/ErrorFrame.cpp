@@ -14,5 +14,6 @@ void ErrorFrame::execute()
     }
     cout << "Connection terminated" << endl;
     cout << "press enter to continue" << endl;
+
     userData.terminate();
 }

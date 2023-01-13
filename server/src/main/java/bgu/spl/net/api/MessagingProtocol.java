@@ -15,5 +15,10 @@ public interface MessagingProtocol<T> {
      * @return true if the connection should be terminated
      */
     boolean shouldTerminate();
+
+    /**
+     * called after the connection is terminated
+     */
+    void terminatedCallback(ConnectionHandler<T> handler);
  
 }
