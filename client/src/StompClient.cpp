@@ -10,41 +10,16 @@ using namespace std;
 
 void connect();
 
-void handleFrameQueue() {
-    UserData& userData = UserData::getInstance();
-    ConnectionHandler& handler = userData.getHandler();
-    queue<Frame*>& frameQueue = userData.getFrameQueue();
-    mutex& m = userData.getLock();
-    unique_lock<mutex> lock(m);
-    while(frameQueue.empty() == false){
-        Frame* frame = frameQueue.front();
-        frameQueue.pop();
-        handler.sendFrameAscii(frame->toString(), '\0');
-        delete frame;
-    }
-    lock.unlock();
-}
-
 void actorThread_run() {
 	UserData& userData = UserData::getInstance();
     ConnectionHandler& handler = userData.getHandler();
 
 	while(userData.shouldTerminate() == false){
-
         string message;
-        if(handler.getFrameAscii(message, '\0') && message != "") {
+        if(handler.getFrameAscii(message, '\0')) {
             ExecutableFrame* responseFrame = ExecutableFrame::parse(message);
             responseFrame->execute();
         }
-
-		if((userData.getFrameQueue().empty() == false) && handler.getFrameAscii(message, '\0')){
-			ExecutableFrame* frame = ExecutableFrame::parse(message);
-			frame->execute();
-		}
-		else{
-            handleFrameQueue();
-        }
-
 	}
 }
 
@@ -55,13 +30,15 @@ void connect() {
         cout<<"Please enter a login command:"<<endl;
         UserData& userData = UserData::getInstance();
         getline(cin, userInput);
-        CommandParser::parseCommand(userInput);
+        vector<Frame*> frames = CommandParser::parseCommand(userInput);
         ConnectionHandler& handler = userData.getHandler();
 
         if(handler.connect() == false) continue;
-        Frame* connectFrame = userData.getFrameQueue().front();
-        userData.getFrameQueue().pop();
-        handler.sendFrameAscii(connectFrame->toString(), '\0');
+
+        for(Frame* frame : frames){
+            handler.sendFrameAscii(frame->toString(), '\0');
+            delete frame;
+        }
 
         string loginResponse;
         if(handler.getFrameAscii(loginResponse, '\0') && loginResponse.empty() == false) {
@@ -97,8 +74,11 @@ int main() {
         ConnectionHandler& handler = userData.getHandler();
         while (!userData.shouldTerminate()) {
             getline(cin, userInput);
-            CommandParser::parseCommand(userInput);
-            handleFrameQueue();
+            vector<Frame*> frames = CommandParser::parseCommand(userInput);
+            for(Frame* frame : frames){
+                handler.sendFrameAscii(frame->toString(), '\0');
+                delete frame;
+            }
         }
         actorThread.join();
         UserData::deleteInstance(true,true,true);

@@ -11,5 +11,4 @@ void MessageFrame::execute()
     userData.addGameEvent(new Event(frameBody));
     // Where should we delete the event?
     // This is probably bad software engineering, but in terms of flow I think in the UserData destructor
-
 }
