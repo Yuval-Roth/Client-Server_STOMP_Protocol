@@ -35,7 +35,7 @@ class Event
         Event(string reporter, std::string name, std::string team_a_name, std::string team_b_name, int time,
               std::map<std::string, std::string> game_updates, std::map<std::string, std::string> team_a_updates,
               std::map<std::string, std::string> team_b_updates, std::string description);
-        Event(const string & frame_body);
+        Event(string gameName, const string & frame_body);
         virtual ~Event() = default;
         const string & get_reporter() const;
         const string &get_team_a_name() const;
@@ -49,7 +49,6 @@ class Event
         const string &get_description() const;
         string extractFrameBody();
         string toJson();
-        Event(string gameName, const string & frame_body);
 };
 
 // an object that holds the names of the teams and a vector of events, to be returned by the parseEventsFile function

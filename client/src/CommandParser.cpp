@@ -69,7 +69,7 @@ vector<Frame*> CommandParser::parseLoginCommand(vector<string> commandParameters
         string hostPort = commandParameters[0];
         string host = hostPort.substr(0, hostPort.find(':'));
         string _port = hostPort.substr(hostPort.find(':') + 1);
-        int port = stoi(_port); //TODO: check if this is correct
+        int port = stoi(_port);
 
         ConnectionHandler* connectionHandler = new ConnectionHandler(host, port);
 

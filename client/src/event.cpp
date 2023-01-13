@@ -60,10 +60,13 @@ const std::string &Event::get_description() const
     return this->description;
 }
 
-Event::Event(const std::string &frame_body)
+Event::Event(string gameName, const std::string &frame_body)
         : reporter(""), team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
-            team_a_updates(), team_b_updates(), description("")
+          team_a_updates(), team_b_updates(), description("")
 {
+    istringstream nameStream(gameName);
+    string game_name;
+
     istringstream iss(frame_body);
     string line;
 
@@ -75,18 +78,10 @@ Event::Event(const std::string &frame_body)
     }
 
     //team_a_name
-    getline(iss, line);
-    if (line.find("team_a_name:") != string::npos)
-    {
-        team_a_name = line.substr(line.find(":") + 1);
-    }
+    team_a_name = gameName.substr(0,gameName.find("_"));
 
     //team_b_name
-    getline(iss, line);
-    if (line.find("team_b_name:") != string::npos)
-    {
-        team_b_name = line.substr(line.find(":") + 1);
-    }
+    team_b_name = gameName.substr(gameName.find("_") + 1));
 
     //name
     getline(iss, line);
@@ -145,7 +140,6 @@ Event::Event(const std::string &frame_body)
         getline(iss, line,'\0');
         description = line;
     }
-
 }
 
 string Event::toJson() {
@@ -241,101 +235,4 @@ names_and_events parseEventsFile(std::string json_path)
     names_and_events events_and_names{team_a_name, team_b_name, events};
 
     return events_and_names;
-}
-
-Event::Event(string gameName, const std::string &frame_body)
-        : reporter(""), team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
-            team_a_updates(), team_b_updates(), description("")
-{
-
-    istringstream nameStream(gameName);
-    string game_name;
-    getline(nameStream, game_name, '_');
-    team_a_name = game_name;
-    getline(nameStream, game_name, '_');
-    team_b_name = game_name; // TODO: check if it works
-    game_name = gameName;
-
-    istringstream iss(frame_body);
-    string line;
-
-    //reporter
-    getline(iss, line);
-    if (line.find("user:") != string::npos)
-    {
-        reporter = line.substr(line.find(":") + 1);
-    }
-
-    //team_a_name
-    getline(iss, line);
-    if (line.find("team_a_name:") != string::npos)
-    {
-        team_a_name = line.substr(line.find(":") + 1);
-    }
-
-    //team_b_name
-    getline(iss, line);
-    if (line.find("team_b_name:") != string::npos)
-    {
-        team_b_name = line.substr(line.find(":") + 1);
-    }
-
-    //name
-    getline(iss, line);
-    if (line.find("event name:") != string::npos)
-    {
-        name = line.substr(line.find(":") + 1);
-    }
-
-    //time
-    getline(iss, line);
-    if (line.find("time:") != string::npos)
-    {
-        time = stoi(line.substr(line.find(":") + 1));
-    }
-
-    //general updates
-    getline(iss, line);
-    if (line.find("general game updates:") != string::npos)
-    {
-        while (getline(iss, line) && line.find("team a updates:") == string::npos)
-        {
-            int delimiter = line.find(":");
-            string key = line.substr(0, delimiter);
-            string value = line.substr(delimiter + 1);
-            game_updates[key] = value;
-        }
-    }
-
-    //team_a_updates
-    if (line.find("team a updates:") != string::npos)
-    {
-        while (getline(iss, line) && line.find("team b updates:") == string::npos)
-        {
-            int delimiter = line.find(":");
-            string key = line.substr(0, delimiter);
-            string value = line.substr(delimiter + 1);
-            team_a_updates[key] = value;
-        }
-    }
-
-    //team_b_updates
-    if (line.find("team b updates:") != string::npos)
-    {
-        while (getline(iss, line) && line.find("description: ") == string::npos)
-        {
-            int delimiter = line.find(":");
-            string key = line.substr(0, delimiter);
-            string value = line.substr(delimiter + 1);
-            team_b_updates[key] = value;
-        }
-    }
-
-    //description
-    if (line.find("description: ") != string::npos)
-    {
-        getline(iss, line,'\0');
-        description = line;
-    }
-
 }

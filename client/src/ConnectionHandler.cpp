@@ -53,19 +53,6 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
 
 bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
 
-//    //TODO
-//
-//    for(int i =0 ;i<bytesToWrite;i++){
-//        cout<<bytes[i];
-//        if(bytes[i]=='\0'){
-//            cout<<"null"<< endl;
-//        }
-//    }
-//
-//
-//    //TODO
-//
-
 	int tmp = 0;
 	boost::system::error_code error;
 	try {
