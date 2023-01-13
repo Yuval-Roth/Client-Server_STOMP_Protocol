@@ -7,10 +7,12 @@
 #include "SubscribeFrame.h"
 #include "UnsubscribeFrame.h"
 #include "event.h"
+#include "SendFrame.h"
+
 #include <fstream>
 #include <sstream>
+#include <unistd.h>
 #include <iostream>
-#include "SendFrame.h"
 
 vector<Frame*> CommandParser::parseCommand(string commandToParse)
 {
@@ -151,12 +153,22 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string> commandParameter
     }
     else{
         string fileName = commandParameters[0];
-        names_and_events namesAndEvents = parseEventsFile(fileName);
-        vector<Event>& gameEvents = namesAndEvents.events;
-        // for each
-        for (Event& event : gameEvents) {
-            SendFrame* sendFrame = SendFrame::get(event);
-            output.push_back(sendFrame);
+        if(fileName.find(".json") != string::npos || fileName.find('/') != string::npos || fileName.find("..") != string::npos){
+            cout << "report error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+        }
+        else{
+            char cwd[1024];
+            getcwd(cwd, sizeof(cwd));
+            string path(cwd, sizeof(cwd));
+            path = path.substr(0, path.find("/client/")+8) + "data/" + fileName + ".json";
+
+            names_and_events namesAndEvents = parseEventsFile(path);
+            vector<Event>& gameEvents = namesAndEvents.events;
+            // for each
+            for (Event& event : gameEvents) {
+                SendFrame* sendFrame = SendFrame::get(event);
+                output.push_back(sendFrame);
+            }
         }
     }
     return output;
@@ -168,14 +180,25 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
 
     if(commandParameters.size() != 3){
         cout << "Invalid number of parameters" << endl;
-        cout << "Usage: summary {game_name} {user} {file}" << endl;
+        cout << "Usage: summary {game_name} {user} {output file name}" << endl;
         return;
     }
     string gameName = commandParameters[0];
     string userName = commandParameters[1];
     string fileName = commandParameters[2];
+
+    if(fileName.find(".json") != string::npos || fileName.find('/') != string::npos || fileName.find("..") != string::npos){
+        cout << "summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+        return;
+    }
     ofstream summaryFile;
-    summaryFile.open(fileName);
+
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    string path(cwd, sizeof(cwd));
+    path = path.substr(0, path.find("/client/")+8) + "data/" + fileName + ".json";
+
+    summaryFile.open(path);
 
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
     UserData & userData = UserData::getInstance();
