@@ -45,7 +45,7 @@ class Summary {
         ~Summary() = default;
 
     private:
-        static void sortedEventInsert(list<gameEvent> eventList, gameEvent event);
+        static void sortedEventInsert(list<gameEvent>& eventList, gameEvent& event);
 };
 
 

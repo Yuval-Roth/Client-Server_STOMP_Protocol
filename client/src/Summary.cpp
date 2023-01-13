@@ -53,7 +53,7 @@ string Summary::printSummary() {
         return summary;
 }
 
-void Summary::sortedEventInsert(list<gameEvent> eventList, gameEvent event) {
+void Summary::sortedEventInsert(list<gameEvent>& eventList, gameEvent& event) {
 
     if(eventList.empty() || eventList.back().time < event.time) {
         eventList.push_back(event);
