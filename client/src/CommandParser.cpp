@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <ios>
+#include "UserData.h"
 
 vector<Frame*> CommandParser::parseCommand(string commandToParse)
 {
@@ -35,6 +36,10 @@ vector<Frame*> CommandParser::parseCommand(string commandToParse)
     // parse the command
     if(command == "login"){
       return parseLoginCommand(commandParameters);
+    }
+    if (UserData::getInstance().isConnected()==false) {
+        cout << "You must login first" << endl;
+        return vector<Frame*>();
     }
     else if (command == "logout"){
       return parseLogoutCommand();

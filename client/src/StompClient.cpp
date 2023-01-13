@@ -31,7 +31,9 @@ void connect() {
         cout<<"Please enter a login command:"<<endl;
         UserData& userData = UserData::getInstance();
         getline(cin, userInput);
+
         vector<Frame*> frames = CommandParser::parseCommand(userInput);
+        if (userData.isConnected() == false) continue;
         ConnectionHandler& handler = userData.getHandler();
 
         if(handler.connect() == false) continue;
