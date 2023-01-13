@@ -76,14 +76,14 @@ Event::Event(const std::string &frame_body)
 
     //team_a_name
     getline(iss, line);
-    if (line.find("team a name:") != string::npos)
+    if (line.find("team_a_name:") != string::npos)
     {
         team_a_name = line.substr(line.find(":") + 1);
     }
 
     //team_b_name
     getline(iss, line);
-    if (line.find("team b name:") != string::npos)
+    if (line.find("team_b_name:") != string::npos)
     {
         team_b_name = line.substr(line.find(":") + 1);
     }
@@ -186,7 +186,7 @@ string Event::extractFrameBody() {
 }
 
 const string Event::get_game_name() const {
-        return get_team_a_name() + "_" + get_team_b_name();
+        return team_a_name + "_" + team_b_name;
 }
 
 names_and_events parseEventsFile(std::string json_path)
