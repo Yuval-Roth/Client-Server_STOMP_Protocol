@@ -154,21 +154,21 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string> commandParameter
     else{
         string fileName = commandParameters[0];
         if(fileName.find(".json") != string::npos || fileName.find('/') != string::npos || fileName.find("..") != string::npos){
-            cout << "Summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+            cout << "report error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
         }
+        else{
+            char cwd[1024];
+            getcwd(cwd, sizeof(cwd));
+            string path(cwd, sizeof(cwd));
+            path = path.substr(0, path.find("/client/")+8) + "data/" + fileName + ".json";
 
-        char cwd[1024];
-        size_t cwdSize;
-        getcwd(cwd, cwdSize);
-        string path(cwd, cwdSize);
-        path = path.substr(0, path.find_last_of("client/")+1) + "data/" + fileName + ".json";
-
-        names_and_events namesAndEvents = parseEventsFile(path);
-        vector<Event>& gameEvents = namesAndEvents.events;
-        // for each
-        for (Event& event : gameEvents) {
-            SendFrame* sendFrame = SendFrame::get(event);
-            output.push_back(sendFrame);
+            names_and_events namesAndEvents = parseEventsFile(path);
+            vector<Event>& gameEvents = namesAndEvents.events;
+            // for each
+            for (Event& event : gameEvents) {
+                SendFrame* sendFrame = SendFrame::get(event);
+                output.push_back(sendFrame);
+            }
         }
     }
     return output;
@@ -188,14 +188,16 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
     string fileName = commandParameters[2];
 
     if(fileName.find(".json") != string::npos || fileName.find('/') != string::npos || fileName.find("..") != string::npos){
-        cout << "Summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+        cout << "summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+        return;
     }
     ofstream summaryFile;
+
     char cwd[1024];
-    size_t cwdSize;
-    getcwd(cwd, cwdSize);
-    string path(cwd, cwdSize);
-    path = path.substr(0, path.find_last_of("client/")+1) + "data/" + fileName + ".json";
+    getcwd(cwd, sizeof(cwd));
+    string path(cwd, sizeof(cwd));
+    path = path.substr(0, path.find("/client/")+8) + "data/" + fileName + ".json";
+
     summaryFile.open(path);
 
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server

@@ -81,7 +81,7 @@ Event::Event(string gameName, const std::string &frame_body)
     team_a_name = gameName.substr(0,gameName.find("_"));
 
     //team_b_name
-    team_b_name = gameName.substr(gameName.find("_") + 1));
+    team_b_name = gameName.substr(gameName.find("_") + 1);
 
     //name
     getline(iss, line);
