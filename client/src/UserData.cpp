@@ -111,6 +111,6 @@ const string &UserData::getSummary (string reporter, string gameName) const
 {
     GameReport gameReport(reporter, gameName);
     Summary * summary = gameSummaries.at(gameReport);
-    string& summaryString = summary->printSummary();
+    string summaryString = summary->printSummary();
     return summaryString; 
 }

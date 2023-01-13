@@ -12,6 +12,8 @@ class Event
 {
     private:
         string reporter;
+        // name of the game
+        string game_name;
         // name of team a
         string team_a_name;
         // name of team b
@@ -47,6 +49,7 @@ class Event
         const string &get_description() const;
         string extractFrameBody();
         string toJson();
+        Event(string gameName, const string & frame_body);
 };
 
 // an object that holds the names of the teams and a vector of events, to be returned by the parseEventsFile function
