@@ -7,6 +7,7 @@ using namespace std;
 #include <iostream>
 #include <vector>
 #include <thread>
+#include <ios>
 
 void connect();
 
@@ -32,8 +33,13 @@ void connect() {
         UserData& userData = UserData::getInstance();
         getline(cin, userInput);
 
-        vector<Frame*> frames = CommandParser::parseCommand(userInput);
-//        if (userData.isConnected() == false) continue;
+        vector<Frame*> frames;
+        try{
+            frames = CommandParser::parseCommand(userInput);
+        }catch(ios_base::failure& ignored){
+            continue;
+        }
+
         ConnectionHandler& handler = userData.getHandler();
 
         if(handler.connect() == false) continue;

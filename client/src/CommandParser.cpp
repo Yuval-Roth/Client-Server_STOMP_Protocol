@@ -18,7 +18,9 @@
 
 vector<Frame*> CommandParser::parseCommand(string commandToParse)
 {
-    if(commandToParse == "") return vector<Frame*>();
+    if(commandToParse == "") {
+        throw ios_base::failure("Empty command");
+    }
 
     istringstream pa(commandToParse);
     string parameter;
@@ -40,7 +42,6 @@ vector<Frame*> CommandParser::parseCommand(string commandToParse)
     if (UserData::getInstance().isConnected()==false) {
         cout << "You must login first" << endl;
         cout << "Usage: login {host:port} {username} {password}" << endl;
-        return vector<Frame*>();
     }
     else if (command == "logout"){
       return parseLogoutCommand();
@@ -68,11 +69,13 @@ vector<Frame*> CommandParser::parseLoginCommand(vector<string>& commandParameter
 
     UserData& ud = UserData::getInstance();
     if(ud.isConnected()){
-        cout<<"You are already logged in as \" "+ud.getUserName() +" \""  <<endl;
+        cout<<  "You are already logged in as \" "+ud.getUserName() +" \"" <<endl;
+        throw ios_base::failure("");
     }
     else if(commandParameters.size() != 3){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: login {host:port} {username} {password}" << endl;
+        throw ios_base::failure("");
     }
     else {
         string hostPort = commandParameters[0];
@@ -82,7 +85,7 @@ vector<Frame*> CommandParser::parseLoginCommand(vector<string>& commandParameter
             if (!isdigit(c)) {
                 cout << "Invalid port, port must be a number" << endl;
                 cout << "Usage: login {host:port} {username} {password}" << endl;
-                return vector<Frame*>();
+                throw ios_base::failure("");
             }
         }
         int port = stoi(_port);
