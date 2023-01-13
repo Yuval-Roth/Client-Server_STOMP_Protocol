@@ -60,49 +60,95 @@ const std::string &Event::get_description() const
     return this->description;
 }
 
-Event::Event(string gameName, const std::string &frame_body) {
+Event::Event(const std::string &frame_body)
+        : reporter(""), team_a_name(""), team_b_name(""), name(""),
+          time(0), game_updates(), team_a_updates(),
+          team_b_updates(), description(""){
+
+    // login 127.0.0.1:7777 porn hub
+
+    istringstream iss(frame_body);
+    string line;
+
+    //reporter
+    getline(iss, line);
+    if (line.find("user:") != string::npos)
+    {
+        reporter = line.substr(line.find(":") + 2);
+        getline(iss, line);
+    }
+
     //team_a_name
-    team_a_name = gameName.substr(0,gameName.find("_"));
+    if (line.find("team_a_name:") != string::npos)
+    {
+        team_a_name = line.substr(line.find(":") + 2);
+        getline(iss, line);
+    }
 
     //team_b_name
-    team_b_name = gameName.substr(gameName.find("_") + 1);
-    description = "";
-    stringstream ss(frame_body);
-    string line;
-    while (getline(ss, line)) {
-        if (line.find("user:") != string::npos) {
-            reporter = line.substr(line.find(":") + 2);
-        } else if (line.find("team a:") != string::npos) {
-            team_a_name = line.substr(line.find(":") + 1);
-        } else if (line.find("team b:") != string::npos) {
-            team_b_name = line.substr(line.find(":") + 1);
-        } else if (line.find("event name:") != string::npos) {
-            name = line.substr(line.find(":") + 2);
-        } else if (line.find("time:") != string::npos) {
-            time = stoi(line.substr(line.find(":") + 1));
-        } else if (line.find("general game updates:") != string::npos) {
-            while (getline(ss, line) && line.find("team a updates:") == string::npos) {
-                string key = line.substr(0, line.find(":"));
-                string value = line.substr(line.find(":") + 1);
-                game_updates[key] = value;
-            }
-        } else if (line.find("team a updates:") != string::npos) {
-            while (getline(ss, line) && line.find("team b updates:") == string::npos) {
-                string key = line.substr(0, line.find(":"));
-                string value = line.substr(line.find(":") + 2);
-                team_a_updates[key] = value;
-            }
-        } else if (line.find("team b updates:") != string::npos) {
-            while (getline(ss, line) && line.find("description:") == string::npos) {
-                string key = line.substr(0, line.find(":"));
-                string value = line.substr(line.find(":") + 2);
-                team_b_updates[key] = value;
-            }
-        } else if (line.find("description:") != string::npos) {
-            while (getline(ss, line)) {
-                description += line + '\n';
-            }
+    if (line.find("team_b_name:") != string::npos)
+    {
+        team_b_name = line.substr(line.find(":") + 2);
+        getline(iss, line);
+    }
+
+    //name
+    if (line.find("event name:") != string::npos)
+    {
+        name = line.substr(line.find(":") + 2);
+        getline(iss, line);
+    }
+
+    //time
+    if (line.find("time:") != string::npos)
+    {
+        time = stoi(line.substr(line.find(":") + 2));
+        getline(iss, line);
+    }
+
+    //general updates
+    if (line.find("general game updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("team a updates:") == string::npos)
+        {
+            line = line.substr(0, line.length()-1);
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 2);
+            game_updates[key] = value;
         }
+    }
+
+    //team_a_updates
+    if (line.find("team a updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("team b updates:") == string::npos)
+        {
+            line = line.substr(0, line.length()-1);
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 2);
+            team_a_updates[key] = value;
+        }
+    }
+
+    //team_b_updates
+    if (line.find("team b updates:") != string::npos)
+    {
+        while (getline(iss, line) && line.find("description:") == string::npos)
+        {
+            line = line.substr(0, line.length()-1);
+            int delimiter = line.find(":");
+            string key = line.substr(0, delimiter);
+            string value = line.substr(delimiter + 2);
+            team_b_updates[key] = value;
+        }
+    }
+    //description
+    if (line.find("description:") != string::npos)
+    {
+        getline(iss, line);
+        description = line;
     }
 }
 
@@ -127,18 +173,18 @@ string Event::extractFrameBody() {
     output += "team_a_name: " + team_a_name+"\n";
     output += "team_b_name: " + team_b_name+"\n";
     output += "event name: " + name+"\n";
-    output += "time:" + to_string(time)+"\n";
+    output += "time: " + to_string(time)+"\n";
     output += "general game updates: \n";
     for (auto & gameUpdate : game_updates) {
-        output += gameUpdate.first + ":" + gameUpdate.second + ",\n";
+        output += gameUpdate.first + ": " + gameUpdate.second + ",\n";
     }
     output += "team a updates: \n";
     for (auto & teamAUpdate : team_a_updates) {
-        output += teamAUpdate.first + ":" + teamAUpdate.second + ",\n";
+        output += teamAUpdate.first + ": " + teamAUpdate.second + ",\n";
     }
     output += "team b updates: \n";
     for (auto & teamBUpdate : team_b_updates) {
-        output += teamBUpdate.first + ":" + teamBUpdate.second + ",\n";
+        output += teamBUpdate.first + ": " + teamBUpdate.second + ",\n";
     }
     output += "description: \n" + description;
     return output;

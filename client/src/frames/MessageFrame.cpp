@@ -8,9 +8,7 @@ MessageFrame::MessageFrame(unordered_map<string, string> headers, string frameBo
 void MessageFrame::execute()
 {
     cout<<frameBody<<endl;
-    string gameName = headers["destination"];
-    gameName = gameName.substr(1);
-    userData.addGameEvent(new Event(gameName, frameBody));
+    userData.addGameEvent(new Event(frameBody));
     // Where should we delete the event?
     // This is probably bad software engineering, but in terms of flow I think in the UserData destructor
 }
