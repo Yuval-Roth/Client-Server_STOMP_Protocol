@@ -54,6 +54,9 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     public void disconnect(ConnectionHandler<String> handler) throws ConnectionException{
 
         Session session = sc.getSession(handler);
+        if(session == null) {
+            return;
+        }
         String username = session.getUsername();
         for(SubscriberId subscription : session.getSubscriptions().keySet()) {
             try {
