@@ -13,6 +13,7 @@
 #include <sstream>
 #include <unistd.h>
 #include <iostream>
+#include <ios>
 
 vector<Frame*> CommandParser::parseCommand(string commandToParse)
 {
@@ -200,9 +201,14 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
 
     summaryFile.open(path);
 
-    string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
     UserData & userData = UserData::getInstance();
-    summaryString += userData.getSummary(userName, gameName);
+    string summaryString;
+    try{
+        summaryString = userData.getSummary(userName, gameName);
+    }catch(ios_base::failure& e){
+        cout << "summary error: " << e.what() << endl;
+        return;
+    }
 
     summaryFile << summaryString << endl;
     summaryFile.close();

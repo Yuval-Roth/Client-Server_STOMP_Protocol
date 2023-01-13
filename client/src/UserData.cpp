@@ -6,6 +6,9 @@ using namespace std;
 #include "ConnectionHandler.h"
 #include "Summary.h"
 
+#include <ios>
+
+
 UserData *UserData::instance;
 
 UserData::UserData()
@@ -120,9 +123,8 @@ string UserData::getSummary(string reporter, string gameName) const
     Summary *summary = nullptr;
     try {
         summary = gameSummaries.at(gameReport);
-    } catch (const std::out_of_range& oor) {
-        cout << "No such game, or no such reporter, returning empty string" << endl;
-        return "";
+    } catch (const std::out_of_range& ignored) {
+        throw std::ios_base::failure("No such game, or no such reporter");
     }
     string summaryString = summary->printSummary(); // warning: reference to local variable ‘summaryString’ returned
     return summaryString;
