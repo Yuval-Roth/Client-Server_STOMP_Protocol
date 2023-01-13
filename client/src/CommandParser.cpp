@@ -7,10 +7,12 @@
 #include "SubscribeFrame.h"
 #include "UnsubscribeFrame.h"
 #include "event.h"
+#include "SendFrame.h"
+
 #include <fstream>
 #include <sstream>
+#include <unistd.h>
 #include <iostream>
-#include "SendFrame.h"
 
 vector<Frame*> CommandParser::parseCommand(string commandToParse)
 {
@@ -168,14 +170,19 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
 
     if(commandParameters.size() != 3){
         cout << "Invalid number of parameters" << endl;
-        cout << "Usage: summary {game_name} {user} {file}" << endl;
+        cout << "Usage: summary {game_name} {user} {output file name}" << endl;
         return;
     }
     string gameName = commandParameters[0];
     string userName = commandParameters[1];
     string fileName = commandParameters[2];
     ofstream summaryFile;
-    summaryFile.open(fileName);
+    char cwd[1024];
+    size_t cwdSize;
+    getcwd(cwd, cwdSize);
+    string path(cwd, cwdSize);
+    path.substr(0, path.find_last_of("client/"));
+    summaryFile.open(path+"data/"+fileName+".json");
 
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
     UserData & userData = UserData::getInstance();
