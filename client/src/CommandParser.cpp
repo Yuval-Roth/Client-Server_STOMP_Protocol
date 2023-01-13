@@ -48,6 +48,12 @@ bool CommandParser::parseCommand(string commandToParse)
 
 bool CommandParser::parseLoginCommand(vector<string> commandParameters)
 {
+    UserData& ud = UserData::getInstance();
+    if(ud.isConnected()){
+        cout<<"You are already logged in as \" "+ud.getUserName() +" \""  <<endl;
+        return false;
+    }
+
     if(commandParameters.size() != 3){
         cout << "Invalid number of parameters" << endl;
         cout << "Usage: login {host:port} {username} {password}" << endl;
@@ -64,7 +70,6 @@ bool CommandParser::parseLoginCommand(vector<string> commandParameters)
     string password = commandParameters[2];
 
     Frame* frame = ConnectFrame::get(host, username, password);
-    UserData& ud = UserData::getInstance();
     ud.setHandler(*connectionHandler);
     ud.addAction(frame);
     ud.setUserName(username);
