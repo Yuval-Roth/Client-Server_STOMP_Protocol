@@ -12,8 +12,6 @@ class Event
 {
     private:
         string reporter;
-        // name of the game
-        string game_name;
         // name of team a
         string team_a_name;
         // name of team b

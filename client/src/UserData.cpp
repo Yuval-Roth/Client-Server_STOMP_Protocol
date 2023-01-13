@@ -81,6 +81,7 @@ void UserData::deleteInstance(bool b1, bool b2, bool b3)
 UserData::~UserData()
 {
     delete handler;
+    // TODO: delete event and summary pointers
 }
 
 int UserData::getReceiptId()
@@ -113,10 +114,16 @@ void UserData::addGameEvent(Event *gameEvent)
     gameSummaries[gameReport] = summary;
 }
 
-const string &UserData::getSummary(string reporter, string gameName) const
+string UserData::getSummary(string reporter, string gameName) const
 {
     GameReport gameReport(reporter, gameName);
-    Summary *summary = gameSummaries.at(gameReport);
+    Summary *summary = nullptr;
+    try {
+        summary = gameSummaries.at(gameReport);
+    } catch (const std::out_of_range& oor) {
+        cout << "No such game, or no such reporter, returning empty string" << endl;
+        return "";
+    }
     string summaryString = summary->printSummary(); // warning: reference to local variable ‘summaryString’ returned
     return summaryString;
 }
