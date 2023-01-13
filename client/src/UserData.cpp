@@ -114,6 +114,7 @@ void UserData::addGameEvent(Event *gameEvent)
     string gameName = gameEvent->get_game_name();
     GameReport gameReport(reporter, gameName);
     Summary *summary = new Summary(reporter, gameName);
+    summary->addEvent(*gameEvent);
     gameSummaries[gameReport] = summary;
 }
 
