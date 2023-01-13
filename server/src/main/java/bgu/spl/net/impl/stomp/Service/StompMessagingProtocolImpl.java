@@ -5,6 +5,7 @@ import bgu.spl.net.genericServers.interfaces.ConnectionHandler;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.DisconnectFrame;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.ErrorFrame;
 import bgu.spl.net.impl.stomp.Service.STOMP_Frames.ExecutableFrame;
+import bgu.spl.net.impl.stomp.Service.STOMP_Frames.Frame;
 
 public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
 
@@ -26,7 +27,7 @@ public class StompMessagingProtocolImpl implements MessagingProtocol<String> {
         }
         else{
             String output = frame.execute(handler);
-            if(frame.getClass() == DisconnectFrame.class){
+            if(frame.getClass() == DisconnectFrame.class || output != "" && Frame.parse(output).getClass() == ErrorFrame.class){
                 shouldTerminate = true;
             }
             return output;

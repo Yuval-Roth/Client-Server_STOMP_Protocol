@@ -20,6 +20,8 @@ void Summary::addEvent(Event &event)
         sortedEventInsert(secondHalfEvents, gameEvent);
     }
 
+
+
     // update general stats
     for (auto &update : event.get_game_updates()) {
         general_stats[update.first] = update.second;

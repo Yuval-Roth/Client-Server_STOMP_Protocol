@@ -1,5 +1,6 @@
 #include "../include/event.h"
 #include "../include/json.hpp"
+#include "UserData.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -230,7 +231,7 @@ names_and_events parseEventsFile(std::string json_path)
                 team_b_updates[update.key()] = update.value().dump();
         }
         
-        events.push_back(Event(std::string(), team_a_name, team_b_name, name, time, game_updates, team_a_updates,
+        events.push_back(Event(UserData::getInstance().getUserName(), team_a_name, team_b_name, name, time, game_updates, team_a_updates,
                                team_b_updates, description));
     }
     names_and_events events_and_names{team_a_name, team_b_name, events};
