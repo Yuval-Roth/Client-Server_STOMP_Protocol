@@ -81,7 +81,8 @@ Event::Event(string gameName, const std::string &frame_body)
 
     //team_b_name
     team_b_name = gameName.substr(gameName.find("_") + 1);
-
+    getline(iss, line);
+    getline(iss, line); // Remove the two lines containing the team names - they seem to put us off by 2 lines
     //name
     getline(iss, line);
     if (line.find("event name:") != string::npos)
@@ -93,7 +94,11 @@ Event::Event(string gameName, const std::string &frame_body)
     getline(iss, line);
     if (line.find("time:") != string::npos)
     {
-        time = stoi(line.substr(line.find(":") + 2));
+        try {
+            time = stoi(line.substr(line.find(":") + 2));
+        } catch (exception e) {
+            time = 0;
+        }
     }
 
     //general updates

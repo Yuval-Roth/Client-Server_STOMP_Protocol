@@ -2,25 +2,26 @@
 #include "../include/event.h"
 
 Summary::Summary(string userName, string gameName)
-        : userName(userName), gameName(gameName), team_a_name(),team_b_name(),general_stats(),
-        team_a_stats(),team_b_stats(),firstHalfEvents(),secondHalfEvents(){}
+        : userName(userName), gameName(gameName), team_a_name(), team_b_name(), general_stats(),
+          team_a_stats(), team_b_stats(), gameEvents(){}
 
 
 void Summary::addEvent(Event &event)
 {
 
     gameEvent gameEvent(event.get_time(), event.get_name(), event.get_description());
-    // add the gameEvent to the correct list
-    if (event.get_game_updates().at("before halftime") == "true")
-    {
-        sortedEventInsert(firstHalfEvents, gameEvent);
-    }
-    else
-    {
-        sortedEventInsert(secondHalfEvents, gameEvent);
-    }
+//     add the gameEvent to the correct list
+//    if (event.get_game_updates().at("before halftime") == "true")
+//    {
+//        sortedEventInsert(gameEvents, gameEvent);
+//    }
+//    else
+//    {
+//        sortedEventInsert(secondHalfEvents, gameEvent);
+//    }
 
 
+    gameEvents.push_back(gameEvent);
 
     // update general stats
     for (auto &update : event.get_game_updates()) {
@@ -55,15 +56,10 @@ string Summary::printSummary() {
                 summary += team_b_stat.first + ": " + team_b_stat.second + "\n";
         }
         summary += "Game Events:\n";
-        firstHalfEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
-        secondHalfEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
-        for (auto &firstHalfEvent: firstHalfEvents) {
+        gameEvents.sort([](gameEvent &a, gameEvent &b) { return a.time < b.time; });
+        for (auto &firstHalfEvent: gameEvents) {
                 summary += firstHalfEvent.name + " " + to_string(firstHalfEvent.time) + " " +
                            firstHalfEvent.description + "\n";
-        }
-        for (auto &secondHalfEvent: secondHalfEvents) {
-                summary += secondHalfEvent.name + " " + to_string(secondHalfEvent.time) + " " +
-                           secondHalfEvent.description + "\n";
         }
         return summary;
 }

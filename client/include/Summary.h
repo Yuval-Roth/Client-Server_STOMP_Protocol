@@ -32,8 +32,8 @@ class Summary {
         // map of all team b updates
         map<string, string> team_b_stats;
         // description of the event
-        list<gameEvent> firstHalfEvents;
-        list<gameEvent> secondHalfEvents;
+        list<gameEvent> gameEvents;
+
 
 
 
