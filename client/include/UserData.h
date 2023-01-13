@@ -59,10 +59,6 @@ class UserData{
         unordered_map<GameReport, Summary*> gameSummaries;
 
 
-
-
-
-
     //====================================================================================|
     //================================ Methods ===========================================|
     //====================================================================================|
@@ -84,11 +80,7 @@ class UserData{
         void setUserName(string userName);
         string& getUserName();
 
-        void wait();
-        void notifyAll();
-
         void addAction(Frame* frame);
-        queue<Frame*>& getFrameQueue();
         ConnectionHandler& getHandler();
         void setHandler(ConnectionHandler& handler);
         int getReceiptId();
@@ -96,7 +88,6 @@ class UserData{
         int getSubId(string topic);
         string getGameName(int subId);
         void addGameEvent(Event* gameEvent);
-
 
         bool shouldTerminate();
         void terminate();

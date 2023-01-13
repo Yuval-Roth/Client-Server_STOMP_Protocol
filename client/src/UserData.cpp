@@ -39,22 +39,6 @@ string& UserData::getUserName()
 {
     return userName;
 }
-void UserData::wait()
-{
-    unique_lock<mutex> lock(m);
-    cv.wait(lock);
-    lock.unlock();
-}
-
-void UserData::notifyAll()
-{
-    cv.notify_all();
-}
-
-queue<Frame*>& UserData::getFrameQueue()
-{
-    return frameQueue;
-}
 
 bool UserData::shouldTerminate()
 {
@@ -95,12 +79,6 @@ void UserData::deleteInstance(bool b1, bool b2, bool b3)
 UserData::~UserData()
 {
     delete handler;
-
-//    while(frameQueue.empty() == false){
-//        Frame* toDelete = frameQueue.front();
-//        frameQueue.pop();
-//        delete toDelete;
-//    }
 }
 
 int UserData::getReceiptId() {
