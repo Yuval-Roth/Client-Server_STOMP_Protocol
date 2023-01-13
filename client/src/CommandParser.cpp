@@ -153,7 +153,17 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string> commandParameter
     }
     else{
         string fileName = commandParameters[0];
-        names_and_events namesAndEvents = parseEventsFile(fileName);
+        if(fileName.find(".json") != string::npos || fileName.find('/') != string::npos || fileName.find("..") != string::npos){
+            cout << "Summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+        }
+
+        char cwd[1024];
+        size_t cwdSize;
+        getcwd(cwd, cwdSize);
+        string path(cwd, cwdSize);
+        path = path.substr(0, path.find_last_of("client/")+1) + "data/" + fileName + ".json";
+
+        names_and_events namesAndEvents = parseEventsFile(path);
         vector<Event>& gameEvents = namesAndEvents.events;
         // for each
         for (Event& event : gameEvents) {
@@ -176,13 +186,17 @@ void CommandParser::parseSummaryCommand(vector<string> commandParameters) {
     string gameName = commandParameters[0];
     string userName = commandParameters[1];
     string fileName = commandParameters[2];
+
+    if(fileName.find(".json") != string::npos || fileName.find('/') != string::npos || fileName.find("..") != string::npos){
+        cout << "Summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+    }
     ofstream summaryFile;
     char cwd[1024];
     size_t cwdSize;
     getcwd(cwd, cwdSize);
     string path(cwd, cwdSize);
-    path.substr(0, path.find_last_of("client/"));
-    summaryFile.open(path+"data/"+fileName+".json");
+    path = path.substr(0, path.find_last_of("client/")+1) + "data/" + fileName + ".json";
+    summaryFile.open(path);
 
     string summaryString = ""; // TODO: collect the summary - perhaps need to contact the server
     UserData & userData = UserData::getInstance();
