@@ -186,8 +186,8 @@ string Event::extractFrameBody() {
 }
 
 const string Event::get_game_name() const {
-    if (gameName != "") {
-        return gameName;
+    if (game_name != "") {
+        return game_name;
     }else{
         return team_a_name + "_" + team_b_name;
     }
@@ -243,7 +243,7 @@ names_and_events parseEventsFile(std::string json_path)
     return events_and_names;
 }
 
-Event::Event(string GameName, const std::string &frame_body)
+Event::Event(string gameName, const std::string &frame_body)
         : reporter(""), team_a_name(""), team_b_name(""), name(""), time(0), game_updates(),
             team_a_updates(), team_b_updates(), description("")
 {
@@ -254,7 +254,7 @@ Event::Event(string GameName, const std::string &frame_body)
     team_a_name = game_name;
     getline(nameStream, game_name, '_');
     team_b_name = game_name; // TODO: check if it works
-    game_name = GameName;
+    game_name = gameName;
 
     istringstream iss(frame_body);
     string line;
