@@ -39,6 +39,7 @@ vector<Frame*> CommandParser::parseCommand(string commandToParse)
     }
     if (UserData::getInstance().isConnected()==false) {
         cout << "You must login first" << endl;
+        cout << "Usage: login {host:port} {username} {password}" << endl;
         return vector<Frame*>();
     }
     else if (command == "logout"){
@@ -77,8 +78,14 @@ vector<Frame*> CommandParser::parseLoginCommand(vector<string> commandParameters
         string hostPort = commandParameters[0];
         string host = hostPort.substr(0, hostPort.find(':'));
         string _port = hostPort.substr(hostPort.find(':') + 1);
+        for (char c : _port) { // check if port is a number
+            if (!isdigit(c)) {
+                cout << "Invalid port, port must be a number" << endl;
+                cout << "Usage: login {host:port} {username} {password}" << endl;
+                return vector<Frame*>();
+            }
+        }
         int port = stoi(_port);
-
         ConnectionHandler* connectionHandler = new ConnectionHandler(host, port);
 
         string username = commandParameters[1];
