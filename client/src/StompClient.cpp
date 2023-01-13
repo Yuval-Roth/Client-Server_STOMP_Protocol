@@ -16,7 +16,7 @@ void actorThread_run() {
 
 	while(userData.shouldTerminate() == false){
         string message;
-        if(handler.getFrameAscii(message, '\0')) {
+        if(handler.getFrameAscii(message, '\0') && message.empty() == false) {
             ExecutableFrame* responseFrame = ExecutableFrame::parse(message);
             responseFrame->execute();
         }
