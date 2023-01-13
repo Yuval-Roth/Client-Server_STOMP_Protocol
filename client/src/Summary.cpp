@@ -47,7 +47,7 @@ string Summary::printSummary() {
         }
         summary += "Game Events:\n";
         for (auto &gameEvent: gameEvents) {
-                summary += gameEvent.name + " " + to_string(gameEvent.time) + " " +
+                summary += to_string(gameEvent.time) + " - " + gameEvent.name + "\n" +
                            gameEvent.description + "\n";
         }
         return summary;
