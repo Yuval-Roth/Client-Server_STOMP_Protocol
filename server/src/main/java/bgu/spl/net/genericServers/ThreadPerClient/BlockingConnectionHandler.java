@@ -47,6 +47,9 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
                 }
             }
         } catch (IOException ex) {}
+        finally {
+            protocol.terminatedCallback(this);
+        }
     }
 
     @Override
