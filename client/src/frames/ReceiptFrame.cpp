@@ -6,5 +6,5 @@ ReceiptFrame::ReceiptFrame(unordered_map<string, string> headers, string frameBo
 }
 
 void ReceiptFrame::execute() {
-    cout << "success"<< endl;
+    cout << "~ success"<< endl;
 }

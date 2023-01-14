@@ -19,7 +19,7 @@
 vector<Frame*> CommandParser::parseCommand(string commandToParse)
 {
     if(commandToParse == "") {
-        throw ios_base::failure("Empty command");
+        throw ios_base::failure("");
     }
 
     istringstream pa(commandToParse);
@@ -28,6 +28,12 @@ vector<Frame*> CommandParser::parseCommand(string commandToParse)
 
     // get the command
     getline(pa, command, ' ');
+
+    if(command != "login" && command != "logout" && command != "join" &&
+          command != "exit" && command != "report" && command != "summary") {
+        cout << "~ Unknown command" << endl;
+        throw ios_base::failure("");
+    }
 
     // get the parameters
     vector<string> commandParameters;
@@ -40,8 +46,10 @@ vector<Frame*> CommandParser::parseCommand(string commandToParse)
       return parseLoginCommand(commandParameters);
     }
     if (UserData::getInstance().isConnected()==false) {
-        cout << "You must login first" << endl;
-        cout << "Usage: login {host:port} {username} {password}" << endl;
+        cout << "~ You must login first" << endl;
+        cout << "~ Usage: login {host:port} {username} {password}" << endl;
+        throw ios_base::failure("");
+
     }
     else if (command == "logout"){
       return parseLogoutCommand();
@@ -60,7 +68,7 @@ vector<Frame*> CommandParser::parseCommand(string commandToParse)
     else if (command == "summary"){
       parseSummaryCommand(commandParameters);
     }
-    return vector<Frame*>();
+    throw ios_base::failure("");
 }
 
 vector<Frame*> CommandParser::parseLoginCommand(vector<string>& commandParameters)
@@ -69,12 +77,12 @@ vector<Frame*> CommandParser::parseLoginCommand(vector<string>& commandParameter
 
     UserData& ud = UserData::getInstance();
     if(ud.isConnected()){
-        cout<<  "You are already logged in as \" "+ud.getUserName() +" \"" <<endl;
+        cout<<  "~ You are already logged in as \" "+ud.getUserName() +" \"" <<endl;
         throw ios_base::failure("");
     }
     else if(commandParameters.size() != 3){
-        cout << "Invalid number of parameters" << endl;
-        cout << "Usage: login {host:port} {username} {password}" << endl;
+        cout << "~ Invalid number of parameters" << endl;
+        cout << "~ Usage: login {host:port} {username} {password}" << endl;
         throw ios_base::failure("");
     }
     else {
@@ -83,8 +91,8 @@ vector<Frame*> CommandParser::parseLoginCommand(vector<string>& commandParameter
         string _port = hostPort.substr(hostPort.find(':') + 1);
         for (char c : _port) { // check if port is a number
             if (!isdigit(c)) {
-                cout << "Invalid port, port must be a number" << endl;
-                cout << "Usage: login {host:port} {username} {password}" << endl;
+                cout << "~ Invalid port, port must be a number" << endl;
+                cout << "~ Usage: login {host:port} {username} {password}" << endl;
                 throw ios_base::failure("");
             }
         }
@@ -132,8 +140,8 @@ vector<Frame*> CommandParser::parseJoinCommand(vector<string>& commandParameters
     vector<Frame*> output;
 
     if(commandParameters.size() != 1){
-        cout << "Invalid number of parameters" << endl;
-        cout << "Usage: join {game_name}" << endl;
+        cout << "~ Invalid number of parameters" << endl;
+        cout << "~ Usage: join {game_name}" << endl;
     }
     else{
         string gameName = commandParameters[0];
@@ -148,8 +156,8 @@ vector<Frame*> CommandParser::parseExitCommand(vector<string>& commandParameters
     vector<Frame*> output;
 
     if(commandParameters.size() != 1){
-        cout << "Invalid number of parameters" << endl;
-        cout << "Usage: exit {game_name}" << endl;
+        cout << "~ Invalid number of parameters" << endl;
+        cout << "~ Usage: exit {game_name}" << endl;
     }
     else {
         string gameName = commandParameters[0];
@@ -164,13 +172,13 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string>& commandParamete
     vector<Frame*> output;
 
     if(commandParameters.size() != 1){
-        cout << "Invalid number of parameters" << endl;
-        cout << "Usage: report {file}" << endl;
+        cout << "~ Invalid number of parameters" << endl;
+        cout << "~ Usage: report {file}" << endl;
     }
     else{
         string fileName = commandParameters[0];
         if(fileName.find(".json") != string::npos || fileName.find('/') != string::npos || fileName.find("..") != string::npos){
-            cout << "report error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+            cout << "~ report error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
         }
         else{
             char cwd[1024];
@@ -186,7 +194,7 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string>& commandParamete
                 }
             }
             catch (const std::exception& e) {
-                cout << "Error in report: " << e.what() << " Probably file does not exist " << endl;
+                cout << "~ report error: " << e.what() << " Probably file does not exist " << endl;
             }
         }
     }
@@ -198,8 +206,8 @@ void CommandParser::parseSummaryCommand(vector<string>& commandParameters) {
     //TODO this doesn't work
 
     if(commandParameters.size() != 3){
-        cout << "Invalid number of parameters" << endl;
-        cout << "Usage: summary {game_name} {user} {output file name}" << endl;
+        cout << "~ Invalid number of parameters" << endl;
+        cout << "~ Usage: summary {game_name} {user} {output file name}" << endl;
         return;
     }
     string gameName = commandParameters[0];
@@ -207,7 +215,7 @@ void CommandParser::parseSummaryCommand(vector<string>& commandParameters) {
     string fileName = commandParameters[2];
 
     if(fileName.find(".json") != string::npos || fileName.find('/') != string::npos || fileName.find("..") != string::npos){
-        cout << "summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
+        cout << "~ summary error: output file name cannot contain file extension or path to folder, e.g '.json' , '/', '..'" << endl;
         return;
     }
 
@@ -222,7 +230,7 @@ void CommandParser::parseSummaryCommand(vector<string>& commandParameters) {
         summaryString = userData.getSummary(userName, gameName);
         cout << summaryString << endl;
     }catch(ios_base::failure& e){
-        cout << "summary error: " << e.what() << endl;
+        cout << "~ summary error: " << e.what() << endl;
         return;
     }
 

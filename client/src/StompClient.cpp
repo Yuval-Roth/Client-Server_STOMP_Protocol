@@ -29,7 +29,7 @@ void connect() {
     string userInput;
     bool loggedIn = false;
     while (!loggedIn) {
-        cout<<"Please enter a login command:"<<endl;
+        cout<<"~ Please enter a login command:"<<endl;
         UserData& userData = UserData::getInstance();
         getline(cin, userInput);
 
@@ -58,7 +58,7 @@ void connect() {
                 loggedIn = true;
             }
             else {
-                cout << "Login failed: "+ responseFrame->getHeaders().at("message") << endl;
+                cout << "~ Login failed: "+ responseFrame->getHeaders().at("message") << endl;
             }
             delete responseFrame;
             if(userData.isConnected() == false){
@@ -72,7 +72,7 @@ void connect() {
 int main() {
     while(true){
 
-        cout << "Welcome to STOMP." << endl;
+        cout << "~ Welcome to STOMP." << endl;
 
         connect();
 
@@ -83,6 +83,7 @@ int main() {
         ConnectionHandler& handler = userData.getHandler();
         while (!userData.shouldTerminate()) {
             getline(cin, userInput);
+            if(userData.shouldTerminate()) break;
             vector<Frame*> frames = CommandParser::parseCommand(userInput);
             for(Frame* frame : frames){
                 handler.sendFrameAscii(frame->toString(), '\0');
