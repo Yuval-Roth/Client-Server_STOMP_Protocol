@@ -16,14 +16,14 @@ CXXFLAGS = -g -Wall -Weffc++ -std=c++11 -Iinclude -Iinclude/frames
 # Libraries to link to
 LIBS = -lboost_system -lpthread
 
-# .PRECIOUS: createBin
+.PRECIOUS: createBin
 
 # Default target to build
 $(TARGET): $(OBJECTS)
 	$(CXX) -o $(TARGET) $(OBJECTS) $(LIBS)
 
 # Rule to build the object files from the source code files
-bin/%.o: src/%.cpp #createBin
+bin/%.o: src/%.cpp createBin
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 default: createBin $(TARGET)
@@ -33,12 +33,6 @@ createBin:
 	mkdir -p bin/frames
 
 all: clean $(TARGET)
-
-# delta: bin/%.cpp
-# 	binDelta/%.o
-
-# binDelta/%.o: src/%.cpp
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Rule to clean up the build artifacts
 clean:
