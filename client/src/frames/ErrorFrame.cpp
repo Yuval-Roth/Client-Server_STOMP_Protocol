@@ -13,7 +13,8 @@ void ErrorFrame::execute()
         cerr << "~ Full error Details: " << frameBody << endl;
     }
     cerr << "~ Connection terminated" << endl;
-    cerr << "~ press enter to continue" << endl;
+    cerr.flush();
+    cout << "~ press enter to continue" << endl;
 
     userData.terminate();
 }

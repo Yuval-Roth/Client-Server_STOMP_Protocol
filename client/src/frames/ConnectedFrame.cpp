@@ -9,4 +9,5 @@ ConnectedFrame::ConnectedFrame(unordered_map<string, string> headers, string fra
 void ConnectedFrame::execute()
 {
     cout << "~ Login successful" << endl;
+    cout.flush();
 }

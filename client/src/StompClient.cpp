@@ -30,6 +30,7 @@ void connect() {
     bool loggedIn = false;
     while (!loggedIn) {
         cout<<"~ Please enter a login command:"<<endl;
+        cout.flush();
         UserData& userData = UserData::getInstance();
         getline(cin, userInput);
 
@@ -59,6 +60,7 @@ void connect() {
             }
             else {
                 cout << "~ Login failed: "+ responseFrame->getHeaders().at("message") << endl;
+                cout.flush();
             }
             delete responseFrame;
             if(userData.isConnected() == false){
@@ -73,6 +75,7 @@ int main() {
     while(true){
 
         cout << "~ Welcome to STOMP." << endl;
+        cout.flush();
 
         connect();
 

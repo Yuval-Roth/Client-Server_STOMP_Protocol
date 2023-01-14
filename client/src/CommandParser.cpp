@@ -32,6 +32,7 @@ vector<Frame*> CommandParser::parseCommand(string commandToParse)
     if(command != "login" && command != "logout" && command != "join" &&
           command != "exit" && command != "report" && command != "summary") {
         cerr << "~ Unknown command" << endl;
+        cerr.flush();
         throw ios_base::failure("");
     }
 
@@ -194,7 +195,7 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string>& commandParamete
                 }
             }
             catch (const std::exception& e) {
-                cerr << "~ report error: " << e.what() << " Probably file does not exist " << endl;
+                cerr << "~ report error: file probably does not exist. full error details:\n "<<e.what() << endl;
             }
         }
     }

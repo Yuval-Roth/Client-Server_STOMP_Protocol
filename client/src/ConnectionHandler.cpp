@@ -51,7 +51,9 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
         if(errorCounter == 100){
             std::cerr << "~ recv failed (Error: " << e.what() << ')' << std::endl;
             cerr << "~ Connection terminated" << endl;
-            cerr << "~ Press enter to continue" << endl;
+            cerr.flush();
+            cout << "~ Press enter to continue" << endl;
+            cout.flush();
             UserData::getInstance().terminate();
         }
 		return false;
