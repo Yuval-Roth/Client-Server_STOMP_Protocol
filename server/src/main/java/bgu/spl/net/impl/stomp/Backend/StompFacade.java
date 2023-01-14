@@ -77,6 +77,9 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     @Override
     public void subscribe(ConnectionHandler<String> handler, int subId, String channel) throws ChannelException {
         Session session = sc.getSession(handler);
+        if(session == null) {
+            return;
+        }
         int connectionId = session.getConnectionId();
         SubscriberId subberId = cc.subscribe(connectionId, subId, channel);
         session.addSubscription(subberId, channel);
@@ -85,6 +88,9 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     @Override
     public void unsubscribe(ConnectionHandler<String> handler, int subId) throws ChannelException {
         Session session = sc.getSession(handler);
+        if(session == null) {
+            return;
+        }
         int connectionId = session.getConnectionId();
         SubscriberId subberId = cc.unsubscribe(connectionId, subId);
         session.removeSubscription(subberId);
@@ -99,6 +105,9 @@ public class StompFacade implements ChannelsManager<String>, ConnectionsManager<
     public void broadcast(ConnectionHandler<String> sender ,String channel, String msg) throws ChannelException {
 
         Session session = sc.getSession(sender);
+        if(session == null) {
+            return;
+        }
         HashMap<SubscriberId,String> senderSubscriptions = session.getSubscriptions();
         if(senderSubscriptions.containsValue(channel) == false) {
             throw new ChannelException("User is not subscribed to channel");
