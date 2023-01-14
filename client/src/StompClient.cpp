@@ -84,7 +84,10 @@ int main() {
         while (!userData.shouldTerminate()) {
             getline(cin, userInput);
             if(userData.shouldTerminate()) break;
-            vector<Frame*> frames = CommandParser::parseCommand(userInput);
+            vector<Frame*> frames;
+            try{
+                frames = CommandParser::parseCommand(userInput);
+            }catch(ios_base::failure& ignored){continue;}
             for(Frame* frame : frames){
                 handler.sendFrameAscii(frame->toString(), '\0');
                 delete frame;
