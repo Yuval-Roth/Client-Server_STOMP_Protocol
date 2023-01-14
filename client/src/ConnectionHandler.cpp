@@ -1,4 +1,5 @@
 #include "ConnectionHandler.h"
+#include "UserData.h"
 
 using boost::asio::ip::tcp;
 
@@ -9,14 +10,14 @@ using std::endl;
 using std::string;
 
 ConnectionHandler::ConnectionHandler(string host, int port) : host_(host), port_(port), io_service_(),
-                                                                socket_(io_service_) {}
+                                                                socket_(io_service_),errorCounter(0) {}
 
 ConnectionHandler::~ConnectionHandler() {
 	close();
 }
 
 ConnectionHandler::ConnectionHandler(const ConnectionHandler &other) : host_(other.host_), port_(other.port_),
-																	  io_service_(), socket_(io_service_) {}
+																	  io_service_(), socket_(io_service_),errorCounter(other.errorCounter) {}
 
 bool ConnectionHandler::connect() {
 	std::cout << "Starting connect to "
@@ -44,8 +45,15 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
 		}
 		if (error)
 			throw boost::system::system_error(error);
+        else errorCounter = 0;
 	} catch (std::exception &e) {
-		std::cerr << "recv failed (Error: " << e.what() << ')' << std::endl;
+        errorCounter++;
+        if(errorCounter == 100){
+            std::cerr << "~ recv failed (Error: " << e.what() << ')' << std::endl;
+            cerr << "~ Connection terminated" << endl;
+            cerr << "~ Press enter to continue" << endl;
+            UserData::getInstance().terminate();
+        }
 		return false;
 	}
 	return true;

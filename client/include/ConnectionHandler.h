@@ -12,6 +12,7 @@ private:
 	int port_;
 	boost::asio::io_service io_service_;   // Provides core I/O functionality
 	tcp::socket socket_;
+    int errorCounter;
 
 public:
 	ConnectionHandler(std::string host, int port);

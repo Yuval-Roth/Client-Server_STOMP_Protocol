@@ -1,11 +1,13 @@
 #pragma once
 
+using namespace std;
+
 #include <mutex>
 #include <condition_variable>
 #include <queue>
 #include <list>
 #include <unordered_map>
-
+#include <string>
 
 class ConnectionHandler;
 class Frame;
