@@ -106,12 +106,6 @@ bool ConnectionHandler::getFrameAscii(std::string &frame, char delimiter) {
 	return true;
 }
 
-void ConnectionHandler::interrupt()
-{
-    io_service_.stop();
-    io_service_.reset();
-}
-
 bool ConnectionHandler::sendFrameAscii(const std::string &frame, char delimiter) {
 	bool result = sendBytes(frame.c_str(), frame.length());
 	if (!result) return false;
@@ -125,8 +119,4 @@ void ConnectionHandler::close() {
 	} catch (...) {
 		std::cout << "closing failed: connection already closed" << std::endl;
 	}
-}
-
-bool ConnectionHandler::socket_is_open() {
-    return socket_.release();
 }
