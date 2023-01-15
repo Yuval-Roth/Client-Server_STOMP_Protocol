@@ -186,25 +186,40 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string>& commandParamete
             getcwd(cwd, sizeof(cwd));
             string path(cwd, sizeof(cwd));
 
-            if(path.find("/SPL_Assignment3/") == string::npos){
-                cerr<< "report error: the client program directory needs to be in the 'SPL_Assignment3' directory, but it is not. "<<endl;
-                return output;
-            }
-
-            path = path.substr(0, path.find("/SPL_Assignment3/")+17) + "client/data/" + fileName + ".json";
-            try {
-                names_and_events namesAndEvents = parseEventsFile(path);
-                vector<Event>& gameEvents = namesAndEvents.events;
-                for (Event& event : gameEvents) {
-                    SendFrame* sendFrame = SendFrame::get(event);
-                    output.push_back(sendFrame);
-                }
-            }
-            catch (const std::exception& e) {
-                cerr << "~ report error: file probably does not exist in the data directory. full error details:\n "<<e.what() << endl;
-            }
+    if(path.find("/SPL_Assignment3/") == string::npos){
+        cerr<< "~ report error: the client program directory needs to be in the 'SPL_Assignment3' directory, but it is not. "<<endl;
+        cerr<< "~ Would you like to insert the full path instead? y/n"
+        string answer;
+        getline(cin,answer);
+        if(answer == "y"){
+            cout<<"~ Insert full path:"<<endl;
+            getline(cin,path);
+        }
+        else if(answer == "n"){
+            cout<<"~ canceling"<<endl;
+            return;
+        }
+        else {
+            cout<<"~ invalid answer, canceling"<<endl;
+            return;
         }
     }
+    else{
+        path = path.substr(0, path.find("/SPL_Assignment3/")+17) + "client/data/" + fileName + ".json";
+    }
+
+    try {
+        names_and_events namesAndEvents = parseEventsFile(path);
+        vector<Event>& gameEvents = namesAndEvents.events;
+        for (Event& event : gameEvents) {
+            SendFrame* sendFrame = SendFrame::get(event);
+            output.push_back(sendFrame);
+        }
+    }
+    catch (const std::exception& e) {
+        cerr << "~ report error: file probably does not exist in the data directory. full error details:\n "<<e.what() << endl;
+    }
+    
     return output;
 }
 
@@ -231,11 +246,27 @@ void CommandParser::parseSummaryCommand(vector<string>& commandParameters) {
     string path(cwd, sizeof(cwd));
 
     if(path.find("/SPL_Assignment3/") == string::npos){
-        cerr<< "summary error: the client program directory needs to be in the 'SPL_Assignment3' directory, but it is not. "<<endl;
-        return;
+        cerr<< "~ summary error: the client program directory needs to be in the 'SPL_Assignment3' directory, but it is not. "<<endl;
+        cerr<< "~ Would you like to insert the full path instead? y/n"
+        string answer;
+        getline(cin,answer);
+        if(answer == "y"){
+            cout<<"~ Insert full path:"<<endl;
+            getline(cin,path);
+        }
+        else if(answer == "n"){
+            cout<<"~ canceling"<<endl;
+            return;
+        }
+        else {
+            cout<<"~ invalid answer, canceling"<<endl;
+            return;
+        }
+    }
+    else{
+        path = path.substr(0, path.find("/SPL_Assignment3/")+17) + "client/data/" + fileName + ".txt";
     }
 
-    path = path.substr(0, path.find("/SPL_Assignment3/")+17) + "client/data/" + fileName + ".txt";
 
     UserData & userData = UserData::getInstance();
     string summaryString;
