@@ -23,7 +23,7 @@ $(TARGET): $(OBJECTS)
 	$(CXX) -o $(TARGET) $(OBJECTS) $(LIBS)
 
 # Rule to build the object files from the source code files
-bin/%.o: src/%.cpp createBin
+bin/%.o: src/%.cpp #createBin
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 default: createBin $(TARGET)

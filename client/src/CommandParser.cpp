@@ -185,7 +185,13 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string>& commandParamete
             char cwd[1024];
             getcwd(cwd, sizeof(cwd));
             string path(cwd, sizeof(cwd));
-            path = path.substr(0, path.find("/client/")+8) + "data/" + fileName + ".json";
+
+            if(path.find("/SPL_Assignment3/") == string::npos){
+                cerr<< "report error: the client program directory needs to be in the 'SPL_Assignment3' directory, but it is not. "<<endl;
+                return output;
+            }
+
+            path = path.substr(0, path.find("/SPL_Assignment3/")+17) + "client/data/" + fileName + ".json";
             try {
                 names_and_events namesAndEvents = parseEventsFile(path);
                 vector<Event>& gameEvents = namesAndEvents.events;
@@ -195,7 +201,7 @@ vector<Frame*> CommandParser::parseReportCommand(vector<string>& commandParamete
                 }
             }
             catch (const std::exception& e) {
-                cerr << "~ report error: file probably does not exist. full error details:\n "<<e.what() << endl;
+                cerr << "~ report error: file probably does not exist in the data directory. full error details:\n "<<e.what() << endl;
             }
         }
     }
@@ -223,6 +229,12 @@ void CommandParser::parseSummaryCommand(vector<string>& commandParameters) {
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
     string path(cwd, sizeof(cwd));
+
+    if(path.find("/SPL_Assignment3/") == string::npos){
+        cerr<< "summary error: the client program directory needs to be in the 'SPL_Assignment3' directory, but it is not. "<<endl;
+        return;
+    }
+
     path = path.substr(0, path.find("/SPL_Assignment3/")+17) + "client/data/" + fileName + ".txt";
 
     UserData & userData = UserData::getInstance();
