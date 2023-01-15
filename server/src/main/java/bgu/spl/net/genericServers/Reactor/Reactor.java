@@ -45,7 +45,14 @@ public class Reactor<T> extends BaseServer<T> {
             while (!Thread.currentThread().isInterrupted()) {
 
                 selector.select();
-                runSelectionThreadTasks();
+                try{
+                    runSelectionThreadTasks();
+                }catch(NullPointerException ignored){
+                    // happens because when the client gets thrown out the window due to an error,
+                    // the key gets deleted for some reason in the process
+                    // and then the key is being used after it is deleted
+                    // so we catch this and move on
+                }
 
                 for (SelectionKey key : selector.selectedKeys()) {
 
