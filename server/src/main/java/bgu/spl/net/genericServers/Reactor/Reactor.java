@@ -6,11 +6,13 @@ import bgu.spl.net.genericServers.BaseServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.channels.CancelledKeyException;
 import java.nio.channels.ClosedSelectorException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Supplier;
 
@@ -47,12 +49,7 @@ public class Reactor<T> extends BaseServer<T> {
                 selector.select();
                 try{
                     runSelectionThreadTasks();
-                }catch(NullPointerException ignored){
-                    // happens because when the client gets thrown out the window due to an error,
-                    // the key gets deleted for some reason in the process
-                    // and then the key is being used after it is deleted
-                    // so we catch this and move on
-                }
+                }catch(NullPointerException ignored){}
 
                 for (SelectionKey key : selector.selectedKeys()) {
 
@@ -83,10 +80,15 @@ public class Reactor<T> extends BaseServer<T> {
     public void updateInterestedOps(SocketChannel chan, int ops) {
         final SelectionKey key = chan.keyFor(selector);
         if (Thread.currentThread() == selectorThread) {
-            key.interestOps(ops);
-        } else {
-            selectorTasks.add(() -> {
+            try{
                 key.interestOps(ops);
+            }catch(CancelledKeyException ignored){}
+        } 
+        else {
+            selectorTasks.add(() -> {
+                    try{
+                        key.interestOps(ops);
+                    }catch(CancelledKeyException ignored){}
             });
             selector.wakeup();
         }
